@@ -29,8 +29,6 @@ docker-compose exec pm_wordpress_cli wp core install --url=http://localhost:8000
 docker-compose exec pm_wordpress_cli wp plugin activate plebeian_market
 
 docker-compose exec pm_wordpress_cli wp post update /var/www/html/assets/post1-demo.txt 1 --post_title="Testing Plebeian Market shortcodes"
-
-docker-compose exec pm_wordpress_cli wp comment delete 1
 ```
 
 ## URLs:
