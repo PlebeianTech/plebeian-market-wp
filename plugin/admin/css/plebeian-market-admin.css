@@ -1,0 +1,74 @@
+h3 {
+    font-weight: 500;
+}
+
+.createButton {
+    background-color: #aaf9ff !important;
+}
+
+.savedBadge {
+    margin-left: 10px;
+}
+
+#alertModal p {
+    font-size: 20px;
+}
+
+.dataTablesActionIcon {
+    width: 1.5em;
+    margin-right: 5px;
+}
+
+.toastImg {
+    width: 3em;
+}
+
+.toastBottom {
+    bottom: 2em !important;
+}
+
+.dataTablesActionIcon {
+    cursor: pointer;
+}
+
+#table_buynow {
+    display: none;
+}
+
+.shortCodeIcon {
+    width: 1em;
+}
+
+#contributionEmoji {
+    font-size: 2em;
+    margin-bottom: 0;
+}
+
+
+.spinner {
+    display: inline-block;
+    opacity: 0;
+    max-width: 0;
+    -webkit-transition: opacity 0.25s, max-width 0.45s;
+    -moz-transition: opacity 0.25s, max-width 0.45s;
+    -o-transition: opacity 0.25s, max-width 0.45s;
+    transition: opacity 0.25s, max-width 0.45s;
+    /* Duration fixed since we animate additional hidden width */
+}
+
+.has-spinner.active {
+    cursor: progress;
+}
+
+.has-spinner.active .spinner {
+    opacity: 1;
+    max-width: 50px;
+    /* More than it will ever come, notice that this affects on animation duration */
+}
+
+/* Image preview */
+.image-preview-wrapper>img {
+    margin-right: 12px;
+    width: 100px;
+    max-height: 100px;
+}

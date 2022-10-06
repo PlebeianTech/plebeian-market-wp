@@ -1,0 +1,127 @@
+.pleb_listing_superdiv {
+
+}
+.pleb_listing_auction {
+    border: 1.5px solid #646464;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    max-width: 35%;
+    display: inline-flex;
+    margin-right: 25px;
+    align-content: center;
+    flex-direction: column;
+}
+.pleb_listing_auction_image {
+    min-width: 95%;
+    padding: 5px;
+}
+.pleb_listing_auction_image img {
+    width: 100%;
+}
+.pleb_listing_auction_title {
+    padding: 4px;
+}
+.pleb_listing_auction_description {
+    font-size: 13px;
+    padding: 6px;
+    padding-top: 0;
+}
+
+/* Buy Now items */
+.pleb_buynow_item_superdiv {
+    border: 1.5px solid #646464;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    margin-right: 2em !important;
+/*    display: inline-flex; */ /* flex; */
+    align-content: center;
+    flex-direction: column;
+}
+
+.pleb_buynow_item_title {
+    padding: 4px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.pleb_buynow_item_slideshow {
+    position: relative;
+    height: 80vh;
+}
+.pleb_buynow_item_slideshow img {
+    position: absolute;
+    z-index: 8;
+    opacity: 0.0;
+    width: 94%;
+    margin-left: 3%;
+    height: auto;
+}
+.pleb_buynow_item_slideshow img.active {
+    z-index: 10;
+    opacity: 1.0;
+}
+.pleb_buynow_item_slideshow img.last-active {
+    z-index: 9;
+}
+.active{
+    z-index:99;
+}
+
+.pleb_buynow_item_description {
+    font-size: 15px;
+    padding: 10px;
+    padding-top: 15px;
+}
+.pleb_buynow_item_price {
+    font-size: 16px;
+    text-align: center;
+
+    border: 1.5px solid #cecece;
+    border-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+}
+.pleb_buynow_item_shipping {
+    font-size: 14px;
+    text-align: center;
+    border: 1.5px solid #cecece;
+    border-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+}
+.pleb_buynow_item_quantity {
+    font-size: 14px;
+    text-align: center;
+    border: 1.5px solid #cecece;
+    border-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+}
+
+.btn-buynow {
+    margin-left: 8px;
+    margin-right: 3px;
+}
+
+/* Login */
+.qrcodeImageDiv {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.lnurlValue {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.loadingModalLoadingText {
+    font-size: 27px;
+    margin-top: 40px;
+}
+#loadingModal-body {
+    margin-top: 30px;
+}
+#loadingModal .spinner-border {
+    width: 5rem;
+    height: 5rem;
+}
