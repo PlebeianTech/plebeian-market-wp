@@ -42,6 +42,7 @@ function getLoginWidget(callback) {
 
     $.ajax({
         url: requests.pm_api.get_login_info.url,
+        timeout: requests.pm_api.default_timeout,
         cache: false,
         dataType: 'JSON',
         contentType: 'application/json;charset=UTF-8',
@@ -50,15 +51,15 @@ function getLoginWidget(callback) {
         .done(function (response) {
             console.log('response', response);
 
-            let textToShowInWidget = '<p>Scan with <a class="link" target="_blank" href="https://breez.technology/">Breez</a>, ' +
-            '<a class="link" target="_blank" href="https://phoenix.acinq.co/">Phoenix</a>, ' +
-            '<a class="link" target="_blank" href="https://zeusln.app/">Zeus</a>, ' +
-            'or use <a class="link" target="_blank" href="https://getalby.com/">Alby</a>, ' +
-            '<a class="link" target="_blank" href="https://thunderhub.io/">Thunderhub</a> ' +
-            'or any <a class="link" target="_blank" href="https://github.com/fiatjaf/lnurl-rfc#lnurl-documents">' +
+            let textToShowInWidget = '<p>Scan with <a class="link text-reset" target="_blank" href="https://breez.technology/">Breez</a>, ' +
+            '<a class="link text-reset" target="_blank" href="https://phoenix.acinq.co/">Phoenix</a>, ' +
+            '<a class="link text-reset" target="_blank" href="https://zeusln.app/">Zeus</a>, ' +
+            'or use <a class="link text-reset" target="_blank" href="https://getalby.com/">Alby</a>, ' +
+            '<a class="link text-reset" target="_blank" href="https://thunderhub.io/">Thunderhub</a> ' +
+            'or any <a class="link text-reset" target="_blank" href="https://github.com/fiatjaf/lnurl-rfc#lnurl-documents">' +
             'LNurl compatible wallet</a> to login into the marketplace.</p>';
 
-            putIntoHtmlElementTextQrLnAddress('#gpModal', textToShowInWidget, response.lnurl, response.qr);
+            putIntoHtmlElementTextQrLnAddress('#gpModal', textToShowInWidget, response.lnurl, response.qr, 'lightning');
 
             const myModal = new bootstrap.Modal('#gpModal', { keyboard: true });
             myModal.show();
@@ -75,6 +76,7 @@ function checkIfLoginDone(k1, callback) {
 
     $.ajax({
         url: requests.pm_api.check_login.url + k1,
+        timeout: requests.pm_api.default_timeout,
         cache: false,
         dataType: 'JSON',
         contentType: 'application/json;charset=UTF-8',
