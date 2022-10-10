@@ -1,9 +1,17 @@
 let buynow_product_buying_key;
 let buynow_product_buying_currentStep;
 
-function buyNow(showLoadingModal) {
-    if (showLoadingModal) {
-        showLoading();
+let buyNowSetTimeout;
+
+function waitAndAskAgain() {
+    loginSetTimeout = setTimeout(function(){
+        buyNow(false);
+    }, 4000);
+}
+
+function buyNow(shouldShowLoadingModal) {
+    if (shouldShowLoadingModal) {
+        showLoadingModal();
     }
 
     getBuyNowItemInfo(
@@ -16,6 +24,7 @@ function buyNow(showLoadingModal) {
                 step1();    // No sales or no active sales, so let's create one
             } else {
                 // We have sales. In what state?
+
                 let oneSaleIsValid = false;
 
                 sales.every(function (sale) {
@@ -24,16 +33,34 @@ function buyNow(showLoadingModal) {
 
                         oneSaleIsValid = true;
     
-                        if (['CONTRIBUTION_SETTLED', 'REQUESTED'].includes(sale.state)) {   // !== 'CONTRIBUTION_SETTLED'
-                            // Contribution paid
-                            step2();
-                            buyNow(false);
-                            return false;   // break for "every"
-                        } else {
+                        if (['REQUESTED'].includes(sale.state)) {
                             // Show QR for contribution
                             step1(sale);
-                            buyNow(false);
+                            waitAndAskAgain();
                             return false;   // break for "every"
+
+                        } else if (['CONTRIBUTION_SETTLED'].includes(sale.state)) {
+                            // Contribution paid. Show BTC QR.
+                            step2(sale);
+                            waitAndAskAgain();
+                            return false;   // break for "every"
+
+                        } else if (['TX_DETECTED'].includes(sale.state)) {
+                            // Contribution paid
+                            step3(sale);
+                            waitAndAskAgain();
+                            return false;   // break for "every"
+
+                        } else if (['TX_CONFIRMED'].includes(sale.state)) {
+                            // Contribution paid
+                            step4(sale);
+                            waitAndAskAgain();
+                            return false;   // break for "every"
+
+                        } else {
+                            console.log('--------------------------------------------------------------------');
+                            console.log('Status not known yet: ' + sale.state, sale);
+                            console.log('--------------------------------------------------------------------');
                         }
                     }
                 });
@@ -44,7 +71,7 @@ function buyNow(showLoadingModal) {
                     console.log("   - We don't have any valid sale, so requesting a new one...", sales);
 
                     step1();
-                    buyNow(false);
+                    waitAndAskAgain();
                 }
             }
         }
@@ -72,10 +99,8 @@ function step1(sale) {
         // We're showing the same information of the last non-expired sale
         console.log('   ---- We have a sale', sale);
 
-        hideLoading();
-
         let textToShowInWidget =
-            '<p>The seller wishes to donate ' + sale.contribution_amount +
+            '<p class="fs-4 text-center">The seller wishes to donate ' + sale.contribution_amount +
             ' sats ($xxx.xx) sats out of the total price to Plebeian Technology. ' +
             'Please send the amount using the QR code below!</p>';
 
@@ -84,17 +109,19 @@ function step1(sale) {
             textToShowInWidget,
             sale.contribution_payment_request,
             sale.contribution_payment_qr,
+            'lightning',
             'Step 1/3 - Contribution'
         );
 
-        const myModal = new bootstrap.Modal('#gpModal', { keyboard: true });
-        myModal.show();
+        hideLoadingModal();
+        showGPModal();
 
     } else {
         // We don't yet have a sale, so lets start one
-        console.log('   ---- We don\'t yet have a sale. Creating one...');
+        console.log("   ---- We don't yet have a sale. Creating one...");
         $.ajax({
             url: requests.pm_api.buynow_buy.url.replace('{KEY}', buynow_product_buying_key),
+            timeout: requests.pm_api.default_timeout,
             cache: false,
             dataType: 'JSON',
             contentType: 'application/json;charset=UTF-8',
@@ -105,7 +132,7 @@ function step1(sale) {
                 console.log('response', response);
 
                 let textToShowInWidget =
-                    '<p>The seller wishes to donate ' + response.sale.contribution_amount +
+                    '<p class="fs-4 text-center">The seller wishes to donate ' + response.sale.contribution_amount +
                     ' sats ($xxx.xx) sats out of the total price to Plebeian Technology. ' +
                     'Please send the amount using the QR code below!</p>';
 
@@ -114,6 +141,7 @@ function step1(sale) {
                     textToShowInWidget,
                     response.sale.contribution_payment_request,
                     response.sale.contribution_payment_qr,
+                    'lightning',
                     'Step 1/3 - Contribution'
                 );
             })
@@ -125,32 +153,98 @@ function step1(sale) {
                 content.html(buyNowWidget);
             })
             .always(function () {
-                hideLoading();
-
-                const myModal = new bootstrap.Modal('#gpModal', { keyboard: true });
-                myModal.show();
+                hideLoadingModal();
+                showGPModal();
             });
     }
-
-
 }
 
-function step2() {
+function step2(sale) {
     if (buynow_product_buying_currentStep === 2) {
         console.log("We're already at step 2");
         return;
     }
 
-    console.log("Running step 2 !", buynow_product_buying_key);
-    buynow_product_buying_currentStep = 2;
+    if (typeof sale === 'object') {
+        console.log("Running step 2 ("+buynow_product_buying_key+")! - We have a sale:", sale);
+        buynow_product_buying_currentStep = 2;
 
-    let content = $('#gpModal .modal-body');
-    content.html('<p>Loading...</p>');
+        let textToShowInWidget =
+            '<p class="fs-3 text-center">Please send the remaining amount of ' + sale.amount + ' sats ($xxx.xx) plus shipping directly to the seller!</p>';
 
-    hideLoading();
+        putIntoHtmlElementTextQrLnAddress(
+            '#gpModal',
+            textToShowInWidget,
+            sale.address,
+            sale.address_qr,
+            'bitcoin',
+            'Step 2/3 - Payment'
+        );
 
-    const myModal = new bootstrap.Modal('#gpModal', { keyboard: true });
-    myModal.show();
+        hideLoadingModal();
+        showGPModal();
+    }
+}
+
+function step3(sale) {
+    if (buynow_product_buying_currentStep === 3) {
+        console.log("We're already at step 3");
+        return;
+    }
+
+    if (typeof sale === 'object') {
+        console.log("Running step 3 ("+buynow_product_buying_key+")! - We have a sale:", sale);
+        buynow_product_buying_currentStep = 3;
+
+        let textToShowInWidget =
+            '<p class="fs-3">Thanks you for your payment!</p>' +
+            '<div>' +
+                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>' +
+                '<span>TxID: <a class="link" target="_blank" href="https://mempool.space/tx/' + sale.txid + '">{sale.txid}</a></span>' +
+            '</div>' +
+            '<p class="fs-3">Your purchase will be completed when the payment is confirmed by the network.</p>' +
+            '<p class="fs-3">In the mean time, you can follow the transaction on <a class="link" target="_blank" href="https://mempool.space/tx/' + sale.txid + '">mempool.space</a>!</p>';
+
+        putIntoHtmlElementTextQrLnAddress(
+            '#gpModal',
+            textToShowInWidget,
+            null,
+            null,
+            null,
+            'Step 3/3 - Confirmation'
+        );
+
+        hideLoadingModal();
+        showGPModal();
+    }
+}
+
+function step4(sale) {
+    if (buynow_product_buying_currentStep === 4) {
+        console.log("We're already at step 4");
+        return;
+    }
+
+    if (typeof sale === 'object') {
+        console.log("Running step 4 ("+buynow_product_buying_key+")! - We have a sale:", sale);
+        buynow_product_buying_currentStep = 4;
+
+        let textToShowInWidget =
+            '<p class="fs-2 text-center">Payment confirmed!</p>' +
+            '<p class="fs-2 text-center">Please <a target="_blank" href="mailto:' + sale.seller.seller_email + '" class="link">contact the seller</a> directly to discuss shipping.</p>';
+
+        putIntoHtmlElementTextQrLnAddress(
+            '#gpModal',
+            textToShowInWidget,
+            null,
+            null,
+            null,
+            'Step 3/3 - Confirmation'
+        );
+
+        hideLoadingModal();
+        showGPModal();
+    }
 }
 
 function getBuyNowItemInfo(key, callback) {
@@ -161,6 +255,7 @@ function getBuyNowItemInfo(key, callback) {
 
     $.ajax({
         url: requests.pm_api.buynow_get.url.replace('{KEY}', key),
+        timeout: requests.pm_api.default_timeout,
         cache: false,
         dataType: 'JSON',
         contentType: 'application/json;charset=UTF-8',

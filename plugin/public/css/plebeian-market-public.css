@@ -125,3 +125,11 @@
     width: 5rem;
     height: 5rem;
 }
+
+.spinnerWaitingPayment {
+    margin-top: 30px;
+    margin-bottom: 8px;
+}
+.spinnerWaitingPaymentText {
+    margin-left: 15px;
+}

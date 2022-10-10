@@ -260,6 +260,7 @@ class Plebeian_Market_Public {
 			<script>
 				let requests = {
 					pm_api: {
+						default_timeout: 10000,
 						get_login_info: {
 							url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_GET_LOGIN_INFO_URL ?>',
 							method: '<?= PM_API_GET_LOGIN_INFO_METHOD ?>'

@@ -1,4 +1,4 @@
-let loadingModal;
+let loadingModal, gpModal;
 
 function startSlideShows(slideshow) {
     var $active = $(slideshow).find('IMG.active');
@@ -45,20 +45,34 @@ function resizeSlideshowToImgSize(slideshow) {
     });
 }
 
-function showLoading() {
+function showLoadingModal() {
     loadingModal.show();
 }
-function hideLoading() {
+function hideLoadingModal() {
     loadingModal.hide();
 }
+function showGPModal() {
+    gpModal.show();
+}
+function hideGPModal() {
+    gpModal.hide();
+}
 
-function putIntoHtmlElementTextQrLnAddress(elementSelector, text, lnurl, qr, title) {
-    let loginWidget =
-        text +
-        '<div class="qrcodeImageDiv">' +
-        '   <a href="lightning:' + lnurl + '"><svg id="qrcodeImage"></svg></a>' +
-        '</div>' +
-        '<div class="lnurlValue"><input type="text" class="form-control" value="' + lnurl + '"></div>';
+function putIntoHtmlElementTextQrLnAddress(elementSelector, text, lnurl, qr, protocol, title) {
+    let loginWidget = text;
+        if (lnurl !== null && qr !== null && protocol !== null) {
+            loginWidget +=
+                '<div class="qrcodeImageDiv">' +
+                '   <a href="'+protocol+':' + lnurl + '"><svg id="qrcodeImage"></svg></a>' +
+                '</div>' +
+                '<div class="lnurlValue"><input type="text" class="form-control" value="' + lnurl + '"></div>';
+        }
+
+        loginWidget +=
+            '<div class="d-flex justify-content-center spinnerWaitingPayment"> ' +
+            '   <div class="spinner-border" role="status"></div> ' +
+            '   <div class="justify-content-center d-flex spinnerWaitingPaymentText"><p>Waiting for payment...</p></div> ' +
+            '</div>';
 
     $(elementSelector + ' .modal-body').html(loginWidget);
 
@@ -92,5 +106,6 @@ $(document).ready(function () {
         loginThenCallFunction(buyNow);
     })
 
-    loadingModal = new bootstrap.Modal('#loadingModal', { keyboard: true });
+    loadingModal    = new bootstrap.Modal('#loadingModal', { keyboard: true });
+    gpModal         = new bootstrap.Modal('#gpModal', { keyboard: true });
 });
