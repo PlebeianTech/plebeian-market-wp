@@ -4,7 +4,7 @@ let buynow_product_buying_currentStep;
 let buyNowSetTimeout;
 
 function waitAndAskAgain() {
-    loginSetTimeout = setTimeout(function(){
+    loginSetTimeout = setTimeout(function () {
         buyNow(false);
     }, 4000);
 }
@@ -32,7 +32,7 @@ function buyNow(shouldShowLoadingModal) {
                         console.log('   - Sale not expired (state):' + sale.state, sale);
 
                         oneSaleIsValid = true;
-    
+
                         if (['REQUESTED'].includes(sale.state)) {
                             // Show QR for contribution
                             step1(sale);
@@ -65,7 +65,7 @@ function buyNow(shouldShowLoadingModal) {
                     }
                 });
 
-                if ( ! oneSaleIsValid) {
+                if (!oneSaleIsValid) {
                     // We had sales, but none is valid, so let's create one
                     // and keep checking
                     console.log("   - We don't have any valid sale, so requesting a new one...", sales);
@@ -110,7 +110,8 @@ function step1(sale) {
             sale.contribution_payment_request,
             sale.contribution_payment_qr,
             'lightning',
-            'Step 1/3 - Contribution'
+            'Step 1/3 - Contribution',
+            true
         );
 
         hideLoadingModal();
@@ -133,7 +134,7 @@ function step1(sale) {
 
                 let textToShowInWidget =
                     '<p class="fs-4 text-center">The seller wishes to donate ' + response.sale.contribution_amount +
-                    ' sats ($xxx.xx) sats out of the total price to Plebeian Technology. ' +
+                    ' sats out of the total price to Plebeian Technology. ' +
                     'Please send the amount using the QR code below!</p>';
 
                 putIntoHtmlElementTextQrLnAddress(
@@ -142,7 +143,8 @@ function step1(sale) {
                     response.sale.contribution_payment_request,
                     response.sale.contribution_payment_qr,
                     'lightning',
-                    'Step 1/3 - Contribution'
+                    'Step 1/3 - Contribution',
+                    true
                 );
             })
             .fail(function (e) {
@@ -166,11 +168,11 @@ function step2(sale) {
     }
 
     if (typeof sale === 'object') {
-        console.log("Running step 2 ("+buynow_product_buying_key+")! - We have a sale:", sale);
+        console.log("Running step 2 (" + buynow_product_buying_key + ")! - We have a sale:", sale);
         buynow_product_buying_currentStep = 2;
 
         let textToShowInWidget =
-            '<p class="fs-3 text-center">Please send the remaining amount of ' + sale.amount + ' sats ($xxx.xx) plus shipping directly to the seller!</p>';
+            '<p class="fs-3 text-center">Please send the remaining amount of ' + sale.amount + ' sats plus shipping directly to the seller!</p>';
 
         putIntoHtmlElementTextQrLnAddress(
             '#gpModal',
@@ -178,7 +180,8 @@ function step2(sale) {
             sale.address,
             sale.address_qr,
             'bitcoin',
-            'Step 2/3 - Payment'
+            'Step 2/3 - Payment',
+            true
         );
 
         hideLoadingModal();
@@ -193,17 +196,19 @@ function step3(sale) {
     }
 
     if (typeof sale === 'object') {
-        console.log("Running step 3 ("+buynow_product_buying_key+")! - We have a sale:", sale);
+        console.log("Running step 3 (" + buynow_product_buying_key + ")! - We have a sale:", sale);
         buynow_product_buying_currentStep = 3;
 
         let textToShowInWidget =
-            '<p class="fs-3">Thanks you for your payment!</p>' +
-            '<div>' +
-                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>' +
-                '<span>TxID: <a class="link" target="_blank" href="https://mempool.space/tx/' + sale.txid + '">{sale.txid}</a></span>' +
+            '<p class="text-center fs-3">Thanks you for your payment!</p>' +
+            '<div class="text-center mb-4">' +
+            '   <div class="w-100">' +
+            '       <img src="' + pluginBasePath + 'img/plebeian_market_logo.png">' +
+            '   </div>' +
+            '   <p class="fs-5">TxID: <a class="link" target="_blank" href="https://mempool.space/tx/' + sale.txid + '">' + sale.txid + '</a></p>' +
             '</div>' +
-            '<p class="fs-3">Your purchase will be completed when the payment is confirmed by the network.</p>' +
-            '<p class="fs-3">In the mean time, you can follow the transaction on <a class="link" target="_blank" href="https://mempool.space/tx/' + sale.txid + '">mempool.space</a>!</p>';
+            '<p class="text-center fs-3">Your purchase will be completed when the payment is confirmed by the network.</p>' +
+            '<p class="text-center fs-3">In the mean time, you can follow the transaction on <a class="link" target="_blank" href="https://mempool.space/tx/' + sale.txid + '">mempool.space</a>!</p>';
 
         putIntoHtmlElementTextQrLnAddress(
             '#gpModal',
@@ -211,7 +216,8 @@ function step3(sale) {
             null,
             null,
             null,
-            'Step 3/3 - Confirmation'
+            'Step 3/3 - Confirmation',
+            true
         );
 
         hideLoadingModal();
@@ -226,12 +232,15 @@ function step4(sale) {
     }
 
     if (typeof sale === 'object') {
-        console.log("Running step 4 ("+buynow_product_buying_key+")! - We have a sale:", sale);
+        console.log("Running step 4 (" + buynow_product_buying_key + ")! - We have a sale:", sale);
         buynow_product_buying_currentStep = 4;
 
+        // let sellerEmail = sale.seller.seller_email;
+        let sellerEmail = 'aaa@bbb.com';
+
         let textToShowInWidget =
-            '<p class="fs-2 text-center">Payment confirmed!</p>' +
-            '<p class="fs-2 text-center">Please <a target="_blank" href="mailto:' + sale.seller.seller_email + '" class="link">contact the seller</a> directly to discuss shipping.</p>';
+            '<p class="text-center fs-3">Payment confirmed!</p>' +
+            '<p class="text-center fs-3">Please <a target="_blank" href="mailto:' + sellerEmail + '" class="link">contact the seller</a> directly to discuss shipping.</p>';
 
         putIntoHtmlElementTextQrLnAddress(
             '#gpModal',

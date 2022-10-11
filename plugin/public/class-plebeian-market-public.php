@@ -258,6 +258,8 @@ class Plebeian_Market_Public {
 
 		function plebeian_common_public_code() { ?>
 			<script>
+				let pluginBasePath = '<?= plugin_dir_url(__FILE__) ?>';
+
 				let requests = {
 					pm_api: {
 						default_timeout: 10000,
