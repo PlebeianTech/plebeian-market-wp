@@ -67,7 +67,7 @@ function putIntoHtmlElementTextQrLnAddress(elementSelector, text, lnurl, qr, pro
             '   <a href="' + protocol + ':' + lnurl + '"><svg id="qrcodeImage"></svg></a>' +
             '</div>' +
             '<div class="input-group lnurlValue">' +
-            '   <input type="text" class="form-control" value="' + lnurl + '" id="url"> <button type="button" class="input-group-btn btn btn-outline-primary" id="btc-copy-url">Copy</button>' +
+            '   <input type="text" class="form-control text-truncate" value="' + lnurl + '" id="url"> <button type="button" class="input-group-btn btn btn-outline-primary" id="btc-copy-url">Copy</button>' +
             '</div>';
 
         loginWidget +=
