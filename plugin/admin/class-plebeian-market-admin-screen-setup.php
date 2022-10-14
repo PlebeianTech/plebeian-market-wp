@@ -10,17 +10,19 @@
  * @subpackage Plebeian_Market/admin
  */
 
-class Plebeian_Market_Admin_Screen_Setup {
+class Plebeian_Market_Admin_Screen_Setup
+{
 
-	static function plebeian_admin_setup_page_html() {
-		if ( ! current_user_can( 'manage_options' ) ) {
+	static function plebeian_admin_setup_page_html()
+	{
+		if (!current_user_can('manage_options')) {
 			return;
 		}
 
-		wp_enqueue_script( 'plebeian-market-admin-screen-options', plugin_dir_url( __FILE__ ) . 'js/plebeian-market-admin-screen-setup.js', array( 'jquery' ), PLEBEIAN_MARKET_VERSION, false );
-		?>
+		wp_enqueue_script('plebeian-market-admin-screen-options', plugin_dir_url(__FILE__) . 'js/plebeian-market-admin-screen-setup.js', ['jquery'], PLEBEIAN_MARKET_VERSION, false);
+?>
 		<div class="wrap">
-			<!-- <h1><?php echo esc_html( get_admin_page_title() ); ?></h1> -->
+			<!-- <h1><?php echo esc_html(get_admin_page_title()); ?></h1> -->
 			<form class="row g-3 col-md-6 needs-validation" id="setupForm" novalidate>
 
 				<script>
@@ -77,21 +79,12 @@ class Plebeian_Market_Admin_Screen_Setup {
 
 				<div class="mb-3">
 					<label for="contribution_percent" class="form-label">Value4Value contribution:</label>
-					<input
-						type="range"
-						class="form-range"
-						min="0"
-						max="5"
-						step="0.5"
-						id="contribution_percent"
-						name="contribution_percent"
-						onInput="contributionUpdated()"
-					>
+					<input type="range" class="form-range" min="0" max="5" step="0.5" id="contribution_percent" name="contribution_percent" onInput="contributionUpdated()">
 					<span id="contribution_percent_text">Contributing 2.5%</span>
 					<p id="contributionEmoji"></p>
 					<div id="pmURLHelpBlock" class="form-text">
 						<p>Generosity enables us to continue creating free and open source solutions!<br>
-						100% goes to powering the Bitcoin movement!</p>
+							100% goes to powering the Bitcoin movement!</p>
 					</div>
 				</div>
 
@@ -112,7 +105,7 @@ class Plebeian_Market_Admin_Screen_Setup {
 					<p>You must test if the connection works with the values provided before being able to save the new values.</p>
 				</div>
 			</form>
-			
+
 		</div>
 
 
@@ -130,6 +123,6 @@ class Plebeian_Market_Admin_Screen_Setup {
 			</div>
 		</div>
 
-		<?php
+<?php
 	}
 }
