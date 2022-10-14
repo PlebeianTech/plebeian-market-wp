@@ -65,6 +65,17 @@ class Plebeian_Market_Admin_Screen_Setup {
 				</div>
 
 				<div class="mb-3">
+					<label for="sellerEmail" class="form-label">Seller email</label>
+					<input type="text" id="sellerEmail" class="form-control" aria-describedby="sellerEmailHelpBlock" required>
+					<div class="invalid-feedback">
+						The email address cannot be left empty because buyers need a way to contact you.
+					</div>
+					<div id="sellerEmailHelpBlock" class="form-text">
+						This will be shown to buyers once they've paid the item so both of you arrange the shipping.
+					</div>
+				</div>
+
+				<div class="mb-3">
 					<label for="contribution_percent" class="form-label">Value4Value contribution:</label>
 					<input
 						type="range"

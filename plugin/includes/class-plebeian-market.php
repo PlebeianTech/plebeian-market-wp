@@ -176,7 +176,7 @@ class Plebeian_Market
 		} else {
 			$this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_information_submenu');
 			$this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_fixedprice_submenu');
-			$this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_auctions_submenu');
+			// $this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_auctions_submenu');
 			$this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_customization_submenu');
 			$this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_setup_submenu_with_others');
 
@@ -189,6 +189,7 @@ class Plebeian_Market
 		$this->loader->add_action('wp_ajax_plebeian-save-options', $plugin_ajax, 'ajax_save_options');
 		$this->loader->add_action('wp_ajax_plebeian-get-price-btc', $plugin_ajax, 'ajax_get_price_in_btc');
 		$this->loader->add_action('wp_ajax_plebeian-ajax_get_item_info', $plugin_ajax, 'ajax_get_item_info');
+		$this->loader->add_action('wp_ajax_plebeian-ajax_save_image_into_item', $plugin_ajax, 'ajax_save_image_into_item');
 	}
 
 	/**

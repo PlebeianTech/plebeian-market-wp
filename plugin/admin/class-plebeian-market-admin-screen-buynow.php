@@ -42,11 +42,7 @@ class Plebeian_Market_Admin_Screen_Buynow
 					},
 					list: {
 						url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_LIST_BUYNOW_URL ?>'
-					},
-					twitter: {
-						url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_NEW_BUYNOW_TWITTER_URL ?>',
-						method: 'PUT'
-					},
+					}
 				},
 				wordpress_pm_api: {
 					ajax_url: '<?= admin_url('admin-ajax.php') ?>',
@@ -115,7 +111,7 @@ class Plebeian_Market_Admin_Screen_Buynow
 							<!-- Shipping -->
 							<div class="mb-3">
 								<label for="shipping_from" class="col-form-label">Shipping from:</label>
-								<input type="text" class="form-control" id="shipping_from" name="shipping_from" placeholder="country or city">
+								<input type="text" class="form-control" id="shFipping_from" name="shipping_from" placeholder="country or city">
 							</div>
 							<div class="col-md-6">
 								<label for="shipping_domestic_usd" class="col-form-label">Domestic shipping ($):</label>
@@ -132,14 +128,11 @@ class Plebeian_Market_Admin_Screen_Buynow
 
 							<!-- Images -->
 							<div class="col-md-6">
-								<label for="shipping_worldwide_usd" class="col-form-label">Product images:</label>
+								<label for="open-media-modal" class="col-form-label">Product images:</label>
 								<input type="button" class="button open-media-button" id="open-media-modal" value="Open Media Library" />
 							</div>
 
-							<div class='image-preview-wrapper'>
-								<img id='image-preview' src='<?= plugin_dir_url(__FILE__) ?>img/plebeian_market_logo.png' width='100' height='100' style='max-height: 100px; width: 100px;'>
-							</div>
-
+							<ul id="product-images-container"></ul>
 							<!-- 
 								https://jeroensormani.com/how-to-include-the-wordpress-media-selector-in-your-plugin/
 								https://codex.wordpress.org/Javascript_Reference/wp.media

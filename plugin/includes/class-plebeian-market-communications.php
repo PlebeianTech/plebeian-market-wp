@@ -15,7 +15,8 @@
  * @package    Plebeian_Market
  * @subpackage Plebeian_Market/includes
  */
-class Plebeian_Market_Communications {
+class Plebeian_Market_Communications
+{
 
 	/**
 	 * Get the URL to the Plebeian Market.
@@ -24,7 +25,8 @@ class Plebeian_Market_Communications {
 	 *
 	 * @since    1.0.0
 	 */
-	public static function getAPIUrl() {
+	public static function getAPIUrl()
+	{
 		/*
 		If getOptions .....
 		*/
@@ -34,7 +36,8 @@ class Plebeian_Market_Communications {
 		return PM_API_URL_DEFAULT;
 	}
 
-	public static function getBackendAPIUrl() {
+	public static function getBackendAPIUrl()
+	{
 		/*
 		If getOptions .....
 		*/
@@ -44,11 +47,13 @@ class Plebeian_Market_Communications {
 		return PM_API_URL_BACKEND_DEFAULT;
 	}
 
-	public static function getXAccessToken() {
+	public static function getXAccessToken()
+	{
 		return get_option('plebeian_market_auth_key');
 	}
 
-	public static function getUser() {
+	public static function getUser()
+	{
 		return 'btc_remnant';
 	}
 
@@ -59,8 +64,9 @@ class Plebeian_Market_Communications {
 	 *
 	 * @since    1.0.0
 	 */
-	public static function getFeatured($type) {
-		if ( ! in_array($type, ['auctions', 'listings'])) {
+	public static function getFeatured($type)
+	{
+		if (!in_array($type, ['auctions', 'listings'])) {
 			return [];
 		}
 
@@ -68,9 +74,9 @@ class Plebeian_Market_Communications {
 			$auctions_response = wp_remote_get("https://plebeian.market/api/$type/featured");
 			//$auctions_response = wp_remote_get(self::getAPIUrl() . "/$type/featured");
 		}
-        
-        $auctions_body_json = wp_remote_retrieve_body($auctions_response);
-        $auctions_http_code = wp_remote_retrieve_response_code( $auctions_response );
+
+		$auctions_body_json = wp_remote_retrieve_body($auctions_response);
+		$auctions_http_code = wp_remote_retrieve_response_code($auctions_response);
 
 		if ($auctions_http_code === 200) {
 			$auctions_body_array = json_decode($auctions_body_json);
@@ -85,11 +91,12 @@ class Plebeian_Market_Communications {
 	/**
 	 * Buy now
 	 */
-	public static function getBuyNow($key) {
+	public static function getBuyNow($key)
+	{
 		$buyNowItem_response = wp_remote_get(self::getBackendAPIUrl() . '/listings/' . $key);
 
 		$buyNowItem_body_json = wp_remote_retrieve_body($buyNowItem_response);
-        $buyNowItem_http_code = wp_remote_retrieve_response_code($buyNowItem_response);
+		$buyNowItem_http_code = wp_remote_retrieve_response_code($buyNowItem_response);
 
 		if ($buyNowItem_http_code === 200) {
 			$buyNowItem_body = json_decode($buyNowItem_body_json);
@@ -98,11 +105,20 @@ class Plebeian_Market_Communications {
 
 		return null;
 	}
-	public static function getBuyNowListing() {
-		$buyNowListing_respose = wp_remote_get(self::getBackendAPIUrl() . '/listings/featured');
+
+	public static function getBuyNowListing()
+	{
+		$buyNowListing_respose = wp_remote_get(
+			self::getBackendAPIUrl() . PM_API_LIST_BUYNOW_URL,
+			[
+				'headers'     => [
+					'X-Access-Token' => Plebeian_Market_Communications::getXAccessToken()
+				]
+			]
+		);
 
 		$buyNowListing_body_json = wp_remote_retrieve_body($buyNowListing_respose);
-        $buyNowListing_http_code = wp_remote_retrieve_response_code($buyNowListing_respose);
+		$buyNowListing_http_code = wp_remote_retrieve_response_code($buyNowListing_respose);
 
 		if ($buyNowListing_http_code === 200) {
 			$buyNowListing_body = json_decode($buyNowListing_body_json);
@@ -115,10 +131,11 @@ class Plebeian_Market_Communications {
 	/**
 	 * Auctions
 	 */
-	public static function getAuctionInfo($auction_id) {
+	public static function getAuctionInfo($auction_id)
+	{
 		$auction_response = wp_remote_get('https://plebeian.market/auctions/' . $auction_id);
-        $auction_body_json = wp_remote_retrieve_body($auction_response);
-        $auction_http_code = wp_remote_retrieve_response_code( $auction_response );
+		$auction_body_json = wp_remote_retrieve_body($auction_response);
+		$auction_http_code = wp_remote_retrieve_response_code($auction_response);
 
 		if ($auction_http_code === 200) {
 			$auction_body = json_decode($auction_body_json);
@@ -126,6 +143,30 @@ class Plebeian_Market_Communications {
 		} else {
 			return null;
 		}
+	}
+
+	public static function getBTCPriceInUSD()
+	{
+		$cache_key = 'bitcoin_price';
+		$bitcoin_price_quote = get_transient($cache_key);
+
+		if (false === $bitcoin_price_quote) {
+
+			$btcprice_response = wp_remote_get(KRAKEN_BTCUSD_API_URL);
+			$btcprice_body_json = wp_remote_retrieve_body($btcprice_response);
+			$btcprice_http_code = wp_remote_retrieve_response_code($btcprice_response);
+
+			if ($btcprice_http_code === 200) {
+				$btcprice_body = json_decode($btcprice_body_json);
+				$bitcoin_price_quote = $btcprice_body->result->XXBTZUSD->c[0];
+			} else {
+				return 0;
+			}
+
+			set_transient($cache_key, $bitcoin_price_quote, KRAKEN_BTCUSD_API_CACHETIME);
+		}
+
+		return $bitcoin_price_quote;
 	}
 
 	/**
@@ -137,37 +178,13 @@ class Plebeian_Market_Communications {
 	 * 
 	 * Uses the WordPress cache so we don't query Kraken too often.
 	 */
-	public static function getBTCPrice($item_price_usd) {
-		$cache_key = 'bitcoin_price';
-		$bitcoin_price_quote = get_transient($cache_key);
+	public static function fiatToSats($item_price_usd)
+	{
+		$bitcoin_price = self::getBTCPriceInUSD();
 
-		if (false === $bitcoin_price_quote) {
-
-			$btcprice_response = wp_remote_get(KRAKEN_BTCUSD_API_URL);
-			$btcprice_body_json = wp_remote_retrieve_body($btcprice_response);
-			$btcprice_http_code = wp_remote_retrieve_response_code($btcprice_response);
-	
-			if ($btcprice_http_code === 200) {
-				$btcprice_body = json_decode($btcprice_body_json);
-				$bitcoin_price_quote = $btcprice_body->result->XXBTZUSD->c[0];
-			} else {
-				return null;
-			}
-
-			set_transient($cache_key, $bitcoin_price_quote, KRAKEN_BTCUSD_API_CACHETIME);
-		}
-
-		$item_price_bitcoin = $item_price_usd / $bitcoin_price_quote;
+		$item_price_bitcoin = $item_price_usd / $bitcoin_price;
 		$item_price_satoshi = $item_price_bitcoin * 100000000;
 
 		return round($item_price_satoshi, 0);
-	}
-
-	public static function fiatToBitcoin($fiat) {
-
-	}
-
-	public static function bitcoinToFiat($sats) {
-
 	}
 }

@@ -10,7 +10,8 @@
  * @subpackage Plebeian_Market/admin
  */
 
-class Plebeian_Market_Admin {
+class Plebeian_Market_Admin
+{
 
 	/**
 	 * The ID of this plugin.
@@ -37,11 +38,11 @@ class Plebeian_Market_Admin {
 	 * @param    string    $plugin_name       The name of this plugin.
 	 * @param    string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct($plugin_name, $version)
+	{
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
 	}
 
 	/**
@@ -49,17 +50,18 @@ class Plebeian_Market_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/plebeian-market-admin.css', array(), $this->version, 'all' );
+	public function enqueue_styles()
+	{
+		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/plebeian-market-admin.css', array(), $this->version, 'all');
 
 		// Datatables
-		wp_enqueue_style( 'jquery.dataTables', plugin_dir_url( __FILE__ ) . 'css/datatables/jquery.dataTables.min.css', array(), $this->version, 'all' );
-		wp_enqueue_style( 'buttons.dataTables', plugin_dir_url( __FILE__ ) . 'css/datatables/buttons.dataTables.min.css', array(), $this->version, 'all' );
-		wp_enqueue_style( 'dataTables.dateTime', plugin_dir_url( __FILE__ ) . 'css/datatables/dataTables.dateTime.min.css', array(), $this->version, 'all' );
-		wp_enqueue_style( 'fixedHeader.dataTables', plugin_dir_url( __FILE__ ) . 'css/datatables/fixedHeader.dataTables.min.css', array(), $this->version, 'all' );
-		wp_enqueue_style( 'responsive.dataTables', plugin_dir_url( __FILE__ ) . 'css/datatables/responsive.dataTables.min.css', array(), $this->version, 'all' );
-		wp_enqueue_style( 'scroller.dataTables', plugin_dir_url( __FILE__ ) . 'css/datatables/scroller.dataTables.min.css', array(), $this->version, 'all' );
-		wp_enqueue_style( 'select.dataTables', plugin_dir_url( __FILE__ ) . 'css/datatables/select.dataTables.min.css', array(), $this->version, 'all' );
+		wp_enqueue_style('jquery.dataTables', plugin_dir_url(__FILE__) . 'css/datatables/jquery.dataTables.min.css', array(), $this->version, 'all');
+		wp_enqueue_style('buttons.dataTables', plugin_dir_url(__FILE__) . 'css/datatables/buttons.dataTables.min.css', array(), $this->version, 'all');
+		wp_enqueue_style('dataTables.dateTime', plugin_dir_url(__FILE__) . 'css/datatables/dataTables.dateTime.min.css', array(), $this->version, 'all');
+		wp_enqueue_style('fixedHeader.dataTables', plugin_dir_url(__FILE__) . 'css/datatables/fixedHeader.dataTables.min.css', array(), $this->version, 'all');
+		wp_enqueue_style('responsive.dataTables', plugin_dir_url(__FILE__) . 'css/datatables/responsive.dataTables.min.css', array(), $this->version, 'all');
+		wp_enqueue_style('scroller.dataTables', plugin_dir_url(__FILE__) . 'css/datatables/scroller.dataTables.min.css', array(), $this->version, 'all');
+		wp_enqueue_style('select.dataTables', plugin_dir_url(__FILE__) . 'css/datatables/select.dataTables.min.css', array(), $this->version, 'all');
 		// DataTables-1.12.1
 		// Buttons-2.2.3
 		// DateTime-1.1.2
@@ -68,7 +70,7 @@ class Plebeian_Market_Admin {
 		// Scroller-2.0.7
 		// Select-1.4.0
 
-		wp_enqueue_style( 'bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css'); // all the bootstrap javascript goodness
+		wp_enqueue_style('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css');
 	}
 
 	/**
@@ -76,19 +78,20 @@ class Plebeian_Market_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
-		wp_enqueue_script( 'plebeian-market-admin', plugin_dir_url( __FILE__ ) . 'js/plebeian-market-admin.js', array( 'jquery' ), $this->version, false );
+	public function enqueue_scripts()
+	{
+		wp_enqueue_script('plebeian-market-admin', plugin_dir_url(__FILE__) . 'js/plebeian-market-admin.js', array('jquery'), $this->version, false);
 
 		// Datatables
-		wp_enqueue_script( 'jquery.dataTables', plugin_dir_url( __FILE__ ) . 'js/datatables/jquery.dataTables.min.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( 'dataTables.buttons', plugin_dir_url( __FILE__ ) . 'js/datatables/dataTables.buttons.min.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( 'buttons.colVis', plugin_dir_url( __FILE__ ) . 'js/datatables/buttons.colVis.min.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( 'buttons.html5', plugin_dir_url( __FILE__ ) . 'js/datatables/buttons.html5.min.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( 'dataTables.dateTime', plugin_dir_url( __FILE__ ) . 'js/datatables/dataTables.dateTime.min.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( 'dataTables.fixedHeader', plugin_dir_url( __FILE__ ) . 'js/datatables/dataTables.fixedHeader.min.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( 'dataTables.responsive', plugin_dir_url( __FILE__ ) . 'js/datatables/dataTables.responsive.min.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( 'dataTables.scroller', plugin_dir_url( __FILE__ ) . 'js/datatables/dataTables.scroller.min.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( 'dataTables.select', plugin_dir_url( __FILE__ ) . 'js/datatables/dataTables.select.min.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script('jquery.dataTables', plugin_dir_url(__FILE__) . 'js/datatables/jquery.dataTables.min.js', array('jquery'), $this->version, false);
+		wp_enqueue_script('dataTables.buttons', plugin_dir_url(__FILE__) . 'js/datatables/dataTables.buttons.min.js', array('jquery'), $this->version, false);
+		wp_enqueue_script('buttons.colVis', plugin_dir_url(__FILE__) . 'js/datatables/buttons.colVis.min.js', array('jquery'), $this->version, false);
+		wp_enqueue_script('buttons.html5', plugin_dir_url(__FILE__) . 'js/datatables/buttons.html5.min.js', array('jquery'), $this->version, false);
+		wp_enqueue_script('dataTables.dateTime', plugin_dir_url(__FILE__) . 'js/datatables/dataTables.dateTime.min.js', array('jquery'), $this->version, false);
+		wp_enqueue_script('dataTables.fixedHeader', plugin_dir_url(__FILE__) . 'js/datatables/dataTables.fixedHeader.min.js', array('jquery'), $this->version, false);
+		wp_enqueue_script('dataTables.responsive', plugin_dir_url(__FILE__) . 'js/datatables/dataTables.responsive.min.js', array('jquery'), $this->version, false);
+		wp_enqueue_script('dataTables.scroller', plugin_dir_url(__FILE__) . 'js/datatables/dataTables.scroller.min.js', array('jquery'), $this->version, false);
+		wp_enqueue_script('dataTables.select', plugin_dir_url(__FILE__) . 'js/datatables/dataTables.select.min.js', array('jquery'), $this->version, false);
 		// DataTables-1.12.1
 		// Buttons-2.2.3
 		// DateTime-1.1.2
@@ -97,7 +100,8 @@ class Plebeian_Market_Admin {
 		// Scroller-2.0.7
 		// Select-1.4.0
 
-		wp_enqueue_script( 'bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js', array('jquery'));
+		wp_enqueue_script('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js', ['jquery']);
+		wp_enqueue_script('jquery-ui', 'https://code.jquery.com/ui/1.13.2/jquery-ui.min.js', ['jquery', 'bootstrap']);
 
 		wp_enqueue_media();
 	}
@@ -105,7 +109,8 @@ class Plebeian_Market_Admin {
 	/**
 	 * Menus / submenus
 	 */
-	function plebeian_main_menu() {
+	function plebeian_main_menu()
+	{
 		add_menu_page(
 			'Plebeian Market WordPress plugin',
 			'Plebeian Market',
@@ -117,7 +122,8 @@ class Plebeian_Market_Admin {
 		);
 	}
 
-	function plebeian_information_submenu() {
+	function plebeian_information_submenu()
+	{
 		add_submenu_page(
 			'plebeian_market',
 			'Information',
@@ -129,7 +135,8 @@ class Plebeian_Market_Admin {
 		);
 	}
 
-	function plebeian_fixedprice_submenu() {
+	function plebeian_fixedprice_submenu()
+	{
 		add_submenu_page(
 			'plebeian_market',
 			'Buy Now items',
@@ -141,7 +148,8 @@ class Plebeian_Market_Admin {
 		);
 	}
 
-	function plebeian_auctions_submenu() {
+	function plebeian_auctions_submenu()
+	{
 		add_submenu_page(
 			'plebeian_market',
 			'Auctions',
@@ -153,7 +161,8 @@ class Plebeian_Market_Admin {
 		);
 	}
 
-	function plebeian_customization_submenu() {
+	function plebeian_customization_submenu()
+	{
 		add_submenu_page(
 			'plebeian_market',
 			'Customization',
@@ -165,7 +174,8 @@ class Plebeian_Market_Admin {
 		);
 	}
 
-	function plebeian_setup_submenu_with_others() {
+	function plebeian_setup_submenu_with_others()
+	{
 		add_submenu_page(
 			'plebeian_market',
 			'Setup',
@@ -177,7 +187,8 @@ class Plebeian_Market_Admin {
 		);
 	}
 
-	function plebeian_setup_submenu_standalone() {
+	function plebeian_setup_submenu_standalone()
+	{
 		add_submenu_page(
 			'plebeian_market',
 			'Setup',
@@ -192,7 +203,8 @@ class Plebeian_Market_Admin {
 	/**
 	 * If we don't have an auth key, we need to setup
 	 */
-	static function plebeian_setup_is_needed() {
+	static function plebeian_setup_is_needed()
+	{
 		if (get_option('plebeian_market_auth_key') === false || get_option('plebeian_market_auth_key') === '') {
 			return true;
 		}

@@ -57,7 +57,7 @@ class Plebeian_Market_Public {
 			$this->version, 'all'
 		);
 
-		wp_enqueue_style( 'bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css'); // all the bootstrap javascript goodness
+		wp_enqueue_style( 'bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css');
 	}
 
 	/**
@@ -75,7 +75,7 @@ class Plebeian_Market_Public {
 
 		wp_enqueue_script(
 			'bootstrap',
-			'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js',
+			'https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js',
 			['jquery']
 		);
 
@@ -193,7 +193,7 @@ class Plebeian_Market_Public {
 			$title = $buyNowItem->title;
 			$description = $buyNowItem->description;
 			$price_usd = $buyNowItem->price_usd;
-			$price_sats = '~' . Plebeian_Market_Communications::getBTCPrice($price_usd);
+			$price_sats = '~' . Plebeian_Market_Communications::fiatToSats($price_usd);
 			$available_quantity = $buyNowItem->available_quantity;
 			$shipping_from = $buyNowItem->shipping_from;
 			$pictures = $buyNowItem->media;
@@ -259,6 +259,8 @@ class Plebeian_Market_Public {
 		function plebeian_common_public_code() { ?>
 			<script>
 				let pluginBasePath = '<?= plugin_dir_url(__FILE__) ?>';
+
+				let btcPriceInUSD = <?= Plebeian_Market_Communications::getBTCPriceInUSD() ?>;
 
 				let requests = {
 					pm_api: {
@@ -339,7 +341,6 @@ class Plebeian_Market_Public {
 			if (count($auctions_body_array) > 0) {
 				foreach($auctions_body_array as $auction) {
 					$auction_title = $auction->title;
-					// $auctions_posted_by = $auction->seller_twitter_username;
 					// $auction_bids = $auction->bids;
 					$auction_media = $auction->media;
 					$auction_first_image = $auction_media[0]->url;

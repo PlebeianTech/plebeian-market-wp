@@ -1,3 +1,112 @@
+function addImageToProduct(url, hash, index, saved) {
+    // <img src="' + pluginBasePath + 'img/trash.svg" class="imagesDeleteButton" alt="Delete image">
+    let imageHTML =
+        '<li class="ui-state-default">' +
+        '   <img src="' + url + '" class="img-thumbnail" data-hash="' + hash + '" data-index="' + index + '" data-saved="' + saved + '" />' +
+        '   <span class="product-images-delete-badge" data-hash="' + hash + '">-</span>' +
+        '</li>';
+    $("#product-images-container").append(imageHTML);
+
+    bindDeleteImagesAgainAfterAddingNew();
+}
+
+function bindDeleteImagesAgainAfterAddingNew() {
+    $('.product-images-delete-badge').off().click(function () {
+        let deleteButtonHash = $(this).data('hash');
+        console.log('deleting images with hash:', deleteButtonHash);
+
+        $('#product-images-container img').each(function () {
+            let imageObject = $(this);
+
+            if (imageObject.data('hash') === deleteButtonHash) {
+                imageObject.data('delete', 'true');
+                imageObject.parent().hide();
+            }
+        });
+    });
+}
+
+function makeImagesOrderable() {
+    $("#product-images-container").sortable({
+        placeholder: "ui-state-highlight",
+        forcePlaceholderSize: true
+    });
+    $("#product-images-container").disableSelection();
+}
+
+function saveImagesToProduct(key) {
+    let imagesSave = [];
+    let imagesDelete = [];
+
+    $('#product-images-container img').each(function () {
+        let image = this;
+        console.log('* Processing image for item ' + key + ':', image.src);
+
+        let imageAlreadySaved = $(image).data('saved');
+        let imageHash = $(image).data('hash');
+        let imageIndex = $(image).data('index');
+        let imageDeleteNow = $(image).data('delete');
+
+        if (imageAlreadySaved) {
+            // Image already saved
+            if (imageDeleteNow) {
+                console.log("   - delete image:", image.src);
+                imagesDelete.push({
+                    hash: imageHash,
+                });
+            } else {
+                console.log("   - already saved and not deleted. Ignoring:", image.src);
+            }
+
+        } else {
+            // Image not saved (added now)
+            if (imageDeleteNow) {
+                console.log("   - not saved and then deleted. Ignoring:", image.src);
+            } else {
+                console.log("   - saving image:", image.src);
+                imagesSave.push({
+                    url: image.src
+                });
+            }
+        }
+    });
+
+    console.log('* images save', imagesSave);
+    console.log('* images delete', imagesDelete);
+
+    if (imagesSave.length !== 0 || imagesDelete.length !== 0) {
+        $.ajax({
+            url: requests.wordpress_pm_api.ajax_url,
+            cache: false,
+            dataType: "JSON",
+            type: 'POST',
+            data: {
+                _ajax_nonce: requests.wordpress_pm_api.nonce,
+                action: "plebeian-ajax_save_image_into_item",
+                item_key: key,
+                images: {
+                    save: imagesSave,
+                    delete: imagesDelete
+                }
+            },
+            success: function (response) {
+                console.log('Information retrieved successfully!', response);
+
+                if (response.success === true) {
+
+
+                } else {
+                    console.log("ERROR getting information: ", response);
+                }
+            },
+            error: function (error) {
+                console.log("ERROR getting information: ", error);
+            }
+        });
+    }
+
+}
+
 function rebindIconClicks() {
     /* Modify item */
     $('.editButton').click(function () {
@@ -36,6 +145,10 @@ function rebindIconClicks() {
                     $('#shipping_from').val(buynow_item_info.shipping_from);
                     $('#shipping_domestic_usd').val(buynow_item_info.shipping_domestic_usd);
                     $('#shipping_worldwide_usd').val(buynow_item_info.shipping_worldwide_usd);
+
+                    $(buynow_item_info.media).each(function () {
+                        addImageToProduct(this.url, this.hash, this.index, 'true');
+                    });
 
                     $('.sats_container').text('');
 
@@ -83,6 +196,9 @@ function rebindIconClicks() {
 
         navigator.clipboard.writeText(finalShortCode).then(function () {
             showNotification('<p><b>Shortcode copied</b>.</p> <p>Paste it in a post or page with CTRL + V.</p>');
+
+            // Also show a message near to the clicked icon
+
         }, function () {
             showNotification('We cannot copy the shortcode. Your browser could not have permission to copy to the clipboard');
         });
@@ -101,15 +217,20 @@ function clearNewBuyNowForm() {
     $('#shipping_domestic_usd').val('');
     $('#shipping_worldwide_usd').val('');
 
+    $('#product-images-container').empty();
+
     $('.sats_container').text('');
 }
 
 $(document).ready(function () {
 
+    makeImagesOrderable();
+
     let buyNowDatatable = $('#table_buynow').DataTable({
         ajax: {
-            'url': requests.pm_api.list.url,
-            'dataSrc': 'listings'
+            url: requests.pm_api.list.url,
+            dataSrc: 'listings',
+            headers: { "X-Access-Token": requests.pm_api.XAccessToken }
         },
         order: [[5, 'desc']],
         dom: '<"toolbar">Bfrtip',
@@ -143,7 +264,7 @@ $(document).ready(function () {
             },
             {
                 render: function (data, row, meta) {
-                    return '<p></p>';       // images
+                    return '<p></p>';
                 }
             },
             {
@@ -182,7 +303,7 @@ $(document).ready(function () {
             },
             {
                 targets: 7,
-                width: '6%'
+                width: '7%'
             },
         ],
         fixedColumns: true
@@ -203,14 +324,14 @@ $(document).ready(function () {
 
         let clickedElementKey = $(this).data('key')
         console.log('clickedElementKey', clickedElementKey)
-        requestURLDelete = request.delete.url.replace('{KEY}', clickedElementKey);
+        requestURLDelete = requests.pm_api.delete.url.replace('{KEY}', clickedElementKey);
 
         $.ajax({
             url: requestURLDelete,
             cache: false,
             dataType: 'JSON',
             contentType: 'application/json;charset=UTF-8',
-            type: request.delete.method,
+            type: requests.pm_api.delete.method,
             headers: { "X-Access-Token": requests.pm_api.XAccessToken }
         })
             .done(function (response) {
@@ -232,7 +353,6 @@ $(document).ready(function () {
 
     /* Save Form */
     $('#saveBuyNowItem').click(function () {
-
         let form = $('#buyNowForm')[0];
         let validity = form.checkValidity();
         form.classList.add('was-validated');
@@ -257,6 +377,8 @@ $(document).ready(function () {
                 // New item
                 modifying = false
                 url = requests.pm_api.new.url;
+
+                buyNowFormData['start_date'] = (new Date()).toISOString();
             }
 
             console.log('modifying', modifying);
@@ -270,52 +392,39 @@ $(document).ready(function () {
                 type: modifying ? requests.pm_api.edit.method : requests.pm_api.new.method,
                 headers: { "X-Access-Token": requests.pm_api.XAccessToken },
                 success: function (response) {
-                    // console.log('response', response);
-                    console.log('modifying_2', modifying);
+
+                }
+            })
+                .done(function (response) {
+                    console.log('response', response);
+
+                    console.log('Product saved correctly. Saving images now...');
+
                     if (modifying) {
-                        BtnReset($saveButton);
+                        saveImagesToProduct(key);
                         $('#add-buynow-modal').modal('hide');
-                        buyNowDatatable.ajax.reload();
                         showNotification('<p><b>Item modified successfully!!</b></p>');
                     } else {
                         let newItemKey = response.listing.key;
-
-                        $.ajax({
-                            url: requests.pm_api.twitter.url.replace('{KEY}', newItemKey),
-                            cache: false,
-                            dataType: 'JSON',
-                            contentType: 'application/json;charset=UTF-8',
-                            type: requests.pm_api.twitter.method,
-                            headers: { "X-Access-Token": requests.pm_api.XAccessToken }
-                        })
-                            .done(function (response_twitter) {
-                                console.log('response_twitter', response_twitter);
-                                buyNowDatatable.ajax.reload();
-                                showNotification('<p><b>Item created successfully!!</b></p>');
-                                $('#add-buynow-modal').modal('hide');
-                            })
-                            .fail(function (e) {
-                                console.log('Error: ', e);
-                                showAlertModal('ERROR while trying to save the item: '+e.message+'. Contact Plebeian Market support.');
-                            })
-                            .always(function () {
-                                BtnReset($saveButton);
-                            });
+                        saveImagesToProduct(newItemKey);
+                        showNotification('<p><b>Item created successfully!!</b></p>');
                     }
-                },
-                error: function (e) {
-                    console.log("ERROR : ", e);
 
+                    buyNowDatatable.ajax.reload();
+                    $('#add-buynow-modal').modal('hide');
+                })
+                .fail(function (e) {
+                    console.log('Error: ', e);
+                    showAlertModal('ERROR while trying to save the item: ' + e.message + '. Contact Plebeian Market support.');
+                })
+                .always(function () {
                     BtnReset($saveButton);
-
-                    showAlertModal('ERROR while trying to save the item. Contact Plebeian Market support.');
-                }
-            });
+                });;
         }
     });
 
 
-    // Image uploader
+    // WordPress image gallery setup
     var ds = ds || {};
 
     var media;
@@ -324,11 +433,11 @@ $(document).ready(function () {
         buttonId: '#open-media-modal',
         detailsTemplate: '#attachment-details-tmpl',
 
-        frame: function() {
-            if ( this._frame )
+        frame: function () {
+            if (this._frame)
                 return this._frame;
 
-            this._frame = wp.media( {
+            this._frame = wp.media({
                 title: 'Select Your Images',
                 button: {
                     text: 'Choose'
@@ -337,36 +446,34 @@ $(document).ready(function () {
                 library: {
                     type: 'image'
                 }
-            } );
+            });
 
-            this._frame.on( 'ready', this.ready );
+            this._frame.on('ready', this.ready);
 
-            this._frame.state( 'library' ).on( 'select', this.select );
+            this._frame.state('library').on('select', this.select);
 
             return this._frame;
         },
 
-        ready: function() {
-            $( '.media-modal' ).addClass( 'no-sidebar smaller' );
+        ready: function () {
+            $('.media-modal').addClass('no-sidebar smaller');
         },
 
-        select: function() {
+        select: function () {
             var settings = wp.media.view.settings,
-                selection = this.get( 'selection' );
+                selection = this.get('selection');
 
-            $( '.added' ).remove();
-            selection.map( media.showAttachmentDetails );
+            $('.added').remove();
+            selection.map(media.showAttachmentDetails);
         },
 
-        showAttachmentDetails: function( attachment ) {
+        showAttachmentDetails: function (attachment) {
             let url = attachment.attributes.url;
-            console.log('url', url);
-
-            $('.image-preview-wrapper').append('<img src="'+url+'" data-addednow="true" />')
+            addImageToProduct(url, '', null, 'false');
         },
 
-        init: function() {
-            $( media.buttonId ).on( 'click', function( e ) {
+        init: function () {
+            $(media.buttonId).on('click', function (e) {
                 e.preventDefault();
 
                 media.frame().open();
@@ -374,5 +481,5 @@ $(document).ready(function () {
         }
     };
 
-    $( media.init );
+    $(media.init);
 });

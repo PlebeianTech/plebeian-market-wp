@@ -45,7 +45,6 @@ class Plebeian_Market_Admin_Screen_Auctions {
 							// print_r($auction);
 							$auction_key = $auction->key;
 							$auction_title = $auction->title;
-							// $auctions_posted_by = $auction->seller_twitter_username;
 							$auction_bids = $auction->bids;
 							$auction_media = $auction->media;
 							$auction_first_image = $auction_media[0]->url;

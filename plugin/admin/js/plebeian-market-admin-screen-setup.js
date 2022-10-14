@@ -111,6 +111,7 @@ $(document).ready(function () {
 
         let xpubNewValue = $('#xpubKey').val();
         let pmAuthKey = $('#pmAuthKey').val();
+        let sellerEmail = $('#sellerEmail').val();
         let pmURL = $('#pmURL').val();
         let contribution_percent_text = $('#contribution_percent_text').val();
 
@@ -157,11 +158,13 @@ $(document).ready(function () {
             // 1/2 - Send new values to PM through the API
             let contributionNewValue = $('#contribution_percent').val();
             let xpubNewValue = $('#xpubKey').val();
+            let sellerEmail = $('#sellerEmail').val();
 
             updateUserInfo(
                 {
                     contribution_percent: contributionNewValue,
-                    xpub: xpubNewValue
+                    xpub: xpubNewValue,
+                    sellerEmail: sellerEmail
                 },
                 'savedContribution'
             );
@@ -239,15 +242,18 @@ $(document).ready(function () {
 
                             let xpub = user.xpub;
                             let contribution_percent = user.contribution_percent;
+                            let sellerEmail = user.sellerEmail;
 
                             if (xpub) {
                                 $('#xpubKey').val(xpub);
                             }
-
+                            sellerEmail
                             if (contribution_percent) {
                                 $('#contribution_percent').val(contribution_percent);
                                 contributionUpdated();
                             }
+
+                            $('#sellerEmail').val(sellerEmail);
                         },
                         error: function (e) {
                             console.log("ERROR : ", e);
