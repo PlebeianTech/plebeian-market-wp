@@ -28,13 +28,13 @@ class Plebeian_Market_Communications
 	public static function getAPIUrl()
 	{
 		$customUrl = get_option('plebeian_market_url_connect');
-		return ($customUrl !== false) ? $customUrl : PM_API_URL_DEFAULT;
+		return ($customUrl === false || $customUrl === '') ? PM_API_URL_DEFAULT : $customUrl;
 	}
 
 	public static function getBackendAPIUrl()
 	{
 		$customUrl = get_option('plebeian_market_url_connect');
-		return ($customUrl !== false) ? $customUrl : PM_API_URL_BACKEND_DEFAULT;
+		return ($customUrl === false || $customUrl === '') ? PM_API_URL_BACKEND_DEFAULT : $customUrl;
 	}
 
 	public static function getXAccessToken()

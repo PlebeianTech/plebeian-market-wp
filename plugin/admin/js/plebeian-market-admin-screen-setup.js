@@ -50,9 +50,15 @@ function updateUserInfo(newUserData, placeToFlashIfSuccessful) {
     $("#saveUserOptions").prop("disabled", true);
 
     let pmAuthKey = $('#pmAuthKey').val();
+    let pmURL = $('#pmURL').val();
+
+    let saveURL = pmURL;
+    if (!saveURL || saveURL === '') {
+        saveURL = requestURL;
+    }
 
     $.ajax({
-        url: requestURL,
+        url: saveURL,
         data: JSON.stringify(newUserData),
         cache: false,
         dataType: "JSON",
@@ -119,7 +125,7 @@ $(document).ready(function () {
             showAlertModal('You need to provide an XPUB to be able to sell items in Plebeian Market.');
             return;
         }
-        if ( ! (xpubNewValue.startsWith("xpub") || xpubNewValue.startsWith("ypub") || xpubNewValue.startsWith("zpub")) ) {
+        if (!(xpubNewValue.startsWith("xpub") || xpubNewValue.startsWith("ypub") || xpubNewValue.startsWith("zpub"))) {
             showAlertModal('This is not a valid XPUB. A valid XPUB must start with "xpub", "ypub" or "zpub".');
             return;
         }
@@ -128,9 +134,14 @@ $(document).ready(function () {
             return;
         }
 
+        let testUrl = pmURL;
+        if (!testUrl || testUrl === '') {
+            testUrl = requestURL;
+        }
+
         // Test connection by getting user options from PM
         $.ajax({
-            url: requestURL,
+            url: testUrl,
             cache: false,
             dataType: "JSON",
             contentType: 'application/json;charset=UTF-8',
@@ -142,7 +153,6 @@ $(document).ready(function () {
             },
             error: function (e) {
                 console.log("ERROR : ", e);
-                $('#saveUserOptions').prop('disabled', false);
                 showAlertModal('Connection error. Review connection params and try again.');
             }
         });
@@ -256,9 +266,8 @@ $(document).ready(function () {
                             $('#sellerEmail').val(sellerEmail);
                         },
                         error: function (e) {
-                            console.log("ERROR : ", e);
+                            console.log("ERROR: " + e.statusText, e);
                             // Don't use an AlertModal here because it will fire first time we use the plugin
-                            showAlertModal('Error: ' + 'Contact Plebeian Market support.');
                         }
                     });
                 }
