@@ -3,15 +3,9 @@
 # SETUP
 
 # DEFAULTS
-// This two must point to the same address when not using docker
-//define('PM_API_URL_DEFAULT', 'http://localhost:5000/api');
-//define('PM_API_URL_BACKEND_DEFAULT', 'http://api:5000/api');
-
-define('PM_API_URL_DEFAULT', 'https://staging.plebeian.market/api');
-define('PM_API_URL_BACKEND_DEFAULT', 'https://staging.plebeian.market/api');
-
-//define('PM_API_URL_DEFAULT', 'https://plebeian.market/api');
-//define('PM_API_URL_DEFAULT', 'https://staging.plebeian.market/api');
+// This two must point to the same address when not in development environment (docker)
+define('PM_API_URL_DEFAULT', 'https://plebeian.market/api');
+define('PM_API_URL_BACKEND_DEFAULT', 'https://plebeian.market/api');
 
 # ROUTES
 
