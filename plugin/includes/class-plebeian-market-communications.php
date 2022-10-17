@@ -21,40 +21,25 @@ class Plebeian_Market_Communications
 	/**
 	 * Get the URL to the Plebeian Market.
 	 *
-	 * This will return the default URL if the user didn't save a new one, or the new saved one.
+	 * This will return the saved URL or the default one if none was saved.
 	 *
 	 * @since    1.0.0
 	 */
 	public static function getAPIUrl()
 	{
-		/*
-		If getOptions .....
-		*/
-		//$customUrl = get_option('plebeian_market_url_connect');
-		//return ($customUrl !== false) ? "https" : PM_API_URL_DEFAULT;
-
-		return PM_API_URL_DEFAULT;
+		$customUrl = get_option('plebeian_market_url_connect');
+		return ($customUrl !== false) ? $customUrl : PM_API_URL_DEFAULT;
 	}
 
 	public static function getBackendAPIUrl()
 	{
-		/*
-		If getOptions .....
-		*/
-		//$customUrl = get_option('plebeian_market_url_connect');
-		//return ($customUrl !== false) ? "https" : PM_API_URL_DEFAULT;
-
-		return PM_API_URL_BACKEND_DEFAULT;
+		$customUrl = get_option('plebeian_market_url_connect');
+		return ($customUrl !== false) ? $customUrl : PM_API_URL_BACKEND_DEFAULT;
 	}
 
 	public static function getXAccessToken()
 	{
 		return get_option('plebeian_market_auth_key');
-	}
-
-	public static function getUser()
-	{
-		return 'btc_remnant';
 	}
 
 	/**
