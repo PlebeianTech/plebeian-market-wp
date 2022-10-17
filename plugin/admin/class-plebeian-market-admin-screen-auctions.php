@@ -64,7 +64,7 @@ class Plebeian_Market_Admin_Screen_Auctions
 							<td><?= $auction_end_date ?></td>
 							<td>(D) (M)</td>
 						</tr>
-				<?
+				<?php
 					}
 				}
 				?>
