@@ -213,7 +213,7 @@ class Plebeian_Market_Public {
 				$content .= '<div
 					class="pleb_buynow_item_slideshow"
 					data-slideshow-transitions="' . $slideshow_delay . '"
-					data-disabled-slideshow="' . ($args['slideshow'] === 'false' ? '1' : '0') . '">';
+					data-disabled-slideshow="' . ($args['slideshow'] === 'false' || count($pictures) == 1 ? '1' : '0') . '">';
 
 				$firstImageInLoop = true;
 				foreach($pictures as $picture) {
