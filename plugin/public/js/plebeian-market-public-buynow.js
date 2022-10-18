@@ -54,7 +54,6 @@ function buyNow(shouldShowLoadingModal) {
                         } else if (['TX_CONFIRMED'].includes(sale.state)) {
                             // Contribution paid
                             step4(sale);
-                            waitAndAskAgain();
                             return false;   // break for "every"
 
                         } else {
@@ -200,15 +199,15 @@ function step3(sale) {
         buynow_product_buying_currentStep = 3;
 
         let textToShowInWidget =
-            '<p class="text-center fs-3">Thanks you for your payment!</p>' +
-            '<div class="text-center mb-4">' +
+            '<p class="fs-2">Thank you for your payment!</p>' +
+            '<div class="mb-4">' +
             '   <div class="w-100">' +
             '       <img src="' + pluginBasePath + 'img/plebeian_market_logo.png">' +
             '   </div>' +
-            '   <p class="fs-5">TxID: <a class="link" target="_blank" href="https://mempool.space/tx/' + sale.txid + '">' + sale.txid + '</a></p>' +
+            '   <p class="fs-4">TxID: <a class="link" target="_blank" href="https://mempool.space/tx/' + sale.txid + '">' + sale.txid + '</a></p>' +
             '</div>' +
-            '<p class="text-center fs-3">Your purchase will be completed when the payment is confirmed by the network.</p>' +
-            '<p class="text-center fs-3">In the mean time, you can follow the transaction on <a class="link" target="_blank" href="https://mempool.space/tx/' + sale.txid + '">mempool.space</a>!</p>';
+            '<p class="fs-2">Your purchase will be completed when the payment is confirmed by the network.</p>' +
+            '<p class="fs-2">In the mean time, you can follow the transaction on <a class="link" target="_blank" href="https://mempool.space/tx/' + sale.txid + '">mempool.space</a>!</p>';
 
         putIntoHtmlElementTextQrLnAddress(
             '#gpModal',
@@ -239,8 +238,8 @@ function step4(sale) {
         let sellerEmail = 'aaa@bbb.com';
 
         let textToShowInWidget =
-            '<p class="text-center fs-3">Payment confirmed!</p>' +
-            '<p class="text-center fs-3">Please <a target="_blank" href="mailto:' + sellerEmail + '" class="link">contact the seller</a> directly to discuss shipping.</p>';
+            '<p class="text-center fs-2">Payment confirmed!</p>' +
+            '<p class="text-center fs-2">Please <a target="_blank" href="mailto:' + sellerEmail + '" class="link">contact the seller</a> directly to discuss shipping.</p>';
 
         putIntoHtmlElementTextQrLnAddress(
             '#gpModal',
