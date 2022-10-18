@@ -297,7 +297,7 @@ class Plebeian_Market_Public {
 							<h5 class="modal-title"></h5>
 							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeGPModal"></button>
 						</div>
-						<div class="modal-body" id="gp-modal-body"></div>
+						<div class="modal-body text-center" id="gp-modal-body"></div>
 					</div>
 				</div>
 			</div>
