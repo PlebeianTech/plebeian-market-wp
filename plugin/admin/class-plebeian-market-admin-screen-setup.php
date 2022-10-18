@@ -27,7 +27,8 @@ class Plebeian_Market_Admin_Screen_Setup
 
 				<script>
 					// Plebeian Market API info
-					let requestURL = '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_USER_OPTIONS_URL ?>';
+					let requestHostname = '<?= Plebeian_Market_Communications::getAPIUrl() ?>';
+					let requestURL = '<?= PM_API_USER_OPTIONS_URL ?>';
 
 					let getRequestMethod = '<?= PM_API_GET_USER_OPTIONS_METHOD ?>';
 					let setRequestMethod = '<?= PM_API_SET_USER_OPTIONS_METHOD ?>';

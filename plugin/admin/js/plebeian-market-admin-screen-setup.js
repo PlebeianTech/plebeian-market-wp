@@ -52,9 +52,11 @@ function updateUserInfo(newUserData, placeToFlashIfSuccessful) {
     let pmAuthKey = $('#pmAuthKey').val();
     let pmURL = $('#pmURL').val();
 
-    let saveURL = pmURL;
-    if (!saveURL || saveURL === '') {
-        saveURL = requestURL;
+    let saveURL;
+    if (!pmURL || pmURL === '') {
+        saveURL = requestHostname + requestURL;
+    } else {
+        saveURL = pmURL + requestURL
     }
 
     $.ajax({
@@ -134,9 +136,11 @@ $(document).ready(function () {
             return;
         }
 
-        let testUrl = pmURL;
-        if (!testUrl || testUrl === '') {
-            testUrl = requestURL;
+        let testUrl;
+        if (!pmURL || pmURL === '') {
+            testUrl = requestHostname + requestURL;
+        } else {
+            testUrl = pmURL + requestURL
         }
 
         // Test connection by getting user options from PM
@@ -240,7 +244,7 @@ $(document).ready(function () {
                 // Get user options from PM if I have the auth key only
                 if (plebeian_auth_key !== '') {
                     $.ajax({
-                        url: requestURL,
+                        url: requestHostname + requestURL,
                         cache: false,
                         dataType: "JSON",
                         contentType: 'application/json;charset=UTF-8',
