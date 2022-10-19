@@ -10,13 +10,6 @@ function getFormData($form){
 
     return indexed_array;
 }
-/*
-function showNotification(text) {
-    let notificationElement = document.getElementById('liveToast');
-    let notification = new bootstrap.Toast(notificationElement);
-    notification.show();
-}
-*/
 
 /**
  * 
