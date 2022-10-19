@@ -196,9 +196,6 @@ function rebindIconClicks() {
 
         navigator.clipboard.writeText(finalShortCode).then(function () {
             showNotification('<p><b>Shortcode copied</b>.</p> <p>Paste it in a post or page with CTRL + V.</p>');
-
-            // Also show a message near to the clicked icon
-
         }, function () {
             showNotification('We cannot copy the shortcode. Your browser could not have permission to copy to the clipboard');
         });

@@ -165,8 +165,8 @@ class Plebeian_Market_Admin_Screen_Buynow
 		</div>
 
 		<!-- Notifications -->
-		<div class="toast-container position-fixed toastBottom end-0 p-3">
-			<div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="6000">
+		<div class="toast-container d-flex justify-content-center align-items-center w-100">
+			<div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
 				<div class="toast-header">
 					<img src="<?= plugin_dir_url(__FILE__) ?>img/plebeian_market_logo.png" class="rounded me-2 toastImg">
 					<strong class="me-auto" id="liveToastTitle">Plebeian Market</strong>
