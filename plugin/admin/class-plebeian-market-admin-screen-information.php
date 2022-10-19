@@ -21,21 +21,25 @@ class Plebeian_Market_Admin_Screen_Information
 			<p>This is the WordPress plugin for integration with <a href="https://plebeian.market/" target="_blank">Plebeian Market</a>, powered by <a href="https://plebeian.technology/" target="_blank">Plebeian Technology</a>.
 			</p>
 		</div>
-		<p>You can embed Plebeian Market widgets in your posts or pages using shortcodes. You can pick
-			the one that suits you better and paste it there.
-		</p>
-		<p>If you need support, you can find us on <a class="link" href="https://t.me/PlebeianMarket" target="_blank">Telegram</a> or email us at <a class="link" href="email:support@plebeian.market">
-				support@plebeian.market</a>. If you have a more technical feedback or would like to contribute to
-			the development, you can find us on <a class="link" href="https://github.com/PlebeianTech" target="_blank">GitHub</a>.
-		</p>
 
 		<img src="<?= plugin_dir_url(__FILE__) ?>img/plebeian_market_logo.png" alt="Plebeian Market, powered by Plebeian Technology">
 
-		<p></p><br>
-
-		<h2>Overview</h2>
-		<hr>
-		<p>Blablablá, this is a plugin for blablá</p>
+		<p>
+			Plebeian Market is a marketplace where anyone can sell anything. All you need is a Bitcoin wallet and you'll start selling or
+			auctioning your stuff for Bitcoins in no time and in a sovereign way.
+		</p>
+		<p>
+			With this plugin, you'll be able to manage your products in Plebeian Market and add widgets in your posts or pages using shortcodes. You can pick
+			the one that suits you better and paste it there.
+		</p>
+		<p>
+			If you need support, you can find us on <a class="link" href="https://t.me/PlebeianMarket" target="_blank">Telegram</a> or email us at <a class="link" href="email:support@plebeian.market">
+				support@plebeian.market</a>. If you have a more technical feedback or would like to contribute to
+			the development, you can find us on <a class="link" href="https://github.com/PlebeianTech" target="_blank">GitHub</a>.
+		</p>
+		<p>
+			You will own your market stall and you'll be happy!
+		</p>
 
 		<p></p><br>
 
