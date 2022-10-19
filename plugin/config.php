@@ -50,3 +50,8 @@ define('PM_API_DELETE_MEDIA_BUYNOW_METHOD', 'DELETE');
 # Util / Misc
 define('KRAKEN_BTCUSD_API_URL', 'https://api.kraken.com/0/public/Ticker?pair=XBTUSD');
 define('KRAKEN_BTCUSD_API_CACHETIME', 60);
+
+define('PM_OPTIONS', [
+    'plebeian_market_auth_key',
+    'plebeian_market_url_connect'
+]);

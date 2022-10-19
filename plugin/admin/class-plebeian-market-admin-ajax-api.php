@@ -15,27 +15,24 @@ class Plebeian_Market_Admin_Ajax_Api
 
 	function ajax_load_options()
 	{
-		wp_send_json_success([
-			'plebeian_auth_key' => get_option('plebeian_market_auth_key'),
-			'plebeian_url_connect' => get_option('plebeian_market_url_connect')
-		]);
+		$optionsLoaded = [];
+
+		foreach (PM_OPTIONS as $option) {
+			$optionsLoaded[$option] = get_option($option);
+		}
+
+		wp_send_json_success($optionsLoaded);
 	}
 
 	function ajax_save_options()
 	{
 		check_ajax_referer('save_options_nonce');
 
-		$plebeian_auth_key = $_POST['plebeian_auth_key'];
-		$plebeian_url_connect = $_POST['plebeian_url_connect'];
-
-		if (false) { // TO-DO checks
-			wp_send_json_error([
-				'errorMessage' => 'Options could not be saved. Contact Plebeian Market support.'
-			], 400);
+		foreach (PM_OPTIONS as $option) {
+			if (in_array($option, $_POST)) {
+				update_option($option, $_POST[$option]);
+			}
 		}
-
-		update_option('plebeian_market_auth_key', $plebeian_auth_key);
-		update_option('plebeian_market_url_connect', $plebeian_url_connect);
 
 		wp_send_json_success();
 	}
