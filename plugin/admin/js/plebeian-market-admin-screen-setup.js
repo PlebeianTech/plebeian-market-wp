@@ -195,8 +195,8 @@ $(document).ready(function () {
                 data: {
                     _ajax_nonce: wp_api_ajax_params.nonce,
                     action: "plebeian-save-options",
-                    plebeian_auth_key: pmAuthKey,
-                    plebeian_url_connect: pmUrlConnect
+                    plebeian_market_auth_key: pmAuthKey,
+                    plebeian_market_url_connect: pmUrlConnect
                 },
                 success: function (response) {
                     console.log('Optiones saved successfully!');
@@ -229,27 +229,27 @@ $(document).ready(function () {
         success: function (response) {
             console.log('Options loaded successfully!', response);
 
-            let plebeian_auth_key = response.data.plebeian_auth_key;
-            let plebeian_url_connect = response.data.plebeian_url_connect;
+            let plebeian_market_auth_key = response.data.plebeian_market_auth_key;
+            let plebeian_market_url_connect = response.data.plebeian_market_url_connect;
 
-            if (response.success === true && plebeian_auth_key !== false) {
+            if (response.success === true && plebeian_market_auth_key !== false) {
 
-                if (plebeian_auth_key !== false) {
-                    $('#pmAuthKey').val(plebeian_auth_key);
+                if (plebeian_market_auth_key !== false) {
+                    $('#pmAuthKey').val(plebeian_market_auth_key);
                 }
-                if (plebeian_url_connect !== false) {
-                    $('#pmURL').val(plebeian_url_connect);
+                if (plebeian_market_url_connect !== false) {
+                    $('#pmURL').val(plebeian_market_url_connect);
                 }
 
                 // Get user options from PM if I have the auth key only
-                if (plebeian_auth_key !== '') {
+                if (plebeian_market_auth_key !== '') {
                     $.ajax({
                         url: requestHostname + requestURL,
                         cache: false,
                         dataType: "JSON",
                         contentType: 'application/json;charset=UTF-8',
                         type: getRequestMethod,
-                        headers: { "X-Access-Token": plebeian_auth_key },
+                        headers: { "X-Access-Token": plebeian_market_auth_key },
                         success: function (response) {
                             let user = response.user;
                             // console.log('user', user);
@@ -277,7 +277,7 @@ $(document).ready(function () {
                 }
 
             } else {
-                if (plebeian_auth_key !== false) {
+                if (plebeian_market_auth_key !== false) {
                     showAlertModal('Error: ' + 'There was an error while loading options. Please contact Plebeian Market support.');
                 }
             }
