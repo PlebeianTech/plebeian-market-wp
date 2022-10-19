@@ -21,7 +21,9 @@ function buyNow(shouldShowLoadingModal) {
             let sales = buynowInfo.sales;
 
             if (!sales || typeof sales === 'undefined' || sales === null) {
-                step1();    // No sales or no active sales, so let's create one
+                step0();    // No sales or no active sales, so let's create one
+                waitAndAskAgain();
+
             } else {
                 // We have sales. In what state?
 
@@ -29,7 +31,7 @@ function buyNow(shouldShowLoadingModal) {
 
                 sales.every(function (sale) {
                     if (sale.state !== 'EXPIRED') {
-                        console.log('   - Sale not expired (state):' + sale.state, sale);
+                        console.log('   - Sale not expired state=' + sale.state, sale);
 
                         oneSaleIsValid = true;
 
@@ -62,6 +64,8 @@ function buyNow(shouldShowLoadingModal) {
                             console.log('--------------------------------------------------------------------');
                         }
                     }
+
+                    return true;    // continue for "every"
                 });
 
                 if (!oneSaleIsValid) {
@@ -69,7 +73,7 @@ function buyNow(shouldShowLoadingModal) {
                     // and keep checking
                     console.log("   - We don't have any valid sale, so requesting a new one...", sales);
 
-                    step1();
+                    step0();
                     waitAndAskAgain();
                 }
             }
@@ -77,11 +81,41 @@ function buyNow(shouldShowLoadingModal) {
     );
 }
 
-/**
- * 
- * @param {object} sale 
- * @returns 
- */
+function step0() {
+    if (buynow_product_buying_currentStep === 0) {
+        console.log("We're already at step 0");
+        return;
+    }
+
+    console.log("Running step 0 !", buynow_product_buying_key);
+    buynow_product_buying_currentStep = 0;
+
+    // We don't yet have a sale, so lets start one
+    $.ajax({
+        url: requests.pm_api.buynow_buy.url.replace('{KEY}', buynow_product_buying_key),
+        timeout: requests.pm_api.default_timeout,
+        cache: false,
+        dataType: 'JSON',
+        contentType: 'application/json;charset=UTF-8',
+        type: requests.pm_api.buynow_buy.method,
+        headers: { "X-Access-Token": getPlebeianMarketAuthToken() },
+    })
+        .done(function (response) {
+            console.log('step0 response:', response);
+        })
+        .fail(function (e) {
+            console.log('step0 error: ', e);
+            let errorMessage = e.responseJSON.message;
+
+            let buyNowWidget = 'step0 error: ' + errorMessage;
+            content.html(buyNowWidget);
+
+            if (errorMessage === 'Invalid token.') {
+                Cookies.remove('plebeianMarketAuthToken');
+            }
+        });
+}
+
 function step1(sale) {
     if (buynow_product_buying_currentStep === 1) {
         console.log("We're already at step 1");
@@ -100,7 +134,8 @@ function step1(sale) {
 
         let textToShowInWidget =
             '<p class="fs-4 text-center">The seller wishes to donate ' + sale.contribution_amount +
-            ' sats ($xxx.xx) sats out of the total price to Plebeian Technology. ' +
+            ' sats (' + satsToBTC(sale.contribution_amount) + ' BTC / ~$' + satsToFiat(sale.contribution_amount) +
+            ') out of the total price to Plebeian Market. ' +
             'Please send the amount using the QR code below!</p>';
 
         putIntoHtmlElementTextQrLnAddress(
@@ -115,48 +150,8 @@ function step1(sale) {
 
         hideLoadingModal();
         showGPModal();
-
     } else {
-        // We don't yet have a sale, so lets start one
-        console.log("   ---- We don't yet have a sale. Creating one...");
-        $.ajax({
-            url: requests.pm_api.buynow_buy.url.replace('{KEY}', buynow_product_buying_key),
-            timeout: requests.pm_api.default_timeout,
-            cache: false,
-            dataType: 'JSON',
-            contentType: 'application/json;charset=UTF-8',
-            type: requests.pm_api.buynow_buy.method,
-            headers: { "X-Access-Token": getPlebeianMarketAuthToken() },
-        })
-            .done(function (response) {
-                console.log('response', response);
-
-                let textToShowInWidget =
-                    '<p class="fs-4 text-center">The seller wishes to donate ' + response.sale.contribution_amount +
-                    ' sats out of the total price to Plebeian Technology. ' +
-                    'Please send the amount using the QR code below!</p>';
-
-                putIntoHtmlElementTextQrLnAddress(
-                    '#gpModal',
-                    textToShowInWidget,
-                    response.sale.contribution_payment_request,
-                    response.sale.contribution_payment_qr,
-                    'lightning',
-                    'Step 1/3 - Contribution',
-                    true
-                );
-            })
-            .fail(function (e) {
-                console.log('Error: ', e);
-
-                let buyNowWidget = 'Error: ' + e.message;
-
-                content.html(buyNowWidget);
-            })
-            .always(function () {
-                hideLoadingModal();
-                showGPModal();
-            });
+        console.error('step1 - sale is not an object:', typeof sale);
     }
 }
 
@@ -171,7 +166,9 @@ function step2(sale) {
         buynow_product_buying_currentStep = 2;
 
         let textToShowInWidget =
-            '<p class="fs-3 text-center">Please send the remaining amount of ' + sale.amount + ' sats plus shipping directly to the seller!</p>';
+            '<p class="fs-3 text-center">Please send the remaining amount of ' + sale.amount + ' sats ' +
+            '(' + satsToBTC(sale.amount) + ' BTC / ~$' + satsToFiat(sale.amount) + ') plus shipping ' +
+            'directly to the seller!</p>';
 
         putIntoHtmlElementTextQrLnAddress(
             '#gpModal',
@@ -185,6 +182,8 @@ function step2(sale) {
 
         hideLoadingModal();
         showGPModal();
+    } else {
+        console.error('step2 - sale is not an object:', typeof sale);
     }
 }
 
@@ -204,7 +203,7 @@ function step3(sale) {
             '   <div class="w-100">' +
             '       <img src="' + pluginBasePath + 'img/plebeian_market_logo.png">' +
             '   </div>' +
-            '   <p class="fs-4">TxID: <a class="link" target="_blank" href="https://mempool.space/tx/' + sale.txid + '">' + sale.txid + '</a></p>' +
+            '   <p class="fs-4">TxID: <a class="link" target="_blank" href="https://mempool.space/tx/' + sale.txid + '">' + sale.txid + '</a>. Save it as a purchase receipt.</p>' +
             '</div>' +
             '<p class="fs-2">Your purchase will be completed when the payment is confirmed by the network.</p>' +
             '<p class="fs-2">In the mean time, you can follow the transaction on <a class="link" target="_blank" href="https://mempool.space/tx/' + sale.txid + '">mempool.space</a>!</p>';
@@ -221,6 +220,8 @@ function step3(sale) {
 
         hideLoadingModal();
         showGPModal();
+    } else {
+        console.error('step3 - sale is not an object:', typeof sale);
     }
 }
 
@@ -252,6 +253,8 @@ function step4(sale) {
 
         hideLoadingModal();
         showGPModal();
+    } else {
+        console.error('step4 - sale is not an object:', typeof sale);
     }
 }
 
