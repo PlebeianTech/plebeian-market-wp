@@ -52,17 +52,16 @@ function getLoginWidget(callback) {
             console.log('response', response);
 
             let textToShowInWidget = '<p>Scan with <a class="link text-reset" target="_blank" href="https://breez.technology/">Breez</a>, ' +
-            '<a class="link text-reset" target="_blank" href="https://phoenix.acinq.co/">Phoenix</a>, ' +
-            '<a class="link text-reset" target="_blank" href="https://zeusln.app/">Zeus</a>, ' +
-            'or use <a class="link text-reset" target="_blank" href="https://getalby.com/">Alby</a>, ' +
-            '<a class="link text-reset" target="_blank" href="https://thunderhub.io/">Thunderhub</a> ' +
-            'or any <a class="link text-reset" target="_blank" href="https://github.com/fiatjaf/lnurl-rfc#lnurl-documents">' +
-            'LNurl compatible wallet</a> to login into the marketplace.</p>';
+                '<a class="link text-reset" target="_blank" href="https://phoenix.acinq.co/">Phoenix</a>, ' +
+                '<a class="link text-reset" target="_blank" href="https://zeusln.app/">Zeus</a>, ' +
+                'or use <a class="link text-reset" target="_blank" href="https://getalby.com/">Alby</a>, ' +
+                '<a class="link text-reset" target="_blank" href="https://thunderhub.io/">Thunderhub</a> ' +
+                'or any <a class="link text-reset" target="_blank" href="https://github.com/fiatjaf/lnurl-rfc#lnurl-documents">' +
+                'LNurl compatible wallet</a> to login into the marketplace.</p>';
 
             putIntoHtmlElementTextQrLnAddress('#gpModal', textToShowInWidget, response.lnurl, response.qr, 'lightning');
 
-            const myModal = new bootstrap.Modal('#gpModal', { keyboard: true });
-            myModal.show();
+            showGPModal();
 
             checkIfLoginDone(response.k1, callback);
         })
@@ -86,12 +85,14 @@ function checkIfLoginDone(k1, callback) {
             console.log('checkIfLoginDone response:', response);
 
             if (response.success !== true) {
-                loginSetTimeout = setTimeout(function(){
+                loginSetTimeout = setTimeout(function () {
                     checkIfLoginDone(k1, callback);
                 }, 2000);
             } else {
                 let authToken = response.token;
                 if (authToken !== '') {
+                    hideGPModal();
+
                     Cookies.set('plebeianMarketAuthToken', authToken);
                     callback(true);
                 } else {
