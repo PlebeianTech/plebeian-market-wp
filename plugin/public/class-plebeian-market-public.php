@@ -10,7 +10,8 @@
  * @subpackage Plebeian_Market/public
  */
 
-class Plebeian_Market_Public {
+class Plebeian_Market_Public
+{
 
 	/**
 	 * The ID of this plugin.
@@ -37,11 +38,11 @@ class Plebeian_Market_Public {
 	 * @param      string    $plugin_name       The name of the plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct($plugin_name, $version)
+	{
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
 	}
 
 	/**
@@ -49,15 +50,17 @@ class Plebeian_Market_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles()
+	{
 		wp_enqueue_style(
 			$this->plugin_name,
-			plugin_dir_url( __FILE__ ) . 'css/plebeian-market-public.css',
+			plugin_dir_url(__FILE__) . 'css/plebeian-market-public.css',
 			[],
-			$this->version, 'all'
+			$this->version,
+			'all'
 		);
 
-		wp_enqueue_style( 'bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css');
+		wp_enqueue_style('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css');
 	}
 
 	/**
@@ -65,9 +68,11 @@ class Plebeian_Market_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
-		wp_enqueue_script('js.cookie',
-			plugin_dir_url( __FILE__ ) . 'js/js.cookie.min.js',
+	public function enqueue_scripts()
+	{
+		wp_enqueue_script(
+			'js.cookie',
+			plugin_dir_url(__FILE__) . 'js/js.cookie.min.js',
 			['jquery'],
 			$this->version,
 			false
@@ -79,29 +84,33 @@ class Plebeian_Market_Public {
 			['jquery']
 		);
 
-		wp_enqueue_script('plebeian-market-public-auth',
-			plugin_dir_url( __FILE__ ) . 'js/plebeian-market-public-auth.js',
+		wp_enqueue_script(
+			'plebeian-market-public-auth',
+			plugin_dir_url(__FILE__) . 'js/plebeian-market-public-auth.js',
 			['jquery', 'js.cookie', 'bootstrap'],
 			$this->version,
 			false
 		);
 
-		wp_enqueue_script('plebeian-market-public',
-			plugin_dir_url( __FILE__ ) . 'js/plebeian-market-public.js',
+		wp_enqueue_script(
+			'plebeian-market-public',
+			plugin_dir_url(__FILE__) . 'js/plebeian-market-public.js',
 			['jquery', 'plebeian-market-public-auth'],
 			$this->version,
 			false
 		);
 
-		wp_enqueue_script('plebeian-market-public-buynow',
-			plugin_dir_url( __FILE__ ) . 'js/plebeian-market-public-buynow.js',
+		wp_enqueue_script(
+			'plebeian-market-public-buynow',
+			plugin_dir_url(__FILE__) . 'js/plebeian-market-public-buynow.js',
 			['jquery', 'js.cookie', 'bootstrap', 'plebeian-market-public-auth', 'plebeian-market-public'],
 			$this->version,
 			false
 		);
 	}
 
-	public function plebeian_output_custom_css() {
+	public function plebeian_output_custom_css()
+	{
 		// if ($output){
 		//	echo '<style type="text/css">' . $output . '</style>';
 		//}
@@ -111,9 +120,11 @@ class Plebeian_Market_Public {
 	/**
 	 * Central location to create all shortcodes.
 	 */
-	function plebeian_shortcodes_init() {
+	function plebeian_shortcodes_init()
+	{
 
-		function plebeian_show_buynow_listing($atts = []) {
+		function plebeian_show_buynow_listing($atts = [])
+		{
 			$args = shortcode_atts([		// default values
 				'slideshow_delay'   	=> 4000,
 				'slideshow'				=> 'false',
@@ -130,19 +141,19 @@ class Plebeian_Market_Public {
 			if (count($buyNowAllItems) > 0) {
 				$content = '';
 
-				foreach($buyNowAllItems as $buyNowItem) {
+				foreach ($buyNowAllItems as $buyNowItem) {
 					$args['key'] = $buyNowItem->key;
-					$content .= plebeian_show_buynow($args);
+					$content .= plebeian_show_buynow($args, $buyNowItem);
 				}
 
 				return $content;
-
 			} else {
 				return "<div>Currently there are no products to show.</div>";
 			}
 		}
 
-		function plebeian_show_buynow($atts = []) {
+		function plebeian_show_buynow($atts = [], $buyNowItem = null)
+		{
 			$atts = array_change_key_case((array) $atts, CASE_LOWER);		// normalize attribute keys, lowercase
 
 			$args = shortcode_atts([		// default values
@@ -151,11 +162,11 @@ class Plebeian_Market_Public {
 				'size'				=> 30,
 				'show_price_fiat'	=> 'true',
 				'show_price_sats'	=> 'true',
-				'show_shipping_info'=> 'true',
-				'show_quantity_info'=> 'false'
+				'show_shipping_info' => 'true',
+				'show_quantity_info' => 'false'
 			], $atts);
 
-			if ( ! array_key_exists('key', $atts)) {
+			if (!array_key_exists('key', $atts)) {
 				return "<div><b>Plebeian Market plugin</b>: product key not specified</div>";
 			}
 
@@ -163,7 +174,7 @@ class Plebeian_Market_Public {
 			$size = $args['size'];
 			$slideshow_delay = $args['slideshow_delay'];
 
-			if ( ! is_numeric($size)) {
+			if (!is_numeric($size)) {
 				switch ($size) {
 					case 'small':
 						$size = 25;
@@ -180,13 +191,15 @@ class Plebeian_Market_Public {
 				}
 			}
 
-			if ( ! is_numeric($slideshow_delay)) {
+			if (!is_numeric($slideshow_delay)) {
 				$slideshow_delay = 4000;
 			}
 
-			$buyNowItem = Plebeian_Market_Communications::getBuyNow($key);
+			if (!is_object($buyNowItem)) {
+				$buyNowItem = Plebeian_Market_Communications::getBuyNow($key);
+			}
 
-			if ( ! is_object($buyNowItem)) {
+			if (!is_object($buyNowItem)) {
 				return "<div class='pleb_buynow_item_superdiv'><b>Plebeian Market</b>: This product no longer exists</div>";
 			}
 
@@ -216,7 +229,7 @@ class Plebeian_Market_Public {
 					data-disabled-slideshow="' . ($args['slideshow'] === 'false' || count($pictures) == 1 ? '1' : '0') . '">';
 
 				$firstImageInLoop = true;
-				foreach($pictures as $picture) {
+				foreach ($pictures as $picture) {
 					$content .= '<img data-src="' . $picture->url . '" class="' . ($firstImageInLoop ? 'active' : '') . '">';
 
 					if ($firstImageInLoop && $args['slideshow'] === 'false') {
@@ -239,7 +252,7 @@ class Plebeian_Market_Public {
 			if ($args['show_price_fiat'] !== 'false') {
 				$price_fiat_text = '($' . $price_usd . ')';
 			}
-			$content .= $price_sats_text . ' - ' . $price_fiat_text . '<button type="button" class="btn btn-success btn-buynow" data-key="'.$key.'">Buy Now</button> </div>';
+			$content .= $price_sats_text . ' - ' . $price_fiat_text . '<button type="button" class="btn btn-success btn-buynow" data-key="' . $key . '">Buy Now</button> </div>';
 
 			// Shipping
 			if ($args['show_shipping_info'] !== 'false' && $shipping_from != '') {
@@ -256,7 +269,8 @@ class Plebeian_Market_Public {
 			return $content;
 		}
 
-		function plebeian_common_public_code() { ?>
+		function plebeian_common_public_code()
+		{ ?>
 			<script>
 				let pluginBasePath = '<?= plugin_dir_url(__FILE__) ?>';
 
@@ -318,11 +332,12 @@ class Plebeian_Market_Public {
 				</div>
 			</div>
 
-			<?php
+<?php
 		}
 		add_action('wp_footer', 'plebeian_common_public_code');
 
-		function plebeian_show_auctions_listing($atts = [], $content = null) {
+		function plebeian_show_auctions_listing($atts = [], $content = null)
+		{
 			$filter_text = "";
 
 			$atts = array_change_key_case((array) $atts, CASE_LOWER);		// normalize attribute keys, lowercase
@@ -333,20 +348,20 @@ class Plebeian_Market_Public {
 
 			$auctions_body_array = Plebeian_Market_Communications::getFeatured('auctions');
 
-			$content = 
-			'<div class="pleb_listing_superdiv">
+			$content =
+				'<div class="pleb_listing_superdiv">
 				<p>Current auctions:</p>
 				<div class="pleb_listing_auctions">';
 
 			if (count($auctions_body_array) > 0) {
-				foreach($auctions_body_array as $auction) {
+				foreach ($auctions_body_array as $auction) {
 					$auction_title = $auction->title;
 					// $auction_bids = $auction->bids;
 					$auction_media = $auction->media;
 					$auction_first_image = $auction_media[0]->url;
 
 					$content .=
-					'<div class="pleb_listing_auction">
+						'<div class="pleb_listing_auction">
 						<div class="pleb_listing_auction_title">
 							' . $auction_title . '
 						</div>
@@ -361,7 +376,7 @@ class Plebeian_Market_Public {
 				}
 			} else {
 				$content .=
-				'<p>--- There are no auctions right now ---</p>
+					'<p>--- There are no auctions right now ---</p>
 
 				<div class="pleb_listing_auction">
 					<div class="pleb_listing_auction_title">
@@ -377,7 +392,7 @@ class Plebeian_Market_Public {
 				</div>';
 			}
 
-				$content .= '
+			$content .= '
 
 
 
