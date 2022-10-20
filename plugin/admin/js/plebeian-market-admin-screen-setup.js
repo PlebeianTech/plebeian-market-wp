@@ -199,7 +199,7 @@ $(document).ready(function () {
                     plebeian_market_url_connect: pmUrlConnect
                 },
                 success: function (response) {
-                    console.log('Optiones saved successfully!');
+                    console.log('Options saved successfully!');
 
                     //$("#saveUserOptions").prop("disabled", false);
                     //showSavedForAMoment(placeToFlashIfSuccessful, 2500);

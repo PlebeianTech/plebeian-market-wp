@@ -123,6 +123,7 @@ class Plebeian_Market
 		 */
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-plebeian-market-admin.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-plebeian-market-admin-ajax-api.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-plebeian-market-admin-utils.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-plebeian-market-admin-screen-information.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-plebeian-market-admin-screen-buynow.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-plebeian-market-admin-screen-auctions.php';
