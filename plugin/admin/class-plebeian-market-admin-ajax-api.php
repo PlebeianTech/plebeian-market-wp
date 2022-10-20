@@ -12,16 +12,15 @@
 
 class Plebeian_Market_Admin_Ajax_Api
 {
-
 	function ajax_load_options()
 	{
-		$optionsLoaded = [];
-
-		foreach (PM_OPTIONS as $option) {
-			$optionsLoaded[$option] = get_option($option);
+		if (isset($_POST['filter'])) {
+			$filter = $_POST['filter'];
+		} else {
+			$filter = null;
 		}
 
-		wp_send_json_success($optionsLoaded);
+		wp_send_json_success(Plebeian_Market_Admin_Utils::load_options($filter));
 	}
 
 	function ajax_save_options()
@@ -29,7 +28,7 @@ class Plebeian_Market_Admin_Ajax_Api
 		check_ajax_referer('save_options_nonce');
 
 		foreach (PM_OPTIONS as $option) {
-			if (in_array($option, $_POST)) {
+			if (isset($_POST[$option])) {
 				update_option($option, $_POST[$option]);
 			}
 		}
