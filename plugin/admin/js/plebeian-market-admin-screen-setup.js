@@ -119,7 +119,6 @@ $(document).ready(function () {
 
         let xpubNewValue = $('#xpubKey').val();
         let pmAuthKey = $('#pmAuthKey').val();
-        let sellerEmail = $('#sellerEmail').val();
         let pmURL = $('#pmURL').val();
         let contribution_percent_text = $('#contribution_percent_text').val();
 
@@ -261,7 +260,7 @@ $(document).ready(function () {
                             if (xpub) {
                                 $('#xpubKey').val(xpub);
                             }
-                            sellerEmail
+
                             if (contribution_percent) {
                                 $('#contribution_percent').val(contribution_percent);
                                 contributionUpdated();
