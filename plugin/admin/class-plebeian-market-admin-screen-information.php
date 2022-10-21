@@ -66,7 +66,7 @@ class Plebeian_Market_Admin_Screen_Information
 			See advanced options
 		</a>
 		<div class="collapse" id="buyNowSpecificWidgetAdvanced">
-			<div class="card card-body">
+			<div class="card card-body card-75">
 				<p>
 					You can also pass parameters to configure how your widget will look like:
 				<ul>
@@ -78,10 +78,10 @@ class Plebeian_Market_Admin_Screen_Information
 					<code>[plebeian_show_buynow key="EZ" size="70"]</code>
 				</ul>
 				<ul>
-					<b>slideshow</b> - If you pass this parameter with the <code>false</code> value, there will not be a picture
+					<b>slideshow_enabled</b> - If you pass this parameter with the <code>false</code> value, there will not be a picture
 					slideshow and just the first image of the product will be shown.
 					<br>
-					<code>[plebeian_show_buynow key="EZ" size="small" slideshow="false"]</code>
+					<code>[plebeian_show_buynow key="EZ" size="small" slideshow_enabled="false"]</code>
 				</ul>
 				<ul>
 					<b>slideshow_delay</b> - You can pass this parameter to set the time to wait between slideshow transitions
@@ -127,11 +127,11 @@ class Plebeian_Market_Admin_Screen_Information
 			See advanced options
 		</a>
 		<div class="collapse" id="buyNowListingWidgetAdvanced">
-			<div class="card card-body">
+			<div class="card card-body card-75">
 				<p>
 					You can use that shortcode directly to use the default parameters, which are:
 				<ul><b>size</b> - 15</ul>
-				<ul><b>slideshow</b> - false</ul>
+				<ul><b>slideshow_enabled</b> - false</ul>
 				<ul><b>slideshow_delay</b> - 4000</ul>
 				<ul><b>show_price_fiat</b> - true</ul>
 				<ul><b>show_price_sats</b> - true</ul>
@@ -141,7 +141,7 @@ class Plebeian_Market_Admin_Screen_Information
 				But you can also pass all the parameters available to be used for single products in the shortcode to change the default behavior.
 				The specified parameters will be used for all the products in the listing. So for example:
 				<br>
-				<code>[plebeian_show_buynow_listing slideshow="true" slideshow_delay="7000" size="10" show_price_fiat="false" show_shipping_info="false"]</code>
+				<code>[plebeian_show_buynow_listing slideshow_enabled="true" slideshow_delay="7000" size="10" show_price_fiat="false" show_shipping_info="false"]</code>
 				<br>
 				<p>This will show all the <i>Buy Now</i> products in the store, enable the picture slideshow, set the picture change delay to 7 seconds,
 					show the pictures at 10% the size of the screen, and hide the fiat price and the shipping info.</p>

@@ -27,8 +27,11 @@ define('PM_API_LIST_BUYNOW_URL', '/users/me/listings');
 define('PM_API_GET_BUYNOW_URL', '/listings/{KEY}');
 define('PM_API_GET_BUYNOW_METHOD', 'GET');
 
-define('PM_API_NEW_BUYNOW_URL', '/listings');
+define('PM_API_NEW_BUYNOW_URL', '/users/me/listings');
 define('PM_API_NEW_BUYNOW_METHOD', 'POST');
+
+define('PM_API_START_BUYNOW_URL', '/listings/{KEY}/start');
+define('PM_API_START_BUYNOW_METHOD', 'PUT');
 
 define('PM_API_EDIT_BUYNOW_URL', '/listings/{KEY}');
 define('PM_API_EDIT_BUYNOW_METHOD', 'PUT');
@@ -53,5 +56,17 @@ define('KRAKEN_BTCUSD_API_CACHETIME', 60);
 
 define('PM_OPTIONS', [
     'plebeian_market_auth_key',
-    'plebeian_market_url_connect'
+    'plebeian_market_url_connect',
+
+    'plebeian_market_widget_size',
+    'plebeian_market_widget_slideshow_enabled',
+    'plebeian_market_widget_slideshow_delay',
+
+    'plebeian_market_widget_show_price_fiat',
+    'plebeian_market_widget_show_price_sats',
+    'plebeian_market_widget_show_shipping_info',
+    'plebeian_market_widget_show_quantity_info',
+
+    'plebeian_market_cutomization_css',
+    'plebeian_market_cutomization_js',
 ]);

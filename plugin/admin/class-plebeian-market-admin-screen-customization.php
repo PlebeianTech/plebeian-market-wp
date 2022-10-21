@@ -10,24 +10,153 @@
  * @subpackage Plebeian_Market/admin
  */
 
-class Plebeian_Market_Admin_Screen_Customization {
+class Plebeian_Market_Admin_Screen_Customization
+{
 
-	static function plebeian_admin_customization_page_html() {
-		?>
+	static function plebeian_admin_customization_page_html()
+	{
+		if (!current_user_can('manage_options')) {
+			return;
+		}
+
+		wp_enqueue_script('plebeian-market-admin-screen-customization', plugin_dir_url(__FILE__) . 'js/plebeian-market-admin-screen-customization.js', ['jquery'], PLEBEIAN_MARKET_VERSION, false);
+?>
 		<div class="wrap">
-			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-			<p>You can customize the appearance and functionality of the widgets provided by this plugin by adding your custom CSS or JS snippets:</p>
+			<h1><?php echo esc_html(get_admin_page_title()); ?></h1>
+			<p>
+				You can customize the default appearance and functionality of the widgets provided
+				by this plugin by setting up this options or adding your custom CSS or JS snippets.
+
+			</p>
+			<p>
+				If required, you'll be able to override this settings for a specific widget passing
+				parameters to the shortcode:
+			</p>
 		</div>
 
-		<h2>CSS</h2>
-		<p>Enter your custom CSS here:</p>
-		<textarea id="css" name="css" rows="15" cols="70"></textarea>
+		<script>
+			let wp_api_ajax_params = {
+				ajax_url: '<?= admin_url('admin-ajax.php') ?>',
+				nonce: '<?= wp_create_nonce('save_options_nonce') ?>'
+			};
+		</script>
 
-		<h2>Javascript</h2>
-		<p>Enter your custom JS here:</p>
-		<textarea id="js" name="js" rows="15" cols="70"></textarea>
+		<h2>Widget customization</h2>
 
-		<?php
-		submit_button( 'Save Settings' );
+		<form class="row g-3 col-md-6 needs-validation" id="customizationForm" novalidate>
+
+			<div class="mb-3">
+				<label for="plebeian_market_widget_size" class="form-label">Widget size</label>
+				<div class="col-md-2 mb-0">
+					<input type="text" id="plebeian_market_widget_size" class="form-control" aria-describedby="plebeian_market_widget_sizeHelpBlock">
+					<div class="invalid-feedback">
+						Please enter a valid size for the widgets.
+					</div>
+				</div>
+				<div id="plebeian_market_widget_sizeHelpBlock" class="form-text col-md-9">
+					This is the size of the widget for each item. You can put <code>small</code>,
+					<code>medium</code>, <code>big</code>, <code>huge</code> or directly putting
+					the <code>%</code> of the page that you want the widget to occupy. If no size
+					specified, <code>30</code>% will be used by default.
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<label for="plebeian_market_widget_slideshow_enabled" class="form-label">Slideshow</label>
+				<div class="col-md-2 mb-0">
+					<select id="plebeian_market_widget_slideshow_enabled" class="form-control" aria-describedby="plebeian_market_widget_slideshow_enabledHelpBlock">
+						<option value="true">Enabled</option>
+						<option value="false">Disabled</option>
+					</select>
+				</div>
+				<div id="plebeian_market_widget_slideshow_enabledHelpBlock" class="form-text col-md-9">
+					Choose if you want to have a slideshow with all the pictures of each product,
+					or just show the first image.
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<label for="plebeian_market_widget_slideshow_delay" class="form-label">Slideshow delay</label>
+				<div class="col-md-2 mb-0">
+					<input type="text" id="plebeian_market_widget_slideshow_delay" class="form-control" aria-describedby="plebeian_market_widget_slideshow_delayHelpBlock">
+				</div>
+				<div id="plebeian_market_widget_slideshow_delayHelpBlock" class="form-text col-md-9">
+					You can set the time to wait between slideshow transitions (from one image to the next one)
+					in milliseconds. Default value is 4000 (4 seconds).
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<label for="plebeian_market_widget_show_price_fiat" class="form-label">Show price of the products in fiat</label>
+				<div class="col-md-2 mb-0">
+					<select id="plebeian_market_widget_show_price_fiat" class="form-control" aria-describedby="plebeian_market_widget_show_price_fiatHelpBlock">
+						<option value="true">Enabled</option>
+						<option value="false">Disabled</option>
+					</select>
+				</div>
+				<div id="plebeian_market_widget_show_price_fiatHelpBlock" class="form-text col-md-9">
+					Choose if you want to show the price of the products in fiat money.
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<label for="plebeian_market_widget_show_price_sats" class="form-label">Show price of the products in Bitcoin (satoshis)</label>
+				<div class="col-md-2 mb-0">
+					<select id="plebeian_market_widget_show_price_sats" class="form-control" aria-describedby="plebeian_market_widget_show_price_satsHelpBlock">
+						<option value="true">Enabled</option>
+						<option value="false">Disabled</option>
+					</select>
+				</div>
+				<div id="plebeian_market_widget_show_price_satsHelpBlock" class="form-text col-md-9">
+					Choose if you want to show the price of the products in Bitcoin.
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<label for="plebeian_market_widget_show_shipping_info" class="form-label">Show shipping information</label>
+				<div class="col-md-2 mb-0">
+					<select id="plebeian_market_widget_show_shipping_info" class="form-control" aria-describedby="plebeian_market_widget_show_shipping_infoHelpBlock">
+						<option value="true">Enabled</option>
+						<option value="false">Disabled</option>
+					</select>
+				</div>
+				<div id="plebeian_market_widget_show_shipping_infoHelpBlock" class="form-text col-md-9">
+					Choose if you want to the show the shipping information in the widget.
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<label for="plebeian_market_widget_show_quantity_info" class="form-label">Show quantity info</label>
+				<div class="col-md-2 mb-0">
+					<select id="plebeian_market_widget_show_quantity_info" class="form-control" aria-describedby="plebeian_market_widget_show_quantity_infoHelpBlock">
+						<option value="true">Enabled</option>
+						<option value="false">Disabled</option>
+					</select>
+				</div>
+				<div id="plebeian_market_widget_show_quantity_infoHelpBlock" class="form-text col-md-9">
+					Choose if you want to the show the information about the quantity of products that you're selling in the widget.
+				</div>
+			</div>
+
+			<a data-bs-toggle="collapse" href="#customizationAdvanced" role="button" aria-expanded="false" aria-controls="customizationAdvanced">
+				See advanced options
+			</a>
+			<div class="collapse" id="customizationAdvanced">
+				<h2>Advanced</h2>
+				<h4>CSS</h4>
+				<p>Enter your custom CSS here:</p>
+				<textarea id="plebeian_market_cutomization_css" name="plebeian_market_cutomization_css" rows="15" cols="60"></textarea>
+
+				<h4>Javascript</h4>
+				<p>Enter your custom JS here:</p>
+				<textarea id="plebeian_market_cutomization_js" name="plebeian_market_cutomization_js" rows="15" cols="60"></textarea>
+			</div>
+
+			<div class="col-12">
+				<button class="btn btn-success" type="submit" id="saveUserOptions">Save changes</button>
+			</div>
+
+		</form>
+<?php
 	}
 }

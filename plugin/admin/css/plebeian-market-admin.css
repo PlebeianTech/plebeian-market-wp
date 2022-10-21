@@ -117,3 +117,7 @@ h3 {
     z-index: 1000;
     cursor: pointer;
 }
+
+.card-75 {
+    max-width: 75% !important;
+}

@@ -156,15 +156,20 @@ class Plebeian_Market_Public
 		{
 			$atts = array_change_key_case((array) $atts, CASE_LOWER);		// normalize attribute keys, lowercase
 
-			$args = shortcode_atts([		// default values
-				'slideshow_delay'   => 4000,
-				'slideshow'			=> 'true',
+			$default_values = [
 				'size'				=> 30,
+				'slideshow_enabled'	=> 'true',
+				'slideshow_delay'   => 4000,
 				'show_price_fiat'	=> 'true',
 				'show_price_sats'	=> 'true',
 				'show_shipping_info' => 'true',
 				'show_quantity_info' => 'false'
-			], $atts);
+			];
+
+			$widget_options = Plebeian_Market_Admin_Utils::load_options('plebeian_market_widget_', true);
+
+			$args = shortcode_atts($default_values, $widget_options);	// Options for the Customization screen + default values
+			$args = shortcode_atts($args, $atts);	// What's passet to shortcode as parameters + result from previous line
 
 			if (!array_key_exists('key', $atts)) {
 				return "<div><b>Plebeian Market plugin</b>: product key not specified</div>";
@@ -226,13 +231,13 @@ class Plebeian_Market_Public
 				$content .= '<div
 					class="pleb_buynow_item_slideshow"
 					data-slideshow-transitions="' . $slideshow_delay . '"
-					data-disabled-slideshow="' . ($args['slideshow'] === 'false' || count($pictures) == 1 ? '1' : '0') . '">';
+					data-disabled-slideshow="' . ($args['slideshow_enabled'] === 'false' || count($pictures) == 1 ? '1' : '0') . '">';
 
 				$firstImageInLoop = true;
 				foreach ($pictures as $picture) {
 					$content .= '<img data-src="' . $picture->url . '" class="' . ($firstImageInLoop ? 'active' : '') . '">';
 
-					if ($firstImageInLoop && $args['slideshow'] === 'false') {
+					if ($firstImageInLoop && $args['slideshow_enabled'] === 'false') {
 						break;
 					}
 
