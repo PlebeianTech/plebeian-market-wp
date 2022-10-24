@@ -19,7 +19,7 @@ function getFormData($form){
  * @param {string} title    - Optional - The title of the notification. If not provided, will print "Plebeian Market"
  */
  function showNotification(text, whenText, title) {
-    let notification = new bootstrap.Toast(document.getElementById('liveToast'));
+    let notification = bootstrap.Toast.getOrCreateInstance(document.getElementById('liveToast'));
 
     $('#liveToastBody').html(text);
 
