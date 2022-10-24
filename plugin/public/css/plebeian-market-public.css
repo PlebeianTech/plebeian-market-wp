@@ -40,9 +40,9 @@
 }
 
 .pleb_buynow_item_title {
-    padding: 4px;
+    padding: 0.6em;
     text-align: center;
-    font-size: 20px;
+    font-size: 25px;
 }
 
 .pleb_buynow_item_slideshow {
@@ -54,8 +54,8 @@
     position: absolute;
     z-index: 8;
     opacity: 0.0;
-    width: 94%;
-    margin-left: 3%;
+    width: 90%;
+    margin-left: 5%;
     height: auto;
 }
 
@@ -73,42 +73,31 @@
 }
 
 .pleb_buynow_item_description {
-    font-size: 15px;
-    padding: 10px;
-    padding-top: 15px;
+    font-size: 20px;
+    padding: 15px;
 }
 
 .pleb_buynow_item_price {
-    font-size: 16px;
+    font-size: 19px;
     text-align: center;
-
-    border: 1.5px solid #cecece;
-    border-bottom: 0;
-    border-left: 0;
-    border-right: 0;
+    padding: 0.4em;
 }
 
 .pleb_buynow_item_shipping {
-    font-size: 14px;
+    font-size: 19px;
     text-align: center;
-    border: 1.5px solid #cecece;
-    border-bottom: 0;
-    border-left: 0;
-    border-right: 0;
+    padding: 0.4em;
 }
 
 .pleb_buynow_item_quantity {
-    font-size: 14px;
+    font-size: 18px;
     text-align: center;
-    border: 1.5px solid #cecece;
-    border-bottom: 0;
-    border-left: 0;
-    border-right: 0;
+    padding: 0.4em;
 }
 
 .btn-buynow {
-    margin-left: 8px;
-    margin-right: 3px;
+    margin-left: 2em;
+    margin-right: 1em;
 }
 
 /* Login */
