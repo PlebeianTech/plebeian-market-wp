@@ -51,6 +51,24 @@ class Plebeian_Market_Admin_Ajax_Api
 		]);
 	}
 
+	function ajax_get_buynow_preview_html()
+	{
+		$parameters = $_POST['parameters'];
+
+		foreach ($parameters as $key => $value) {
+			if (substr($key, 0, strlen(FORM_FIELDS_PREFIX)) === FORM_FIELDS_PREFIX) {
+				$key_without_prefix = substr($key, strlen(FORM_FIELDS_PREFIX));
+				$parameters[$key_without_prefix] = $value;
+			}
+		}
+
+		$html = Plebeian_Market_Render::plebeian_buynow_render_html($parameters, (object)DEMO_BUYNOW_PRODUCT);
+
+		wp_send_json_success([
+			'html' => $html
+		]);
+	}
+
 	function ajax_get_buynow_info()
 	{
 		$key = $_POST['plebeian_buynow_item_key'];
