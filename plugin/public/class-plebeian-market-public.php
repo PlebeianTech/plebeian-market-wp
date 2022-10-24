@@ -118,7 +118,7 @@ class Plebeian_Market_Public
 	}
 
 	/**
-	 * Central location to create all shortcodes.
+	 * Central location to create all Public shortcodes.
 	 */
 	function plebeian_shortcodes_init()
 	{

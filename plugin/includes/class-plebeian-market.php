@@ -130,6 +130,8 @@ class Plebeian_Market
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-plebeian-market-admin-screen-customization.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-plebeian-market-admin-screen-setup.php';
 
+		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-plebeian-market-admin-common.php';
+
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing

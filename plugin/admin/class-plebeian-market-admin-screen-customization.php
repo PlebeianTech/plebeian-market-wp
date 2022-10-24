@@ -42,6 +42,7 @@ class Plebeian_Market_Admin_Screen_Customization
 		</script>
 
 		<h2>Widget customization</h2>
+		<?php Plebeian_Market_Admin_Common::plebeian_common_admin_code() ?>
 
 		<form class="row g-3 col-md-6 needs-validation" id="customizationForm" novalidate>
 

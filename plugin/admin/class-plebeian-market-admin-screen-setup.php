@@ -109,21 +109,7 @@ class Plebeian_Market_Admin_Screen_Setup
 
 		</div>
 
-
-		<!-- Modal -->
-		<div id="alertModal" class="modal fade" role="dialog">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-body">
-						<p id="alertModalText"></p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
+		<?php Plebeian_Market_Admin_Common::plebeian_common_admin_code() ?>
 <?php
 	}
 }
