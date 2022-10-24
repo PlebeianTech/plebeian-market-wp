@@ -107,9 +107,6 @@ function step0() {
             console.log('step0 error: ', e);
             let errorMessage = e.responseJSON.message;
 
-            let buyNowWidget = 'step0 error: ' + errorMessage;
-            content.html(buyNowWidget);
-
             if (errorMessage === 'Invalid token.') {
                 Cookies.remove('plebeianMarketAuthToken');
             }
@@ -235,8 +232,10 @@ function step4(sale) {
         console.log("Running step 4 (" + buynow_product_buying_key + ")! - We have a sale:", sale);
         buynow_product_buying_currentStep = 4;
 
-        // let sellerEmail = sale.seller.seller_email;
-        let sellerEmail = 'aaa@bbb.com';
+        let sellerEmail = sale.seller.seller_email;
+        console.log('---------- EMAIL: ', sellerEmail);
+        sellerEmail = 'aaa@bbb.com';
+
 
         let textToShowInWidget =
             '<p class="text-center fs-2">Payment confirmed!</p>' +
