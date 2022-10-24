@@ -53,14 +53,14 @@ class Plebeian_Market_Public
 	public function enqueue_styles()
 	{
 		wp_enqueue_style(
-			$this->plugin_name,
+			'plebeian-market-public-css',
 			plugin_dir_url(__FILE__) . 'css/plebeian-market-public.css',
 			[],
 			$this->version,
 			'all'
 		);
 
-		wp_enqueue_style('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css');
+		wp_enqueue_style('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css');
 	}
 
 	/**
@@ -79,23 +79,31 @@ class Plebeian_Market_Public
 		);
 
 		wp_enqueue_script(
-			'bootstrap',
+			'bootstrap-js',
 			'https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js',
 			['jquery']
 		);
 
 		wp_enqueue_script(
-			'plebeian-market-public-auth',
+			'plebeian-market-public-auth-js',
 			plugin_dir_url(__FILE__) . 'js/plebeian-market-public-auth.js',
-			['jquery', 'js.cookie', 'bootstrap'],
+			['jquery', 'js.cookie', 'bootstrap-js'],
 			$this->version,
 			false
 		);
 
 		wp_enqueue_script(
-			'plebeian-market-public',
+			'plebeian-market-public-slideshow-js',
+			plugin_dir_url(__FILE__) . 'js/plebeian-market-public-slideshow.js',
+			['jquery'],
+			$this->version,
+			false
+		);
+
+		wp_enqueue_script(
+			'plebeian-market-public-js',
 			plugin_dir_url(__FILE__) . 'js/plebeian-market-public.js',
-			['jquery', 'plebeian-market-public-auth'],
+			['jquery', 'plebeian-market-public-auth-js', 'plebeian-market-public-slideshow-js'],
 			$this->version,
 			false
 		);
@@ -103,7 +111,7 @@ class Plebeian_Market_Public
 		wp_enqueue_script(
 			'plebeian-market-public-buynow',
 			plugin_dir_url(__FILE__) . 'js/plebeian-market-public-buynow.js',
-			['jquery', 'js.cookie', 'bootstrap', 'plebeian-market-public-auth', 'plebeian-market-public'],
+			['jquery', 'js.cookie', 'bootstrap-js', 'plebeian-market-public-auth-js', 'plebeian-market-public-js'],
 			$this->version,
 			false
 		);
@@ -155,123 +163,7 @@ class Plebeian_Market_Public
 		function plebeian_show_buynow($atts = [], $buyNowItem = null)
 		{
 			$atts = array_change_key_case((array) $atts, CASE_LOWER);		// normalize attribute keys, lowercase
-
-			$default_values = [
-				'size'				=> 30,
-				'slideshow_enabled'	=> 'true',
-				'slideshow_delay'   => 4000,
-				'show_price_fiat'	=> 'true',
-				'show_price_sats'	=> 'true',
-				'show_shipping_info' => 'true',
-				'show_quantity_info' => 'false'
-			];
-
-			$widget_options = Plebeian_Market_Admin_Utils::load_options('plebeian_market_widget_', true);
-
-			$args = shortcode_atts($default_values, $widget_options);	// Options for the Customization screen + default values
-			$args = shortcode_atts($args, $atts);	// What's passet to shortcode as parameters + result from previous line
-
-			if (!array_key_exists('key', $atts)) {
-				return "<div><b>Plebeian Market plugin</b>: product key not specified</div>";
-			}
-
-			$key = $atts['key'];
-			$size = $args['size'];
-			$slideshow_delay = $args['slideshow_delay'];
-
-			if (!is_numeric($size)) {
-				switch ($size) {
-					case 'small':
-						$size = 25;
-						break;
-					case 'medium':
-						$size = 50;
-						break;
-					case 'big':
-						$size = 75;
-						break;
-					case 'huge':
-						$size = 100;
-						break;
-				}
-			}
-
-			if (!is_numeric($slideshow_delay)) {
-				$slideshow_delay = 4000;
-			}
-
-			if (!is_object($buyNowItem)) {
-				$buyNowItem = Plebeian_Market_Communications::getBuyNow($key);
-			}
-
-			if (!is_object($buyNowItem)) {
-				return "<div class='pleb_buynow_item_superdiv'><b>Plebeian Market</b>: This product no longer exists</div>";
-			}
-
-			$title = $buyNowItem->title;
-			$description = $buyNowItem->description;
-			$price_usd = $buyNowItem->price_usd;
-			$price_sats = '~' . Plebeian_Market_Communications::fiatToSats($price_usd);
-			$available_quantity = $buyNowItem->available_quantity;
-			$shipping_from = $buyNowItem->shipping_from;
-			$pictures = $buyNowItem->media;
-
-			$content = '
-			<div
-					class="pleb_buynow_item_superdiv"
-					style="
-						max-width: ' . ($size ? $size : '') . '%;
-						display: ' . ($atts['called_from_listing'] === "true" ? 'inline-flex' : 'flex') . '"
-				>
-
-				<div class="pleb_buynow_item_title">' . $title . '</div>';
-
-			// Slideshow / Pictures
-			if (count($pictures) > 0) {
-				$content .= '<div
-					class="pleb_buynow_item_slideshow"
-					data-slideshow-transitions="' . $slideshow_delay . '"
-					data-disabled-slideshow="' . ($args['slideshow_enabled'] === 'false' || count($pictures) == 1 ? '1' : '0') . '">';
-
-				$firstImageInLoop = true;
-				foreach ($pictures as $picture) {
-					$content .= '<img data-src="' . $picture->url . '" class="' . ($firstImageInLoop ? 'active' : '') . '">';
-
-					if ($firstImageInLoop && $args['slideshow_enabled'] === 'false') {
-						break;
-					}
-
-					$firstImageInLoop = false;
-				}
-
-				$content .= '</div>';
-			}
-
-			$content .= '<div class="pleb_buynow_item_description">' . $description . '</div>';
-
-			// Price
-			$content .= '<div class="pleb_buynow_item_price">';
-			if ($args['show_price_sats'] !== 'false') {
-				$price_sats_text = $price_sats . ' sats';
-			}
-			if ($args['show_price_fiat'] !== 'false') {
-				$price_fiat_text = '($' . $price_usd . ')';
-			}
-			$content .= $price_sats_text . ' - ' . $price_fiat_text . '<button type="button" class="btn btn-success btn-buynow" data-key="' . $key . '">Buy Now</button> </div>';
-
-			// Shipping
-			if ($args['show_shipping_info'] !== 'false' && $shipping_from != '') {
-				$content .= '<div class="pleb_buynow_item_shipping">Shipping from ' . $shipping_from . '</div>';
-			}
-
-			// Quantity
-			if ($args['show_quantity_info'] === 'true') {
-				$content .= '<div class="pleb_buynow_item_quantity">' . $available_quantity . ' available</div>';
-			}
-
-			$content .= '</div>';
-
-			return $content;
+			return Plebeian_Market_Render::plebeian_buynow_render_html($atts, $buyNowItem);
 		}
 
 		function plebeian_common_public_code()
