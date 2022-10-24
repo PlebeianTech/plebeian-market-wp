@@ -121,7 +121,7 @@ function rebindIconClicks() {
             type: 'POST',
             data: {
                 _ajax_nonce: requests.wordpress_pm_api.nonce,
-                action: "plebeian-ajax_get_item_info",
+                action: "plebeian-ajax_get_buynow_info",
                 plebeian_buynow_item_key: clickedElementKey
             },
             success: function (response) {
@@ -388,9 +388,6 @@ $(document).ready(function () {
                 contentType: 'application/json;charset=UTF-8',
                 type: modifying ? requests.pm_api.edit.method : requests.pm_api.new.method,
                 headers: { "X-Access-Token": requests.pm_api.XAccessToken },
-                success: function (response) {
-
-                }
             })
                 .done(function (response) {
                     console.log('response', response);
@@ -405,6 +402,26 @@ $(document).ready(function () {
                         let newItemKey = response.listing.key;
                         saveImagesToProduct(newItemKey);
                         showNotification('<p><b>Item created successfully!!</b></p>');
+
+                        // START
+                        let startUrl = requests.pm_api.start.url.replace('{KEY}', newItemKey);;
+                        console.log('startUrl', startUrl);
+                        $.ajax({
+                            url: startUrl,
+                            cache: false,
+                            dataType: 'JSON',
+                            contentType: 'application/json;charset=UTF-8',
+                            type: requests.pm_api.start.method,
+                            headers: { "X-Access-Token": requests.pm_api.XAccessToken },
+                        })
+                            .done(function (response) {
+                                console.log('Start OK. Response: ', response);
+                            })
+                            .fail(function (e) {
+                                console.log('Error: ', e);
+                            })
+                            .always(function () {
+                            });
                     }
 
                     buyNowDatatable.ajax.reload();
@@ -416,7 +433,7 @@ $(document).ready(function () {
                 })
                 .always(function () {
                     BtnReset($saveButton);
-                });;
+                });
         }
     });
 

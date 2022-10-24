@@ -51,7 +51,7 @@ class Plebeian_Market_Admin_Ajax_Api
 		]);
 	}
 
-	function ajax_get_item_info()
+	function ajax_get_buynow_info()
 	{
 		$key = $_POST['plebeian_buynow_item_key'];
 

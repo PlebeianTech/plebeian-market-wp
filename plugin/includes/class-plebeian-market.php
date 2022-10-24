@@ -191,7 +191,7 @@ class Plebeian_Market
 		$this->loader->add_action('wp_ajax_plebeian-load-options', $plugin_ajax, 'ajax_load_options');
 		$this->loader->add_action('wp_ajax_plebeian-save-options', $plugin_ajax, 'ajax_save_options');
 		$this->loader->add_action('wp_ajax_plebeian-get-price-btc', $plugin_ajax, 'ajax_get_price_in_btc');
-		$this->loader->add_action('wp_ajax_plebeian-ajax_get_item_info', $plugin_ajax, 'ajax_get_item_info');
+		$this->loader->add_action('wp_ajax_plebeian-ajax_get_buynow_info', $plugin_ajax, 'ajax_get_buynow_info');
 		$this->loader->add_action('wp_ajax_plebeian-ajax_save_image_into_item', $plugin_ajax, 'ajax_save_image_into_item');
 	}
 
