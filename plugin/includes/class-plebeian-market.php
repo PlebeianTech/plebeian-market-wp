@@ -188,6 +188,8 @@ class Plebeian_Market
 			$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'add_media_script');
 		}
 
+		$this->loader->add_filter('plugin_action_links', $plugin_admin, 'add_plugin_link', 10, 2);
+
 		// Plebeian Market internal Ajax calls
 		$plugin_ajax = new Plebeian_Market_Admin_Ajax_Api();
 		$this->loader->add_action('wp_ajax_plebeian-load-options', $plugin_ajax, 'ajax_load_options');
