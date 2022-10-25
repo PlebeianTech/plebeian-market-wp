@@ -52,7 +52,7 @@ class Plebeian_Market_Admin_Screen_Setup
 					</div>
 					<div id="xpubKeyHelpBlock" class="form-text">
 						Your XPUB key is used to generate a new address so each customer pays to a different
-						address of you. Most Bitcoin wallets lets you export your XPUB key. See more here.
+						address for you. Most Bitcoin wallets lets you export your XPUB key. See more here.
 					</div>
 				</div>
 
@@ -90,13 +90,12 @@ class Plebeian_Market_Admin_Screen_Setup
 				</div>
 
 				<div class="mb-3">
-					<label for="pmURL" class="form-label">Plebeian Market URL:</label><span class="badge text-bg-success" style="margin-left: 10px;">Optional</span>
+					<label for="pmURL" class="form-label">Plebeian Market API URL:</label><span class="badge text-bg-success" style="margin-left: 10px;">Optional</span>
 					<input type="text" id="pmURL" class="form-control" aria-describedby="pmURLHelpBlock" placeholder="<?= Plebeian_Market_Communications::getAPIUrl() ?>">
 					<div id="pmURLHelpBlock" class="form-text">
 						By default, this points to the centralized version of Plebeian Market, but if you want
-						to be self-sovereign, you can run an instance in your own node (see here first). When
-						you have your node ready, you can add here the URL provided in the admin panel of your
-						Plebeian Market instance. This can be a clearnet or Tor (onion) address.
+						to be self-sovereign, soon you'll be able to run your own Plebeian Market in your Bitcoin
+						node. When the time comes, you will be able to indicate here the URL of your marketplace.
 					</div>
 				</div>
 
