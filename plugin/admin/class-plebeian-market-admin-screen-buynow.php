@@ -115,7 +115,7 @@ class Plebeian_Market_Admin_Screen_Buynow
 							<!-- Shipping -->
 							<div class="mb-3">
 								<label for="shipping_from" class="col-form-label">Shipping from:</label>
-								<input type="text" class="form-control" id="shFipping_from" name="shipping_from" placeholder="country or city">
+								<input type="text" class="form-control" id="shipping_from" name="shipping_from" placeholder="country or city">
 							</div>
 							<div class="col-md-6">
 								<label for="shipping_domestic_usd" class="col-form-label">Domestic shipping ($):</label>
