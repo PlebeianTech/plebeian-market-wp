@@ -271,6 +271,7 @@ $(document).ready(function () {
                 data: 'start_date'
             },
             {
+                className: "dt-center",
                 render: function (data, type, row) {
                     let key = row.key;
                     let title = row.title;
@@ -300,7 +301,7 @@ $(document).ready(function () {
             },
             {
                 targets: 7,
-                width: '7%'
+                width: '10%'
             },
         ],
         fixedColumns: true
