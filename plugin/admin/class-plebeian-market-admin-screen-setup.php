@@ -45,14 +45,15 @@ class Plebeian_Market_Admin_Screen_Setup
 				<h2>Plebeian Market WordPress plugin setup <span class="badge text-bg-success savedBadge" id="savedContribution" style="display: none;">Saved</span></h2>
 
 				<div class="mb-3">
-					<label for="xpubKey" class="form-label">XPUB key</label>
+					<label for="xpubKey" class="form-label">Extended public key (xpub / ypub / zpub)</label>
 					<input type="text" id="xpubKey" class="form-control" aria-describedby="xpubKeyHelpBlock" required>
 					<div class="invalid-feedback">
-						Please enter a valid XPUB to be able to sell and auction products.
+						Please enter a valid XPUB/YPUB/ZPUB to be able to sell and auction products.
 					</div>
 					<div id="xpubKeyHelpBlock" class="form-text">
-						Your XPUB key is used to generate a new address so each customer pays to a different
-						address for you. Most Bitcoin wallets lets you export your XPUB key. See more here.
+						Your XPUB/YPUB/ZPUB key is used to generate a new address so each customer pays to a different
+						address for you. Most Bitcoin wallets allow you to export your extended key. See more in
+						<a class="link" target="_blank" href="https://plebeian.market/faq">our FAQ</a>.
 					</div>
 				</div>
 

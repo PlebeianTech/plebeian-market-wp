@@ -47,8 +47,8 @@ class Plebeian_Market_Admin_Screen_Information
 		<hr>
 		<p>
 			You can go to the <a href="<?= admin_url('admin.php?page=plebeian_market_buynow') ?>">
-				Buy Now items</a> menu to manage (create, modify, delete) your <i>Buy Now</i> products, then use
-			shortcodes this way to show the products in your WordPress posts or pages:
+				Buy Now items</a> menu to manage (create, modify, delete) your <i>Buy Now</i> products, then simply
+			add the shortcodes to your WordPress posts or pages:
 		</p>
 
 		<h3>Show a specific product</h3>

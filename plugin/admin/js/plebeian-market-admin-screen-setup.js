@@ -152,7 +152,7 @@ $(document).ready(function () {
             headers: { "X-Access-Token": pmAuthKey },
             success: function (response) {
                 $('#saveUserOptions').prop('disabled', false);
-                showAlertModal('Connection successful! You can now save the values.');
+                showAlertModal('Connection successful! You can now click the Save button.');
             },
             error: function (e) {
                 console.log("ERROR : ", e);
