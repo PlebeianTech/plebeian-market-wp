@@ -34,12 +34,13 @@
     border-radius: 6px;
     margin-bottom: 20px;
     margin-right: 2em !important;
-    margin-left: 1em;
+    margin-left: 1em !important;
     align-content: center;
     flex-direction: column;
 }
 
 .pleb_buynow_item_title {
+    margin: initial !important;
     padding: 0.6em;
     text-align: center;
 }
