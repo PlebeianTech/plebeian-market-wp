@@ -279,11 +279,11 @@ $(document).ready(function () {
                     let iconsToBeDisplayed = '';
 
                     if (true) {
-                        iconsToBeDisplayed += '<img src="' + pluginBasePath + 'img/pencil-square.svg" class="dataTablesActionIcon editButton" data-key="' + key + '" data-title="' + title + '" alt="Edit item">' +
-                            '<img src="' + pluginBasePath + 'img/trash.svg" class="dataTablesActionIcon deleteButton" data-key="' + key + '" data-title="' + title + '" alt="Delete item">';
+                        iconsToBeDisplayed += '<img src="' + pluginBasePath + 'img/pencil-square.svg" class="dataTablesActionIcon editButton" data-key="' + key + '" data-title="' + title + '" alt="Edit item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">' +
+                            '<img src="' + pluginBasePath + 'img/trash.svg" class="dataTablesActionIcon deleteButton" data-key="' + key + '" data-title="' + title + '" alt="Delete item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">';
                     }
 
-                    iconsToBeDisplayed += '<img src="' + pluginBasePath + 'img/code-square.svg" class="dataTablesActionIcon copyShortCodeButton" data-key="' + key + '" alt="Copy Shortcode">';
+                    iconsToBeDisplayed += '<img src="' + pluginBasePath + 'img/code-square.svg" class="dataTablesActionIcon copyShortCodeButton" data-key="' + key + '" alt="Copy Shortcode" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Copy shortcode">';
 
                     return iconsToBeDisplayed;
                 }
@@ -308,6 +308,10 @@ $(document).ready(function () {
     }).on('draw', function () {
         $("#table_buynow").show();
         rebindIconClicks();
+
+        // Enable button tooltips
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
         $('.createButton').click(function () {
             $('#titleModalItemInfo').text('New BuyNow product');
