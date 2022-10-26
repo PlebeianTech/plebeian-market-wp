@@ -14,6 +14,10 @@ h3 {
     font-size: 20px;
 }
 
+.dataTables_wrapper {
+    margin-right: 20px;
+}
+
 .dataTablesActionIcon {
     width: 1.5em;
     margin-right: 5px;
