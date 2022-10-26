@@ -215,7 +215,7 @@ class Plebeian_Market_Admin
 	function add_plugin_link($plugin_actions, $plugin_file)
 	{
 		$new_actions = [];
-		if ('plebeian_market/plebeian-market.php' === $plugin_file) {
+		if (strpos($plugin_file, 'plebeian-market.php') !== false) {
 			$new_actions['cl_settings'] = sprintf(__('<a href="%s">Settings</a>'), esc_url(admin_url('admin.php?page=plebeian_market_setup')));
 		}
 		return array_merge($new_actions, $plugin_actions);
