@@ -12,7 +12,6 @@
 
 class Plebeian_Market_Admin_Common
 {
-
 	static function plebeian_common_admin_code()
 	{
 ?>
@@ -43,5 +42,20 @@ class Plebeian_Market_Admin_Common
 			</div>
 		</div>
 <?php
+	}
+
+	static function getHTMLOptions($start = 10, $end = 40, $includeBlank = true)
+	{
+		$options = '';
+
+		if ($includeBlank) {
+			$options .= '<option value=""></option>';
+		}
+
+		for ($i = $start; $i <= $end; $i++) {
+			$options .= '<option value="' . $i . '">' . $i . '</option>';
+		}
+
+		return $options;
 	}
 }

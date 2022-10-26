@@ -61,6 +61,8 @@ define('PM_OPTIONS', [
     'plebeian_market_url_connect',
 
     'plebeian_market_widget_size',
+    'plebeian_market_widget_title_fontsize',
+    'plebeian_market_widget_description_fontsize',
     'plebeian_market_widget_slideshow_enabled',
     'plebeian_market_widget_slideshow_delay',
     'plebeian_market_widget_show_price_fiat',

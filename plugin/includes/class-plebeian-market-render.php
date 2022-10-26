@@ -23,6 +23,8 @@ class Plebeian_Market_Render
 
 		$default_values = [
 			'size'				=> 30,
+			'title_fontsize'	=> '',
+			'description_fontsize' => '20',
 			'slideshow_enabled'	=> 'true',
 			'slideshow_delay'   => 4000,
 			'show_price_fiat'	=> 'true',
@@ -33,14 +35,14 @@ class Plebeian_Market_Render
 
 		$widget_options = Plebeian_Market_Admin_Utils::load_options(FORM_FIELDS_PREFIX, true);
 
-//		print_r($atts);
-//		print_r('****************************************************************');
+		//		print_r($atts);
+		//		print_r('****************************************************************');
 		$args = shortcode_atts($default_values, $widget_options);	// Options for the Customization screen + default values
-//		print_r($args);
-//		print_r('-------------------------------------------------<br>');
+		//		print_r($args);
+		//		print_r('-------------------------------------------------<br>');
 		$args = shortcode_atts($args, $atts);	// What's passet to shortcode as parameters + result from previous line
-//		print_r($args);
-//		print_r('-------------------------------------------------<br>');
+		//		print_r($args);
+		//		print_r('-------------------------------------------------<br>');
 
 		if (is_object($buyNowItem)) {
 			$key = $buyNowItem->key;
@@ -89,6 +91,20 @@ class Plebeian_Market_Render
 		$shipping_from = $buyNowItem->shipping_from;
 		$pictures = $buyNowItem->media;
 
+		$title_fontsize = $args['title_fontsize'];
+		$description_fontsize = $args['description_fontsize'];
+
+		if ($title_fontsize) {
+			$title_fontsize_text = 'style="font-size: ' . $title_fontsize . 'px"';
+		} else {
+			$title_fontsize_text = '';
+		}
+		if ($description_fontsize) {
+			$description_fontsize_text = 'style="font-size: ' . $description_fontsize . 'px"';
+		} else {
+			$description_fontsize_text = '';
+		}
+
 		$content = '
 		<div
 				class="pleb_buynow_item_superdiv"
@@ -97,7 +113,7 @@ class Plebeian_Market_Render
 					display: ' . ($atts['called_from_listing'] === "true" ? 'inline-flex' : 'flex') . '"
 			>
 
-			<div class="pleb_buynow_item_title">' . $title . '</div>';
+			<h4 class="pleb_buynow_item_title" ' . $title_fontsize_text . '>' . $title . '</h3>';
 
 		// Slideshow / Pictures
 		if (count($pictures) > 0) {
@@ -121,7 +137,7 @@ class Plebeian_Market_Render
 			$content .= '</div>';
 		}
 
-		$content .= '<div class="pleb_buynow_item_description">' . $description . '</div>';
+		$content .= '<div class="pleb_buynow_item_description" ' . $description_fontsize_text . '>' . $description . '</div>';
 
 		// Price
 		$content .= '<div class="pleb_buynow_item_price">';

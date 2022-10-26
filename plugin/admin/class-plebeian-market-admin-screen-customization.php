@@ -88,6 +88,32 @@ class Plebeian_Market_Admin_Screen_Customization
 					</div>
 
 					<div class="mb-3">
+						<label for="plebeian_market_widget_title_fontsize" class="form-label">Title font size</label>
+						<div class="col-md-2 mb-0">
+							<select id="plebeian_market_widget_title_fontsize" name="plebeian_market_widget_title_fontsize" class="form-control" aria-describedby="plebeian_market_widget_title_fontsizeHelpBlock">
+								<?= Plebeian_Market_Admin_Common::getHTMLOptions() ?>
+							</select>
+						</div>
+						<div id="plebeian_market_widget_title_fontsizeHelpBlock" class="form-text col-md-9">
+							Choose the size of the font used for the title. If left empty, it will have the same
+							size that <code>&lt;h4&gt;</code> elements in your theme.
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label for="plebeian_market_widget_description_fontsize" class="form-label">Description font size</label>
+						<div class="col-md-2 mb-0">
+							<select id="plebeian_market_widget_description_fontsize" name="plebeian_market_widget_title_fontsize" class="form-control" aria-describedby="plebeian_market_widget_description_fontsizeHelpBlock">
+								<?= Plebeian_Market_Admin_Common::getHTMLOptions() ?>
+							</select>
+						</div>
+						<div id="plebeian_market_widget_description_fontsizeHelpBlock" class="form-text col-md-9">
+							Choose the size of the font used for the description. If left empty, it will have
+							size = 20px.
+						</div>
+					</div>
+
+					<div class="mb-3">
 						<label for="plebeian_market_widget_slideshow_enabled" class="form-label">Slideshow</label>
 						<div class="col-md-2 mb-0">
 							<select id="plebeian_market_widget_slideshow_enabled" name="plebeian_market_widget_slideshow_enabled" class="form-control" aria-describedby="plebeian_market_widget_slideshow_enabledHelpBlock">
