@@ -3,7 +3,7 @@ let $ = jQuery;
 let loginSetTimeout;
 
 function loginThenCallFunction(callback) {
-    if (amILoggedIn()) {
+    if (buyerAmILoggedIn()) {
         callback(true);
     } else {
         getLoginWidget(callback);
@@ -20,7 +20,7 @@ function getPlebeianMarketAuthToken() {
  * 
  * @returns boolean
  */
-function amILoggedIn() {
+function buyerAmILoggedIn() {
     let plebeianMarketAuthToken = getPlebeianMarketAuthToken();
     console.log('imLoggedIn - plebeianMarketAuthToken: ', plebeianMarketAuthToken);
 
