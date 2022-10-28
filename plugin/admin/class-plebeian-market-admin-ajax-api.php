@@ -12,6 +12,15 @@
 
 class Plebeian_Market_Admin_Ajax_Api
 {
+	function ajax_admin_logout()
+	{
+		check_ajax_referer('save_options_nonce');
+
+		update_option('plebeian_market_auth_key', false);
+
+		wp_send_json_success();
+	}
+
 	function ajax_load_options()
 	{
 		if (isset($_POST['filter'])) {

@@ -41,6 +41,35 @@ class Plebeian_Market_Admin_Common
 				</div>
 			</div>
 		</div>
+
+		<!-- General-Purpose Modal -->
+		<div id="gpModal" class="modal fade" role="dialog">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title"></h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeGPModal"></button>
+					</div>
+					<div class="modal-body text-center" id="gp-modal-body"></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Loading Modal -->
+		<div id="loadingModal" class="modal fade" role="dialog" data-bs-backdrop="static">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-body" id="loadingModal-body">
+						<div class="d-flex justify-content-center">
+							<div class="spinner-border" role="status"></div>
+						</div>
+						<div class="justify-content-center d-flex loadingModalLoadingText">
+							<p>Loading...</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 <?php
 	}
 

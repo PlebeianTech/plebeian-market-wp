@@ -19,12 +19,34 @@ class Plebeian_Market_Admin_Screen_Setup
 			return;
 		}
 
-		wp_enqueue_script('plebeian-market-admin-screen-options', plugin_dir_url(__FILE__) . 'js/plebeian-market-admin-screen-setup.js', ['jquery'], PLEBEIAN_MARKET_VERSION, false);
+		wp_enqueue_script(
+			'plebeian-market-admin-screen-options',
+			plugin_dir_url(__FILE__) . 'js/plebeian-market-admin-screen-setup.js',
+			['jquery'],
+			PLEBEIAN_MARKET_VERSION,
+			false
+		);
+
+		wp_enqueue_script(
+			'plebeian-market-js',
+			plugin_dir_url(__DIR__) . 'common/js/plebeian-market.js',
+			['jquery', 'bootstrap-js'],
+			PLEBEIAN_MARKET_VERSION,
+			false
+		);
+
+		wp_enqueue_script(
+			'plebeian-market-auth-js',
+			plugin_dir_url(__DIR__) . 'common/js/plebeian-market-auth.js',
+			['jquery', 'bootstrap-js'],
+			PLEBEIAN_MARKET_VERSION,
+			false
+		);
+
+		$adminKey = get_option('plebeian_market_auth_key');
 ?>
 		<div class="wrap">
-			<!-- <h1><?php echo esc_html(get_admin_page_title()); ?></h1> -->
 			<form class="row g-3 col-md-6 needs-validation" id="setupForm" novalidate>
-
 				<script>
 					// Plebeian Market API info
 					let requestHostname = '<?= Plebeian_Market_Communications::getAPIUrl() ?>';
@@ -33,13 +55,28 @@ class Plebeian_Market_Admin_Screen_Setup
 					let getRequestMethod = '<?= PM_API_GET_USER_OPTIONS_METHOD ?>';
 					let setRequestMethod = '<?= PM_API_SET_USER_OPTIONS_METHOD ?>';
 
-					// WordPress API info
-					let wp_api_ajax_params = {
-						ajax_url: '<?= admin_url('admin-ajax.php') ?>',
-						nonce: '<?= wp_create_nonce('save_options_nonce') ?>'
-					};
+					let requests = {
+						pm_api: {
+							default_timeout: 10000,
+							get_login_info: {
+								url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_GET_LOGIN_INFO_URL ?>',
+								method: '<?= PM_API_GET_LOGIN_INFO_METHOD ?>'
+							},
+							check_login: {
+								url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_CHECK_LOGIN_URL ?>',
+								method: '<?= PM_API_CHECK_LOGIN_METHOD ?>'
+							}
+						},
+						wordpress_pm_api: {
+							ajax_url: '<?= admin_url('admin-ajax.php') ?>',
+							nonce: '<?= wp_create_nonce('save_options_nonce') ?>'
+						}
+					}
 
-					let settingUpFirstTime = <?= (Plebeian_Market_Communications::getXAccessToken() === false || Plebeian_Market_Communications::getXAccessToken() === '') ? 'true' : 'false' ?>;
+					let adminKey = '<?= $adminKey ?>';
+
+					let adminURLWithLogin = '<?= admin_url('admin.php?page=plebeian_market') ?>';
+					let setupURLWithoutLogin = '<?= admin_url('admin.php?page=plebeian_market') ?>';
 				</script>
 
 				<h2>Plebeian Market WordPress plugin setup <span class="badge text-bg-success savedBadge" id="savedContribution" style="display: none;">Saved</span></h2>
@@ -107,9 +144,16 @@ class Plebeian_Market_Admin_Screen_Setup
 				</div>
 			</form>
 
-		</div>
+			<?php
+			if ($adminKey !== false && $adminKey !== '') { ?>
+				<a id="logoutButton">Logout</a>
+			<?php
+			}
+			?>
 
-		<?php Plebeian_Market_Admin_Common::plebeian_common_admin_code() ?>
+
+		</div>
 <?php
+		Plebeian_Market_Admin_Common::plebeian_common_admin_code();
 	}
 }

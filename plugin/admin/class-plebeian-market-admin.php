@@ -201,15 +201,15 @@ class Plebeian_Market_Admin
 	}
 
 	/**
-	 * If we don't have an auth key, we need to setup
+	 * Do we have a Plebeian Market API auth key for admin?
 	 */
-	static function plebeian_setup_is_needed()
+	static function plebeian_have_admin_auth_key()
 	{
 		if (get_option('plebeian_market_auth_key') === false || get_option('plebeian_market_auth_key') === '') {
-			return true;
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 
 	function add_plugin_link($plugin_actions, $plugin_file)

@@ -1,3 +1,5 @@
+let loadingModal, gpModal;
+
 function contributionUpdated() {
     let contributionPercent = $('#contribution_percent').val();
     $('#contribution_percent_text').html('Contributing ' + contributionPercent + '%');
@@ -38,7 +40,7 @@ function showSavedForAMoment(badgeId, timeMillis) {
         setTimeout(function () {
             $('#' + badgeId).fadeOut();
 
-            if (settingUpFirstTime) {
+            if (adminKey === '') {
                 location.reload();
             }
         }, timeMillis);
@@ -83,7 +85,32 @@ function updateUserInfo(newUserData, placeToFlashIfSuccessful) {
     });
 }
 
+function loginValid() {
+    console.log('loginValid - Nothing needs to be done');
+}
+function loginInvalid() {
+    console.log('loginInvalid - Logout and reload');
+    adminLogout(setupURLWithoutLogin);
+}
+
 $(document).ready(function () {
+    loadingModal = new bootstrap.Modal('#loadingModal', { keyboard: true });
+    gpModal = new bootstrap.Modal('#gpModal', { keyboard: true });
+
+    if (adminKey === '') {
+        // We don't have the token, so lets login/register
+        adminLoginThenCallFunction();
+        return;
+
+    } else {
+        // We have the token, but we need to test if it's still valid
+        adminCheckAPIKeyIsValid(loginValid, loginInvalid);
+    }
+
+    $("#logoutButton").click(function () {
+        console.log("Logout button clicked");
+        adminLogout(adminURLWithLogin);
+    });
 
     //This would be called if any of the input element has got a change inside the form
     $('#setupForm input').on('input', function () {
@@ -187,12 +214,12 @@ $(document).ready(function () {
             let pmUrlConnect = $('#pmURL').val();
 
             $.ajax({
-                url: wp_api_ajax_params.ajax_url,
+                url: requests.wordpress_pm_api.ajax_url,
                 cache: false,
                 dataType: "JSON",
                 type: 'POST',
                 data: {
-                    _ajax_nonce: wp_api_ajax_params.nonce,
+                    _ajax_nonce: requests.wordpress_pm_api.nonce,
                     action: "plebeian-save-options",
                     plebeian_market_auth_key: pmAuthKey,
                     plebeian_market_url_connect: pmUrlConnect
@@ -218,11 +245,11 @@ $(document).ready(function () {
 
     // Get connection options from WP. If successful, get options from PM.
     $.ajax({
-        url: wp_api_ajax_params.ajax_url,
+        url: requests.wordpress_pm_api.ajax_url,
         cache: false,
         type: 'POST',
         data: {
-            _ajax_nonce: wp_api_ajax_params.nonce,
+            _ajax_nonce: requests.wordpress_pm_api.nonce,
             action: "plebeian-load-options",
         },
         success: function (response) {

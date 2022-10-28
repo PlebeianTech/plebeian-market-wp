@@ -98,7 +98,7 @@ function step0() {
         dataType: 'JSON',
         contentType: 'application/json;charset=UTF-8',
         type: requests.pm_api.buynow_buy.method,
-        headers: { "X-Access-Token": getPlebeianMarketAuthToken() },
+        headers: { "X-Access-Token": buyerGetPlebeianMarketAuthToken() },
     })
         .done(function (response) {
             console.log('step0 response:', response);
@@ -270,7 +270,7 @@ function getBuyNowItemInfo(key, callback) {
         dataType: 'JSON',
         contentType: 'application/json;charset=UTF-8',
         type: requests.pm_api.buynow_get.method,
-        headers: { "X-Access-Token": getPlebeianMarketAuthToken() },
+        headers: { "X-Access-Token": buyerGetPlebeianMarketAuthToken() },
     })
         .done(function (response) {
             console.log('response', response);

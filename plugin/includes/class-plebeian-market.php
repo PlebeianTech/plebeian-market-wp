@@ -176,7 +176,7 @@ class Plebeian_Market
 
 		$this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_main_menu');
 
-		if (Plebeian_Market_Admin::plebeian_setup_is_needed()) {
+		if (!Plebeian_Market_Admin::plebeian_have_admin_auth_key()) {
 			$this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_setup_submenu_standalone');
 		} else {
 			$this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_information_submenu');
@@ -192,6 +192,7 @@ class Plebeian_Market
 
 		// Plebeian Market internal Ajax calls
 		$plugin_ajax = new Plebeian_Market_Admin_Ajax_Api();
+		$this->loader->add_action('wp_ajax_plebeian-admin-logout', $plugin_ajax, 'ajax_admin_logout');
 		$this->loader->add_action('wp_ajax_plebeian-load-options', $plugin_ajax, 'ajax_load_options');
 		$this->loader->add_action('wp_ajax_plebeian-save-options', $plugin_ajax, 'ajax_save_options');
 		$this->loader->add_action('wp_ajax_plebeian-get-price-btc', $plugin_ajax, 'ajax_get_price_in_btc');
