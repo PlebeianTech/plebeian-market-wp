@@ -95,17 +95,6 @@ class Plebeian_Market_Admin_Screen_Setup
 				</div>
 
 				<div class="mb-3">
-					<label for="pmAuthKey" class="form-label">Plebeian Market auth key</label>
-					<input type="text" id="pmAuthKey" class="form-control" aria-describedby="pmAuthKeyHelpBlock" required>
-					<div class="invalid-feedback">
-						The auth key shouldn't be empty because it's used to communicate with your Plebeian Market node.
-					</div>
-					<div id="pmAuthKeyHelpBlock" class="form-text">
-						The auth key to manage your Plebeian Market account. This cannot be empty.
-					</div>
-				</div>
-
-				<div class="mb-3">
 					<label for="sellerEmail" class="form-label">Seller email</label>
 					<input type="text" id="sellerEmail" class="form-control" aria-describedby="sellerEmailHelpBlock" required>
 					<div class="invalid-feedback">
@@ -127,13 +116,30 @@ class Plebeian_Market_Admin_Screen_Setup
 					</div>
 				</div>
 
-				<div class="mb-3">
-					<label for="pmURL" class="form-label">Plebeian Market API URL:</label><span class="badge text-bg-success" style="margin-left: 10px;">Optional</span>
-					<input type="text" id="pmURL" class="form-control" aria-describedby="pmURLHelpBlock" placeholder="<?= Plebeian_Market_Communications::getAPIUrl() ?>">
-					<div id="pmURLHelpBlock" class="form-text">
-						By default, this points to the centralized version of Plebeian Market, but if you want
-						to be self-sovereign, soon you'll be able to run your own Plebeian Market in your Bitcoin
-						node. When the time comes, you will be able to indicate here the URL of your marketplace.
+				<a data-bs-toggle="collapse" href="#customizationAdvanced" role="button" aria-expanded="false" aria-controls="customizationAdvanced">
+					See advanced options for self-soverign set-ups
+				</a>
+				<div class="collapse" id="customizationAdvanced">
+					<div class="mb-3">
+						<label for="pmURL" class="form-label">Plebeian Market API URL:</label><span class="badge text-bg-success" style="margin-left: 10px;">Optional</span>
+						<input type="text" id="pmURL" class="form-control" aria-describedby="pmURLHelpBlock" placeholder="<?= Plebeian_Market_Communications::getAPIUrl() ?>">
+						<div id="pmURLHelpBlock" class="form-text">
+							By default, this points to the centralized version of Plebeian Market, but if you want
+							to be self-sovereign, soon you'll be able to run your own Plebeian Market in your Bitcoin
+							node. When the time comes, you will be able to indicate here the URL of your marketplace.
+						</div>
+					</div>
+
+
+					<div class="mb-3">
+						<label for="pmAuthKey" class="form-label">Plebeian Market auth key</label>
+						<input type="text" id="pmAuthKey" class="form-control" aria-describedby="pmAuthKeyHelpBlock" required>
+						<div class="invalid-feedback">
+							The auth key shouldn't be empty because it's used to communicate with your Plebeian Market node.
+						</div>
+						<div id="pmAuthKeyHelpBlock" class="form-text">
+							The auth key to manage your Plebeian Market account. This cannot be empty.
+						</div>
 					</div>
 				</div>
 
