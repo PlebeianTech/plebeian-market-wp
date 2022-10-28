@@ -85,6 +85,14 @@ class Plebeian_Market_Public
 		);
 
 		wp_enqueue_script(
+			'plebeian-market-js',
+			plugin_dir_url(__DIR__) . 'common/js/plebeian-market.js',
+			['jquery', 'bootstrap-js'],
+			$this->version,
+			false
+		);
+
+		wp_enqueue_script(
 			'plebeian-market-auth-js',
 			plugin_dir_url(__DIR__) . 'common/js/plebeian-market-auth.js',
 			['jquery', 'js.cookie', 'bootstrap-js'],
