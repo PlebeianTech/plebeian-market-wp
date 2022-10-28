@@ -1,10 +1,10 @@
 let $ = jQuery;
 
-function getFormData($form){
+function getFormData($form) {
     var unindexed_array = $form.serializeArray();
     var indexed_array = {};
 
-    $.map(unindexed_array, function(n, i){
+    $.map(unindexed_array, function (n, i) {
         indexed_array[n['name']] = n['value'];
     });
 
@@ -18,7 +18,7 @@ function getFormData($form){
  *                            not provided, will print "Just now"
  * @param {string} title    - Optional - The title of the notification. If not provided, will print "Plebeian Market"
  */
- function showNotification(text, whenText, title) {
+function showNotification(text, whenText, title) {
     let notification = bootstrap.Toast.getOrCreateInstance(document.getElementById('liveToast'));
 
     $('#liveToastBody').html(text);
@@ -37,7 +37,7 @@ function getFormData($form){
 function showAlertModal(message) {
     $('#alertModalText').text(message);
 
-    const myModal = new bootstrap.Modal('#alertModal', {keyboard: true});
+    const myModal = new bootstrap.Modal('#alertModal', { keyboard: true });
     myModal.show();
 }
 
@@ -51,12 +51,46 @@ function BtnReset(elem) {
     $(elem).html($(elem).data("original-text"));
 }
 
-$(document).ready( function () {
-    $('.fiat-to-btc-source').keyup(function() {
+function checkIfSetupDone() {
+    $.ajax({
+        url: requests.pm_api.user_info.url,
+        cache: false,
+        dataType: "JSON",
+        contentType: 'application/json;charset=UTF-8',
+        type: requests.pm_api.user_info.getMethod,
+        headers: { "X-Access-Token": plebeian_market_auth_key },
+        success: function (response) {
+            let user = response.user;
+
+            let xpub = user.xpub;
+            let sellerEmail = user.sellerEmail;
+            let contribution_percent = user.contribution_percent;
+            console.log('xpub', xpub);
+            if (xpub === '' || xpub === null || sellerEmail === '' || sellerEmail === null) {
+                let currentURL = window.location.href;
+
+                let whereToGo = '';
+                if (!currentURL.includes('plebeian_market_setup')) {
+                    whereToGo = ' Add them <a href="' + setupURL + '">here</a>.';
+                }
+                addAlertToDivElement(document.getElementById('alertsDiv'), 'You need to setup your <b>XPUB</b> and <b>email address</b> to be able to use the plugin to sell items.' + whereToGo, 'warning');
+            }
+        },
+        error: function (e) {
+            console.log("ERROR: " + e.statusText, e);
+        }
+    });
+}
+
+$(document).ready(function () {
+
+    checkIfSetupDone();
+
+    $('.fiat-to-btc-source').keyup(function () {
         let elementId = this.id;
         let fiatPrice = this.value;
 
-        if ( ! $.isNumeric(fiatPrice)) {
+        if (!$.isNumeric(fiatPrice)) {
             $('#' + elementId + '_sats').text('-');
             return;
         }
@@ -80,7 +114,7 @@ $(document).ready( function () {
             },
             error: function (error) {
                 console.log("ERROR loading values from WordPress : ", error);
-    
+
                 $('#' + elementId + '_sats').text('-');
             }
         });

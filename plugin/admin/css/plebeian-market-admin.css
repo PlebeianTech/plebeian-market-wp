@@ -126,3 +126,14 @@ h3 {
 .card-75 {
     max-width: 75% !important;
 }
+
+#logoutButtonDiv {
+    margin-top: 45px;
+    font-size: 13px;
+}
+
+.bi {
+    width: 1em;
+    height: 1em;
+    fill: currentcolor;
+}

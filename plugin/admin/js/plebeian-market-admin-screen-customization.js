@@ -10,11 +10,11 @@ function getBuyNowPreview() {
     });
 
     $.ajax({
-        url: wp_api_ajax_params.ajax_url,
+        url: requests.wordpress_pm_api.ajax_url,
         cache: false,
         type: 'POST',
         data: {
-            _ajax_nonce: wp_api_ajax_params.nonce,
+            _ajax_nonce: requests.wordpress_pm_api.nonce,
             action: 'plebeian-get_buynow_preview_html',
             parameters: parameters
         },
@@ -37,11 +37,11 @@ $(document).ready(function () {
 
     // Get options from WP
     $.ajax({
-        url: wp_api_ajax_params.ajax_url,
+        url: requests.wordpress_pm_api.ajax_url,
         cache: false,
         type: 'POST',
         data: {
-            _ajax_nonce: wp_api_ajax_params.nonce,
+            _ajax_nonce: requests.wordpress_pm_api.nonce,
             action: 'plebeian-load-options',
             filter: 'plebeian_market_widget_'
         },
@@ -80,7 +80,7 @@ $(document).ready(function () {
 
         if (validity) {
             let data = {
-                _ajax_nonce: wp_api_ajax_params.nonce,
+                _ajax_nonce: requests.wordpress_pm_api.nonce,
                 action: 'plebeian-save-options'
             };
 
@@ -94,7 +94,7 @@ $(document).ready(function () {
             });
 
             $.ajax({
-                url: wp_api_ajax_params.ajax_url,
+                url: requests.wordpress_pm_api.ajax_url,
                 cache: false,
                 dataType: "JSON",
                 type: 'POST',

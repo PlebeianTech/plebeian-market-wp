@@ -44,6 +44,8 @@ class Plebeian_Market_Admin_Screen_Customization
 		);
 ?>
 		<div class="wrap">
+			<div id="alertsDiv"></div>
+
 			<h1><?php echo esc_html(get_admin_page_title()); ?></h1>
 			<p>
 				You can customize the default appearance and functionality of the widgets provided
@@ -55,13 +57,6 @@ class Plebeian_Market_Admin_Screen_Customization
 				parameters to the shortcode:
 			</p>
 		</div>
-
-		<script>
-			let wp_api_ajax_params = {
-				ajax_url: '<?= admin_url('admin-ajax.php') ?>',
-				nonce: '<?= wp_create_nonce('save_options_nonce') ?>'
-			};
-		</script>
 
 		<h2>Widget customization</h2>
 		<?php Plebeian_Market_Admin_Common::plebeian_common_admin_code() ?>

@@ -17,6 +17,8 @@ class Plebeian_Market_Admin_Screen_Information
 	{
 ?>
 		<div class="wrap">
+			<div id="alertsDiv"></div>
+
 			<h1><?php echo esc_html(get_admin_page_title()); ?></h1>
 			<p>This is the WordPress plugin for integration with <a href="https://plebeian.market/" target="_blank">Plebeian Market</a>, powered by <a href="https://plebeian.technology/" target="_blank">Plebeian Technology</a>.
 			</p>
@@ -179,5 +181,6 @@ class Plebeian_Market_Admin_Screen_Information
 		</p>
 		-->
 <?php
+		Plebeian_Market_Admin_Common::plebeian_common_admin_code();
 	}
 }

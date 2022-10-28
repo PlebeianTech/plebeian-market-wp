@@ -24,6 +24,8 @@ class Plebeian_Market_Admin_Screen_Auctions
 		$auctions_body_array = Plebeian_Market_Communications::getFeatured('auctions');
 ?>
 		<div class="wrap">
+			<div id="alertsDiv"></div>
+
 			<h3>List of current Auctions</h3>
 		</div>
 

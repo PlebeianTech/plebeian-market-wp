@@ -326,10 +326,9 @@ $(document).ready(function () {
 
         let clickedElementKey = $(this).data('key')
         console.log('clickedElementKey', clickedElementKey)
-        requestURLDelete = requests.pm_api.delete.url.replace('{KEY}', clickedElementKey);
 
         $.ajax({
-            url: requestURLDelete,
+            url: requests.pm_api.delete.url.replace('{KEY}', clickedElementKey),
             cache: false,
             dataType: 'JSON',
             contentType: 'application/json;charset=UTF-8',

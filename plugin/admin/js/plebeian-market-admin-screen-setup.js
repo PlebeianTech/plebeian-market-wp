@@ -40,7 +40,7 @@ function showSavedForAMoment(badgeId, timeMillis) {
         setTimeout(function () {
             $('#' + badgeId).fadeOut();
 
-            if (adminKey === '') {
+            if (plebeian_market_auth_key === '') {
                 location.reload();
             }
         }, timeMillis);
@@ -56,9 +56,9 @@ function updateUserInfo(newUserData, placeToFlashIfSuccessful) {
 
     let saveURL;
     if (!pmURL || pmURL === '') {
-        saveURL = requestHostname + requestURL;
+        saveURL = requests.pm_api.user_info.url;
     } else {
-        saveURL = pmURL + requestURL
+        saveURL = pmURL + requests.pm_api.user_info.path;
     }
 
     $.ajax({
@@ -67,7 +67,7 @@ function updateUserInfo(newUserData, placeToFlashIfSuccessful) {
         cache: false,
         dataType: "JSON",
         contentType: 'application/json;charset=UTF-8',
-        type: setRequestMethod,
+        type: requests.pm_api.user_info.setMethod,
         headers: { "X-Access-Token": pmAuthKey },
         success: function (response) {
             console.log('User updated successfully!');
@@ -87,6 +87,7 @@ function updateUserInfo(newUserData, placeToFlashIfSuccessful) {
 
 function loginValid() {
     console.log('loginValid - Nothing needs to be done');
+    addAlertToDivElement(document.getElementById('alertsDiv'), "You're <b>connected successfully</b> to the Plebeian Market backend!", 'success');
 }
 function loginInvalid() {
     console.log('loginInvalid - Logout and reload');
@@ -97,7 +98,7 @@ $(document).ready(function () {
     loadingModal = new bootstrap.Modal('#loadingModal', { keyboard: true });
     gpModal = new bootstrap.Modal('#gpModal', { keyboard: true });
 
-    if (adminKey === '') {
+    if (plebeian_market_auth_key === '') {
         // We don't have the token, so lets login/register
         adminLoginThenCallFunction();
         return;
@@ -114,7 +115,7 @@ $(document).ready(function () {
 
     //This would be called if any of the input element has got a change inside the form
     $('#setupForm input').on('input', function () {
-        $('#saveUserOptions').prop('disabled', true);
+        // $('#saveUserOptions').prop('disabled', true);
     });
 
     // Bootstrap 5 form validation
@@ -144,19 +145,10 @@ $(document).ready(function () {
         let validity = form.checkValidity();
         form.classList.add('was-validated');
 
-        let xpubNewValue = $('#xpubKey').val();
+
         let pmAuthKey = $('#pmAuthKey').val();
         let pmURL = $('#pmURL').val();
-        let contribution_percent_text = $('#contribution_percent_text').val();
 
-        if (xpubNewValue === '') {
-            showAlertModal('You need to provide an XPUB to be able to sell items in Plebeian Market.');
-            return;
-        }
-        if (!(xpubNewValue.startsWith("xpub") || xpubNewValue.startsWith("ypub") || xpubNewValue.startsWith("zpub"))) {
-            showAlertModal('This is not a valid XPUB. A valid XPUB must start with "xpub", "ypub" or "zpub".');
-            return;
-        }
         if (pmAuthKey === '') {
             showAlertModal('You need to provide the authentication key to connect with Plebeian Market. You can find the key in your admin panel.');
             return;
@@ -164,9 +156,9 @@ $(document).ready(function () {
 
         let testUrl;
         if (!pmURL || pmURL === '') {
-            testUrl = requestHostname + requestURL;
+            testUrl = requests.pm_api.user_info.url;
         } else {
-            testUrl = pmURL + requestURL
+            testUrl = pmURL + requests.pm_api.user_info.path;
         }
 
         // Test connection by getting user options from PM
@@ -175,7 +167,7 @@ $(document).ready(function () {
             cache: false,
             dataType: "JSON",
             contentType: 'application/json;charset=UTF-8',
-            type: getRequestMethod,
+            type: requests.pm_api.user_info.getMethod,
             headers: { "X-Access-Token": pmAuthKey },
             success: function (response) {
                 $('#saveUserOptions').prop('disabled', false);
@@ -184,6 +176,7 @@ $(document).ready(function () {
             error: function (e) {
                 console.log("ERROR : ", e);
                 showAlertModal('Connection error. Review connection params and try again.');
+                $('#saveUserOptions').prop('disabled', true);
             }
         });
 
@@ -194,10 +187,25 @@ $(document).ready(function () {
         let validity = form.checkValidity();
         form.classList.add('was-validated');
 
+        let xpubNewValue = $('#xpubKey').val();
+        let pmAuthKey = $('#pmAuthKey').val();
+
+        if (xpubNewValue === '') {
+            showAlertModal('You need to provide an XPUB to be able to sell items in Plebeian Market.');
+            return;
+        }
+        if (!(xpubNewValue.startsWith("xpub") || xpubNewValue.startsWith("ypub") || xpubNewValue.startsWith("zpub"))) {
+            showAlertModal('This is not a valid extended address. It must start with "xpub", "ypub" or "zpub".');
+            return;
+        }
+        if (pmAuthKey === '') {
+            showAlertModal('You need to provide the authentication key to connect with Plebeian Market. You can find the key in your admin panel.');
+            return;
+        }
+
         if (validity) {
             // 1/2 - Send new values to PM through the API
             let contributionNewValue = $('#contribution_percent').val();
-            let xpubNewValue = $('#xpubKey').val();
             let sellerEmail = $('#sellerEmail').val();
 
             updateUserInfo(
@@ -210,7 +218,6 @@ $(document).ready(function () {
             );
 
             // 2/2 - Save values into WordPress Options locally
-            let pmAuthKey = $('#pmAuthKey').val();
             let pmUrlConnect = $('#pmURL').val();
 
             $.ajax({
@@ -270,11 +277,11 @@ $(document).ready(function () {
                 // Get user options from PM if I have the auth key only
                 if (plebeian_market_auth_key !== '') {
                     $.ajax({
-                        url: requestHostname + requestURL,
+                        url: requests.pm_api.user_info.url,
                         cache: false,
                         dataType: "JSON",
                         contentType: 'application/json;charset=UTF-8',
-                        type: getRequestMethod,
+                        type: requests.pm_api.user_info.getMethod,
                         headers: { "X-Access-Token": plebeian_market_auth_key },
                         success: function (response) {
                             let user = response.user;

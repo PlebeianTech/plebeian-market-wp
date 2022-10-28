@@ -93,7 +93,7 @@ function adminSaveAPIKey(pmAuthKey, goToUrl = null) {
 
 function adminCheckAPIKeyIsValid(functionValid, functionInvalid) {
 
-    if (adminKey === '') {
+    if (plebeian_market_auth_key === '') {
         console.log('No auth key present');
         return false;
     }
@@ -102,9 +102,9 @@ function adminCheckAPIKeyIsValid(functionValid, functionInvalid) {
 
     let testUrl;
     if (!pmURL || pmURL === '') {
-        testUrl = requestHostname + requestURL;
+        testUrl = requests.pm_api.user_info.url;
     } else {
-        testUrl = pmURL + requestURL
+        testUrl = pmURL + requests.pm_api.user_info.path;
     }
 
     $.ajax({
@@ -112,8 +112,8 @@ function adminCheckAPIKeyIsValid(functionValid, functionInvalid) {
         cache: false,
         dataType: "JSON",
         contentType: 'application/json;charset=UTF-8',
-        type: getRequestMethod,
-        headers: { "X-Access-Token": adminKey },
+        type: requests.pm_api.user_info.getMethod,
+        headers: { "X-Access-Token": plebeian_market_auth_key },
         success: function (response) {
             console.log('Connection successful: connection valid');
             functionValid();

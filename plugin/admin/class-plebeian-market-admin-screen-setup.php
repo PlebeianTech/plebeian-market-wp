@@ -28,56 +28,18 @@ class Plebeian_Market_Admin_Screen_Setup
 		);
 
 		wp_enqueue_script(
-			'plebeian-market-js',
-			plugin_dir_url(__DIR__) . 'common/js/plebeian-market.js',
-			['jquery', 'bootstrap-js'],
-			PLEBEIAN_MARKET_VERSION,
-			false
-		);
-
-		wp_enqueue_script(
 			'plebeian-market-auth-js',
 			plugin_dir_url(__DIR__) . 'common/js/plebeian-market-auth.js',
 			['jquery', 'bootstrap-js'],
 			PLEBEIAN_MARKET_VERSION,
 			false
 		);
-
-		$adminKey = get_option('plebeian_market_auth_key');
 ?>
 		<div class="wrap">
+
+			<div id="alertsDiv"></div>
+
 			<form class="row g-3 col-md-6 needs-validation" id="setupForm" novalidate>
-				<script>
-					// Plebeian Market API info
-					let requestHostname = '<?= Plebeian_Market_Communications::getAPIUrl() ?>';
-					let requestURL = '<?= PM_API_USER_OPTIONS_URL ?>';
-
-					let getRequestMethod = '<?= PM_API_GET_USER_OPTIONS_METHOD ?>';
-					let setRequestMethod = '<?= PM_API_SET_USER_OPTIONS_METHOD ?>';
-
-					let requests = {
-						pm_api: {
-							default_timeout: 10000,
-							get_login_info: {
-								url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_GET_LOGIN_INFO_URL ?>',
-								method: '<?= PM_API_GET_LOGIN_INFO_METHOD ?>'
-							},
-							check_login: {
-								url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_CHECK_LOGIN_URL ?>',
-								method: '<?= PM_API_CHECK_LOGIN_METHOD ?>'
-							}
-						},
-						wordpress_pm_api: {
-							ajax_url: '<?= admin_url('admin-ajax.php') ?>',
-							nonce: '<?= wp_create_nonce('save_options_nonce') ?>'
-						}
-					}
-
-					let adminKey = '<?= $adminKey ?>';
-
-					let adminURLWithLogin = '<?= admin_url('admin.php?page=plebeian_market') ?>';
-					let setupURLWithoutLogin = '<?= admin_url('admin.php?page=plebeian_market') ?>';
-				</script>
 
 				<h2>Plebeian Market WordPress plugin setup <span class="badge text-bg-success savedBadge" id="savedContribution" style="display: none;">Saved</span></h2>
 
@@ -130,7 +92,6 @@ class Plebeian_Market_Admin_Screen_Setup
 						</div>
 					</div>
 
-
 					<div class="mb-3">
 						<label for="pmAuthKey" class="form-label">Plebeian Market auth key</label>
 						<input type="text" id="pmAuthKey" class="form-control" aria-describedby="pmAuthKeyHelpBlock" required>
@@ -141,18 +102,24 @@ class Plebeian_Market_Admin_Screen_Setup
 							The auth key to manage your Plebeian Market account. This cannot be empty.
 						</div>
 					</div>
+
+					<div class="col-12">
+						<button class="btn btn-primary" type="submit" id="testConnectionAndParams">Test Parameters</button>
+						<p>You must test if the changes to the connection works fine with the values provided before being able to save the new values.</p>
+					</div>
 				</div>
 
 				<div class="col-12">
-					<button class="btn btn-primary" type="submit" id="testConnectionAndParams">Test Parameters</button>
-					<button class="btn btn-success" type="submit" id="saveUserOptions" disabled>Save changes</button>
-					<p>You must test if the connection works with the values provided before being able to save the new values.</p>
+					<button class="btn btn-success" type="submit" id="saveUserOptions">Save changes</button>
 				</div>
 			</form>
 
 			<?php
+			$adminKey = Plebeian_Market_Communications::getXAccessToken();
 			if ($adminKey !== false && $adminKey !== '') { ?>
-				<a id="logoutButton">Logout</a>
+				<div id="logoutButtonDiv">
+					<a id="logoutButton">Logout from Plebeian Market API</a>
+				</div>
 			<?php
 			}
 			?>

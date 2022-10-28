@@ -24,38 +24,11 @@ class Plebeian_Market_Admin_Screen_Buynow
 
 		<script>
 			let pluginBasePath = '<?= plugin_dir_url(__FILE__) ?>';
-
-			let requests = {
-				pm_api: {
-					XAccessToken: '<?= Plebeian_Market_Communications::getXAccessToken() ?>',
-					new: {
-						url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_NEW_BUYNOW_URL ?>',
-						method: '<?= PM_API_NEW_BUYNOW_METHOD ?>'
-					},
-					start: {
-						url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_START_BUYNOW_URL ?>',
-						method: '<?= PM_API_START_BUYNOW_METHOD ?>'
-					},
-					edit: {
-						url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_EDIT_BUYNOW_URL ?>',
-						method: '<?= PM_API_EDIT_BUYNOW_METHOD ?>'
-					},
-					delete: {
-						url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_DELETE_BUYNOW_URL ?>',
-						method: '<?= PM_API_DELETE_BUYNOW_METHOD ?>'
-					},
-					list: {
-						url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_LIST_BUYNOW_URL ?>'
-					}
-				},
-				wordpress_pm_api: {
-					ajax_url: '<?= admin_url('admin-ajax.php') ?>',
-					nonce: '<?= wp_create_nonce('save_options_nonce') ?>'
-				}
-			}
 		</script>
 
 		<div class="wrap">
+			<div id="alertsDiv"></div>
+
 			<h3>List of current BuyNow items</h3>
 		</div>
 

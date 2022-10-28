@@ -80,7 +80,8 @@ class Plebeian_Market_Admin
 	 */
 	public function enqueue_scripts()
 	{
-		wp_enqueue_script('plebeian-market-admin', plugin_dir_url(__FILE__) . 'js/plebeian-market-admin.js', ['jquery'], $this->version, false);
+		wp_enqueue_script('plebeian-market-admin', plugin_dir_url(__FILE__) . 'js/plebeian-market-admin.js', ['jquery', 'plebeian-market-js'], $this->version, false);
+		wp_enqueue_script('plebeian-market-js',	plugin_dir_url(__DIR__) . 'common/js/plebeian-market.js', ['jquery', 'bootstrap-js'], $this->version, false);
 
 		// Datatables
 		wp_enqueue_script('jquery.dataTables', plugin_dir_url(__FILE__) . 'js/datatables/jquery.dataTables.min.js', ['jquery'], $this->version, false);
@@ -205,7 +206,8 @@ class Plebeian_Market_Admin
 	 */
 	static function plebeian_have_admin_auth_key()
 	{
-		if (get_option('plebeian_market_auth_key') === false || get_option('plebeian_market_auth_key') === '') {
+		$authToken = Plebeian_Market_Communications::getXAccessToken();
+		if ($authToken === false || $authToken === '') {
 			return false;
 		}
 
