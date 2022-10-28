@@ -93,8 +93,8 @@ class Plebeian_Market_Public
 		);
 
 		wp_enqueue_script(
-			'plebeian-market-public-slideshow-js',
-			plugin_dir_url(__FILE__) . 'js/plebeian-market-public-slideshow.js',
+			'plebeian-market-slideshow-js',
+			plugin_dir_url(__DIR__) . 'common/js/plebeian-market-slideshow.js',
 			['jquery'],
 			$this->version,
 			false

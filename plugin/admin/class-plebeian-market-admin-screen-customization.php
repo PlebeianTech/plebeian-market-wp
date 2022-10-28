@@ -28,8 +28,8 @@ class Plebeian_Market_Admin_Screen_Customization
 		);
 
 		wp_enqueue_script(
-			'plebeian-market-public-slideshow-js',
-			plugin_dir_url(__DIR__) . 'public/js/plebeian-market-public-slideshow.js',
+			'plebeian-market-slideshow-js',
+			plugin_dir_url(__DIR__) . 'common/js/plebeian-market-slideshow.js',
 			['jquery'],
 			PLEBEIAN_MARKET_VERSION,
 			false
