@@ -198,7 +198,7 @@ function step3(sale) {
             '<p class="fs-2">Thank you for your payment!</p>' +
             '<div class="mb-4">' +
             '   <div class="w-100">' +
-            '       <img src="' + pluginBasePath + 'img/plebeian_market_logo.png">' +
+            '       <img src="' + pluginBasePath + 'common/plebeian_market_logo.png">' +
             '   </div>' +
             '   <p class="fs-4">TxID: <a class="link" target="_blank" href="https://mempool.space/tx/' + sale.txid + '">' + sale.txid + '</a>. Save it as a purchase receipt.</p>' +
             '</div>' +
