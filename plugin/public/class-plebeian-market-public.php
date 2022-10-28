@@ -85,8 +85,8 @@ class Plebeian_Market_Public
 		);
 
 		wp_enqueue_script(
-			'plebeian-market-public-auth-js',
-			plugin_dir_url(__FILE__) . 'js/plebeian-market-public-auth.js',
+			'plebeian-market-auth-js',
+			plugin_dir_url(__FILE__) . 'js/plebeian-market-auth.js',
 			['jquery', 'js.cookie', 'bootstrap-js'],
 			$this->version,
 			false
@@ -103,7 +103,7 @@ class Plebeian_Market_Public
 		wp_enqueue_script(
 			'plebeian-market-public-js',
 			plugin_dir_url(__FILE__) . 'js/plebeian-market-public.js',
-			['jquery', 'plebeian-market-public-auth-js', 'plebeian-market-public-slideshow-js'],
+			['jquery', 'plebeian-market-auth-js', 'plebeian-market-public-slideshow-js'],
 			$this->version,
 			false
 		);
@@ -111,7 +111,7 @@ class Plebeian_Market_Public
 		wp_enqueue_script(
 			'plebeian-market-public-buynow',
 			plugin_dir_url(__FILE__) . 'js/plebeian-market-public-buynow.js',
-			['jquery', 'js.cookie', 'bootstrap-js', 'plebeian-market-public-auth-js', 'plebeian-market-public-js'],
+			['jquery', 'js.cookie', 'bootstrap-js', 'plebeian-market-auth-js', 'plebeian-market-public-js'],
 			$this->version,
 			false
 		);
