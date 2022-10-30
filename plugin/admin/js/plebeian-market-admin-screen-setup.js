@@ -297,10 +297,14 @@ $(document).ready(function () {
 
                             if (contribution_percent) {
                                 $('#contribution_percent').val(contribution_percent);
-                                contributionUpdated();
+                            } else {
+                                $('#contribution_percent').val(3);
                             }
+                            contributionUpdated();
 
-                            $('#sellerEmail').val(sellerEmail);
+                            if (sellerEmail) {
+                                $('#sellerEmail').val(sellerEmail);
+                            }
                         },
                         error: function (e) {
                             console.log("ERROR: " + e.statusText, e);
