@@ -79,7 +79,7 @@ class Plebeian_Market_Admin_Screen_Setup
 				</div>
 
 				<a data-bs-toggle="collapse" href="#customizationAdvanced" role="button" aria-expanded="false" aria-controls="customizationAdvanced">
-					See advanced options for self-soverign set-ups
+					See advanced options <small>(for self-soverign set-ups)</small>
 				</a>
 				<div class="collapse" id="customizationAdvanced">
 					<div class="mb-3">
@@ -107,23 +107,22 @@ class Plebeian_Market_Admin_Screen_Setup
 						<button class="btn btn-primary" type="submit" id="testConnectionAndParams">Test Parameters</button>
 						<p>You must test if the changes to the connection works fine with the values provided before being able to save the new values.</p>
 					</div>
+
+					<?php
+					$adminKey = Plebeian_Market_Communications::getXAccessToken();
+					if ($adminKey !== false && $adminKey !== '') { ?>
+						<div id="logoutButtonDiv">
+							<a id="logoutButton">Logout from Plebeian Market API</a>
+						</div>
+					<?php
+					}
+					?>
 				</div>
 
 				<div class="col-12">
 					<button class="btn btn-success" type="submit" id="saveUserOptions">Save changes</button>
 				</div>
 			</form>
-
-			<?php
-			$adminKey = Plebeian_Market_Communications::getXAccessToken();
-			if ($adminKey !== false && $adminKey !== '') { ?>
-				<div id="logoutButtonDiv">
-					<a id="logoutButton">Logout from Plebeian Market API</a>
-				</div>
-			<?php
-			}
-			?>
-
 
 		</div>
 <?php
