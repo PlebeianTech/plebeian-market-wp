@@ -4,9 +4,13 @@ let buynow_product_buying_currentStep;
 let buyNowSetTimeout;
 
 function waitAndAskAgain() {
-    loginSetTimeout = setTimeout(function () {
+    buyNowSetTimeout = setTimeout(function () {
         buyNow(false);
     }, 4000);
+}
+
+function stopWaiting() {
+    clearTimeout(buyNowSetTimeout);
 }
 
 function buyNow(shouldShowLoadingModal) {
@@ -105,6 +109,9 @@ function step0() {
         })
         .fail(function (e) {
             console.log('step0 error: ', e);
+
+            stopWaiting();
+
             let errorMessage = e.responseJSON.message;
 
             if (errorMessage === 'Listing not active.') {
@@ -154,6 +161,7 @@ function step1(sale) {
         showGPModal();
     } else {
         console.error('step1 - sale is not an object:', typeof sale);
+        stopWaiting();
     }
 }
 
@@ -186,6 +194,7 @@ function step2(sale) {
         showGPModal();
     } else {
         console.error('step2 - sale is not an object:', typeof sale);
+        stopWaiting();
     }
 }
 
@@ -224,6 +233,7 @@ function step3(sale) {
         showGPModal();
     } else {
         console.error('step3 - sale is not an object:', typeof sale);
+        stopWaiting();
     }
 }
 
@@ -258,6 +268,8 @@ function step4(sale) {
     } else {
         console.error('step4 - sale is not an object:', typeof sale);
     }
+
+    stopWaiting();
 }
 
 function getBuyNowItemInfo(key, callback) {
