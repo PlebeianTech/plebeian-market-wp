@@ -111,7 +111,7 @@ class Plebeian_Market_Public
 		wp_enqueue_script(
 			'plebeian-market-public-js',
 			plugin_dir_url(__FILE__) . 'js/plebeian-market-public.js',
-			['jquery', 'plebeian-market-auth-js', 'plebeian-market-public-slideshow-js'],
+			['jquery', 'plebeian-market-auth-js', 'plebeian-market-slideshow-js'],
 			$this->version,
 			false
 		);
