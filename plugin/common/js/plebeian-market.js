@@ -1,3 +1,9 @@
+let plebeianSetTimeout;
+
+function stopSetTimeout() {
+    clearTimeout(plebeianSetTimeout);
+}
+
 function satsToBTC(sats) {
     return sats / 100000000;
 }
@@ -101,3 +107,9 @@ function showAlertModal(message) {
     const myModal = new bootstrap.Modal('#alertModal', { keyboard: true });
     myModal.show();
 }
+
+$(document).ready(function () {
+    $('#closeGPModal').click(function () {
+        stopSetTimeout();
+    });
+});

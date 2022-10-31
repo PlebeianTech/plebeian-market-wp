@@ -1,7 +1,5 @@
 $ = jQuery;
 
-let loginSetTimeout;
-
 function buyerLoginThenCallFunction(callback) {
     if (buyerAmILoggedIn()) {
         callback(true);
@@ -184,7 +182,7 @@ function checkIfLoginDone(k1, callback, adminLogin = false) {
             console.log('checkIfLoginDone response:', response);
 
             if (response.success !== true) {
-                loginSetTimeout = setTimeout(function () {
+                plebeianSetTimeout = setTimeout(function () {
                     checkIfLoginDone(k1, callback, adminLogin);
                 }, 2000);
 
@@ -215,12 +213,3 @@ function checkIfLoginDone(k1, callback, adminLogin = false) {
 
         });
 }
-function stopChecking() {
-    clearTimeout(loginSetTimeout);
-}
-
-$(document).ready(function () {
-    $('#closeGPModal').click(function () {
-        stopChecking();
-    });
-});

@@ -1,16 +1,10 @@
 let buynow_product_buying_key;
 let buynow_product_buying_currentStep;
 
-let buyNowSetTimeout;
-
 function waitAndAskAgain() {
-    buyNowSetTimeout = setTimeout(function () {
+    plebeianSetTimeout = setTimeout(function () {
         buyNow(false);
     }, 4000);
-}
-
-function stopWaiting() {
-    clearTimeout(buyNowSetTimeout);
 }
 
 function buyNow(shouldShowLoadingModal) {
@@ -110,7 +104,7 @@ function step0() {
         .fail(function (e) {
             console.log('step0 error: ', e);
 
-            stopWaiting();
+            stopSetTimeout();
 
             let errorMessage = e.responseJSON.message;
 
@@ -161,7 +155,7 @@ function step1(sale) {
         showGPModal();
     } else {
         console.error('step1 - sale is not an object:', typeof sale);
-        stopWaiting();
+        stopSetTimeout();
     }
 }
 
@@ -194,7 +188,7 @@ function step2(sale) {
         showGPModal();
     } else {
         console.error('step2 - sale is not an object:', typeof sale);
-        stopWaiting();
+        stopSetTimeout();
     }
 }
 
@@ -233,7 +227,7 @@ function step3(sale) {
         showGPModal();
     } else {
         console.error('step3 - sale is not an object:', typeof sale);
-        stopWaiting();
+        stopSetTimeout();
     }
 }
 
@@ -269,7 +263,7 @@ function step4(sale) {
         console.error('step4 - sale is not an object:', typeof sale);
     }
 
-    stopWaiting();
+    stopSetTimeout();
 }
 
 function getBuyNowItemInfo(key, callback) {
