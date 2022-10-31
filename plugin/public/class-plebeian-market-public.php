@@ -53,8 +53,8 @@ class Plebeian_Market_Public
 	public function enqueue_styles()
 	{
 		wp_enqueue_style(
-			'plebeian-market-public-css',
-			plugin_dir_url(__FILE__) . 'css/plebeian-market-public.css',
+			'plebeian-market-css',
+			plugin_dir_url(__DIR__) . 'common/css/plebeian-market.css',
 			[],
 			$this->version,
 			'all'

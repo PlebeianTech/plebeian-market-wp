@@ -36,8 +36,8 @@ class Plebeian_Market_Admin_Screen_Customization
 		);
 
 		wp_enqueue_style(
-			'plebeian-market-public-css',
-			plugin_dir_url(__DIR__) . 'public/css/plebeian-market-public.css',
+			'plebeian-market-css',
+			plugin_dir_url(__DIR__) . 'common/css/plebeian-market.css',
 			[],
 			PLEBEIAN_MARKET_VERSION,
 			'all'
