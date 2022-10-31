@@ -105,6 +105,7 @@ class Plebeian_Market_Admin_Ajax_Api
 		$addUrl = str_replace('{KEY}', $key, $addUrl);
 
 		$deleteUrl = Plebeian_Market_Communications::getBackendAPIUrl() . PM_API_DELETE_MEDIA_BUYNOW_URL;
+		$deleteUrl = str_replace('{KEY}', $key, $deleteUrl);
 
 		foreach ($saveImages as $saveImage) {
 			$imageUrl = $saveImage['url'];
@@ -136,11 +137,10 @@ class Plebeian_Market_Admin_Ajax_Api
 
 		foreach ($deleteImages as $deleteImage) {
 			$imageHash = $deleteImage['hash'];
-
-			$deleteUrl = str_replace(['{KEY}', '{HASH}'], [$key, $imageHash], $deleteUrl);
+			$deleteUrlThisImage = str_replace('{HASH}', $imageHash, $deleteUrl);
 
 			$deleteImageResponse = wp_remote_request(
-				$deleteUrl,
+				$deleteUrlThisImage,
 				[
 					'headers'     => [
 						'X-Access-Token' => Plebeian_Market_Communications::getXAccessToken()
@@ -149,6 +149,7 @@ class Plebeian_Market_Admin_Ajax_Api
 				]
 			);
 			$deleteImage_http_code = wp_remote_retrieve_response_code($deleteImageResponse);
+			echo (" - HTTP code: " . $deleteImage_http_code);
 			if (!$deleteImage_http_code === 200) {
 				wp_send_json_error([
 					'errorMessage' => 'There was a problem deleting pictures using PM API'
