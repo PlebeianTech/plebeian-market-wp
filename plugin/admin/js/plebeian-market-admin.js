@@ -71,7 +71,7 @@ function checkIfSetupDone() {
 
                 let whereToGo = '';
                 if (!currentURL.includes('plebeian_market_setup')) {
-                    whereToGo = ' Add them <a href="' + setupURL + '">here</a>.';
+                    whereToGo = ' Add them <a href="' + pluginSetupURL + '">here</a>.';
                 }
                 addAlertToDivElement(document.getElementById('alertsDiv'), 'You need to setup your <b>XPUB</b> and <b>email address</b> to be able to use the plugin to sell items.' + whereToGo, 'warning');
             }

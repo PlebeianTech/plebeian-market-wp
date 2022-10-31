@@ -91,7 +91,7 @@ function loginValid() {
 }
 function loginInvalid() {
     console.log('loginInvalid - Logout and reload');
-    adminLogout(setupURLWithoutLogin);
+    adminLogout(pluginSetupURL);
 }
 
 $(document).ready(function () {
@@ -110,7 +110,7 @@ $(document).ready(function () {
 
     $("#logoutButton").click(function () {
         console.log("Logout button clicked");
-        adminLogout(adminURLWithLogin);
+        adminLogout(pluginSetupURL);
     });
 
     //This would be called if any of the input element has got a change inside the form

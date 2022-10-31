@@ -39,7 +39,7 @@ function buyerAmILoggedIn() {
     }
 }
 
-function adminLogout(adminURLWithLogin = null) {
+function adminLogout(redirectToURL = null) {
     // Logout from Plebeian Market API
     $.ajax({
         url: requests.wordpress_pm_api.ajax_url,
@@ -53,10 +53,10 @@ function adminLogout(adminURLWithLogin = null) {
             console.log('Logged out successfully!', response);
 
             // If no URL provided, just reload
-            if (adminURLWithLogin === null) {
+            if (redirectToURL === null) {
                 location.reload();
             } else {
-                window.location.href = adminURLWithLogin;
+                window.location.href = redirectToURL;
             }
         },
         error: function (error) {
@@ -195,7 +195,7 @@ function checkIfLoginDone(k1, callback, adminLogin = false) {
 
                     if (adminLogin) {
                         // Login in the admin area to use PM API
-                        adminSaveAPIKey(authToken, adminURLWithLogin);
+                        adminSaveAPIKey(authToken, pluginSetupURL);
                     } else {
                         // Login a customer while trying to buy a product
                         Cookies.set('plebeianMarketAuthToken', authToken);

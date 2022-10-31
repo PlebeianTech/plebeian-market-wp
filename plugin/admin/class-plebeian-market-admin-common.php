@@ -19,10 +19,8 @@ class Plebeian_Market_Admin_Common
 			// Plebeian Market API info
 			let plebeian_market_auth_key = '<?= Plebeian_Market_Communications::getXAccessToken() ?>';
 
-			let adminURLWithLogin = '<?= admin_url('admin.php?page=plebeian_market') ?>';
-			let setupURLWithoutLogin = '<?= admin_url('admin.php?page=plebeian_market') ?>';
-
-			let setupURL = '<?= admin_url('admin.php?page=plebeian_market_setup') ?>';
+			let pluginURL = '<?= admin_url('admin.php?page=plebeian_market') ?>';
+			let pluginSetupURL = '<?= admin_url('admin.php?page=plebeian_market_setup') ?>';
 
 			let requests = {
 				pm_api: {
