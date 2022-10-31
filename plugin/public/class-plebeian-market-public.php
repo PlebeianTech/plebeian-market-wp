@@ -247,6 +247,20 @@ class Plebeian_Market_Public
 				</div>
 			</div>
 
+			<!-- Alert Modal -->
+			<div id="alertModal" class="modal fade" role="dialog">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-body">
+							<p id="alertModalText"></p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
 <?php
 		}
 		add_action('wp_footer', 'plebeian_common_public_code');

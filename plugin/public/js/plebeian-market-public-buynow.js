@@ -107,6 +107,11 @@ function step0() {
             console.log('step0 error: ', e);
             let errorMessage = e.responseJSON.message;
 
+            if (errorMessage === 'Listing not active.') {
+                hideLoadingModal();
+                showAlertModal('The item is not active, so you cannot buy it yet.');
+            }
+
             if (errorMessage === 'Invalid token.') {
                 Cookies.remove('plebeianMarketAuthToken');
             }
@@ -234,8 +239,6 @@ function step4(sale) {
 
         let sellerEmail = sale.seller.seller_email;
         console.log('---------- EMAIL: ', sellerEmail);
-        sellerEmail = 'aaa@bbb.com';
-
 
         let textToShowInWidget =
             '<p class="text-center fs-2">Payment confirmed!</p>' +

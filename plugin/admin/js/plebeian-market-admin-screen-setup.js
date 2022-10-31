@@ -212,7 +212,7 @@ $(document).ready(function () {
                 {
                     contribution_percent: contributionNewValue,
                     xpub: xpubNewValue,
-                    sellerEmail: sellerEmail
+                    email: sellerEmail
                 },
                 'savedContribution'
             );
@@ -289,7 +289,7 @@ $(document).ready(function () {
 
                             let xpub = user.xpub;
                             let contribution_percent = user.contribution_percent;
-                            let sellerEmail = user.sellerEmail;
+                            let sellerEmail = user.email;
 
                             if (xpub) {
                                 $('#xpubKey').val(xpub);

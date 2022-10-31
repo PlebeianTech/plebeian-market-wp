@@ -34,13 +34,6 @@ function showNotification(text, whenText, title) {
     notification.show();
 }
 
-function showAlertModal(message) {
-    $('#alertModalText').text(message);
-
-    const myModal = new bootstrap.Modal('#alertModal', { keyboard: true });
-    myModal.show();
-}
-
 function BtnLoading(elem, textLoading) {
     $(elem).data("original-text", $(elem).html());
     $(elem).prop("disabled", true);
@@ -63,10 +56,10 @@ function checkIfSetupDone() {
             let user = response.user;
 
             let xpub = user.xpub;
-            let sellerEmail = user.sellerEmail;
+            let email = user.email;
             let contribution_percent = user.contribution_percent;
             console.log('xpub', xpub);
-            if (xpub === '' || xpub === null || sellerEmail === '' || sellerEmail === null) {
+            if (xpub === '' || xpub === null || email === '' || email === null) {
                 let currentURL = window.location.href;
 
                 let whereToGo = '';

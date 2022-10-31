@@ -94,3 +94,10 @@ function putIntoHtmlElementTextQrLnAddress(elementSelector, text, lnurl, qr, pro
 
     $('#qrcodeImage').replaceWith($('<div/>').append(qr).find('svg:first').attr('id', 'qrcodeImage'));
 }
+
+function showAlertModal(message) {
+    $('#alertModalText').text(message);
+
+    const myModal = new bootstrap.Modal('#alertModal', { keyboard: true });
+    myModal.show();
+}
