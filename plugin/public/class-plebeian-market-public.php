@@ -127,10 +127,20 @@ class Plebeian_Market_Public
 
 	public function plebeian_output_custom_css()
 	{
-		// if ($output){
-		//	echo '<style type="text/css">' . $output . '</style>';
-		//}
-		echo '<style type="text/css"></style>';
+		$css_output = get_option('plebeian_market_cutomization_css');
+
+		if ($css_output) {
+			echo '<style type="text/css">' . $css_output . '</style>';
+		}
+	}
+
+	public function plebeian_output_custom_js()
+	{
+		$js_output = stripslashes(get_option('plebeian_market_cutomization_js'));
+
+		if ($js_output) {
+			echo '<script>' . $js_output . '</script>';
+		}
 	}
 
 	/**
