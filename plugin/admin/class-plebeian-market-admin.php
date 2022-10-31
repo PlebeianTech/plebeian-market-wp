@@ -110,13 +110,23 @@ class Plebeian_Market_Admin
 	/**
 	 * Menus / submenus
 	 */
-	function plebeian_main_menu()
+
+	function plebeian_main_menu_standard()
+	{
+		self::plebeian_show_main_menu_entry('plebeian_market');
+	}
+	function plebeian_main_menu_for_setup()
+	{
+		self::plebeian_show_main_menu_entry('plebeian_market_setup');
+	}
+
+	function plebeian_show_main_menu_entry($path)
 	{
 		add_menu_page(
 			'Plebeian Market WordPress plugin',
 			'Plebeian Market',
 			'manage_options',
-			'plebeian_market',
+			$path,
 			null,
 			'dashicons-store',
 			200
@@ -175,7 +185,7 @@ class Plebeian_Market_Admin
 		);
 	}
 
-	function plebeian_setup_submenu_with_others()
+	function plebeian_setup_submenu()
 	{
 		add_submenu_page(
 			'plebeian_market',
@@ -185,19 +195,6 @@ class Plebeian_Market_Admin
 			'plebeian_market_setup',
 			'Plebeian_Market_Admin_Screen_Setup::plebeian_admin_setup_page_html',
 			5
-		);
-	}
-
-	function plebeian_setup_submenu_standalone()
-	{
-		add_submenu_page(
-			'plebeian_market',
-			'Setup',
-			'Setup',
-			'manage_options',
-			'plebeian_market',
-			'Plebeian_Market_Admin_Screen_Setup::plebeian_admin_setup_page_html',
-			1
 		);
 	}
 

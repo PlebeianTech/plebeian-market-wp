@@ -173,17 +173,16 @@ class Plebeian_Market
 		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
 		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
 
-
-		$this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_main_menu');
-
 		if (!Plebeian_Market_Admin::plebeian_have_admin_auth_key()) {
-			$this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_setup_submenu_standalone');
+			$this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_main_menu_for_setup');
+			$this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_setup_submenu');
 		} else {
+			$this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_main_menu_standard');
 			$this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_information_submenu');
 			$this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_fixedprice_submenu');
 			// $this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_auctions_submenu');
 			$this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_customization_submenu');
-			$this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_setup_submenu_with_others');
+			$this->loader->add_action('admin_menu', $plugin_admin, 'plebeian_setup_submenu');
 
 			$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'add_media_script');
 		}
