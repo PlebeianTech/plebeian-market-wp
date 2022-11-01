@@ -1,5 +1,3 @@
-$ = jQuery;
-
 function buyerLoginThenCallFunction(callback) {
     if (buyerAmILoggedIn()) {
         callback(true);

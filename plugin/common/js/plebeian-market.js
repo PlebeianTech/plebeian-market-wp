@@ -1,3 +1,5 @@
+$ = jQuery;
+
 let plebeianSetTimeout;
 
 function stopSetTimeout() {

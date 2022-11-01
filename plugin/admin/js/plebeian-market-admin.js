@@ -58,7 +58,7 @@ function checkIfSetupDone() {
             let xpub = user.xpub;
             let email = user.email;
             let contribution_percent = user.contribution_percent;
-            console.log('xpub', xpub);
+
             if (xpub === '' || xpub === null || email === '' || email === null) {
                 let currentURL = window.location.href;
 
