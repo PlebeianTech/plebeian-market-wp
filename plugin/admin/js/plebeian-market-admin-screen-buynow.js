@@ -408,12 +408,11 @@ $(document).ready(function () {
                         showNotification('<p><b>Item created successfully!!</b></p>');
 
                         // START
-                        let startUrl = requests.pm_api.start.url.replace('{KEY}', newItemKey);;
-                        console.log('startUrl', startUrl);
                         $.ajax({
-                            url: startUrl,
+                            url: requests.pm_api.start.url.replace('{KEY}', newItemKey),
                             cache: false,
                             dataType: 'JSON',
+                            data: '{}',
                             contentType: 'application/json;charset=UTF-8',
                             type: requests.pm_api.start.method,
                             headers: { "X-Access-Token": requests.pm_api.XAccessToken },
