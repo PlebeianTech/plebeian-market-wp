@@ -169,10 +169,44 @@ function step2(sale) {
         console.log("Running step 2 (" + buynow_product_buying_key + ")! - We have a sale:", sale);
         buynow_product_buying_currentStep = 2;
 
-        let textToShowInWidget =
-            '<p class="fs-3 text-center">Please send the remaining amount of ' + sale.amount + ' sats ' +
-            '(' + satsToBTC(sale.amount) + ' BTC / ~$' + satsToFiat(sale.amount) + ') plus shipping ' +
-            'directly to the seller!</p>';
+        let remaining_price = sale.amount;
+        let shipping_domestic = sale.shipping_domestic;
+        let shipping_worldwide = sale.shipping_worldwide;
+
+        let textToShowInWidget = '<p class="fs-3 text-center">Please send the remaining amount plus shipping directly to the seller!</p>';
+
+        textToShowInWidget +=
+            '<div id="shipping_widget" class="fs-5 justify-content-md-center">' +
+
+            '   <div id="shipping_widget_result" class="row fs-5">' +
+            '       <span id="shipping_widget_result_product" class="row justify-content-md-center"></span>' +
+            '       <span class="row justify-content-md-center shipping_widget_operands"><b>+</b></span>' +
+
+            '       <div id="shipping_widget_chooser" class="row">' +
+            '           <div class="col-3"></div>' +
+            '           <div class="form-check col-6" id="shipping_widget_chooser_center">' +
+            '               <label class="form-check-label" for="flexRadioDefault1">Domestic Shipping ' + shipping_domestic + ' sats (~$' + satsToFiat(shipping_domestic) + ')</label>' +
+            '               <input class="form-check-66input" type="radio" name="shippingChooser" id="shipping_domestic">' +
+
+            '               <label class="form-check-label" for="flexRadioDefault2">Worldwide Shipping ' + shipping_worldwide + ' sats (~$' + satsToFiat(shipping_worldwide) + ')</label>' +
+            '               <input class="form-check-66input" type="radio" name="shippingChooser" id="shipping_worldwide" checked>' +
+            '           </div>' +
+            '       </div>' +
+
+            '       <span class="row justify-content-md-center shipping_widget_operands"><b>=</b></span>' +
+            '       <span id="shipping_widget_result_total" class="row justify-content-md-center fs-3"></span>' +
+            '   </div>' +
+
+            '   <script>' +
+            '       let remaining_price = ' + remaining_price + ';' +
+            '       let shipping_domestic = ' + shipping_domestic + ';' +
+            '       let shipping_worldwide = ' + shipping_worldwide + ';' +
+
+            '       shippingCalculator(remaining_price, shipping_domestic, shipping_worldwide);' +
+            '       $("input[type=radio][name=shippingChooser]").change(function() { shippingCalculator(remaining_price, shipping_domestic, shipping_worldwide); });' +
+            '   </script>' +
+
+            '</div>';
 
         putIntoHtmlElementTextQrLnAddress(
             '#gpModal',
@@ -241,8 +275,7 @@ function step4(sale) {
         console.log("Running step 4 (" + buynow_product_buying_key + ")! - We have a sale:", sale);
         buynow_product_buying_currentStep = 4;
 
-        let sellerEmail = sale.seller.seller_email;
-        console.log('---------- EMAIL: ', sellerEmail);
+        let sellerEmail = sale.seller_email;
 
         let textToShowInWidget =
             '<p class="text-center fs-2">Payment confirmed!</p>' +
@@ -264,6 +297,24 @@ function step4(sale) {
     }
 
     stopSetTimeout();
+}
+
+function shippingCalculator(remaining_price, shipping_domestic, shipping_worldwide) {
+    // Remaining price
+    $('#shipping_widget_result_product').html('Remaining amount: ' + remaining_price + ' sats (~$' + satsToFiat(remaining_price) + ')');
+
+    // Shipping price
+    let shippingPrice;
+    if ($('#shipping_domestic').prop('checked')) {
+        shippingPrice = shipping_domestic;
+    } else {
+        shippingPrice = shipping_worldwide;
+    }
+    $('#shipping_widget_result_shipping').html('Shipping: ' + shippingPrice + ' sats (~$' + satsToFiat(shippingPrice) + ')');
+
+    // Total
+    let total = remaining_price + shippingPrice;
+    $('#shipping_widget_result_total').html('Total: ' + total + ' sats (' + satsToBTC(total) + ' BTC / ~$' + satsToFiat(total) + ')');
 }
 
 function getBuyNowItemInfo(key, callback) {

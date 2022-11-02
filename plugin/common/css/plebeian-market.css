@@ -149,3 +149,18 @@
 .modal-title {
     margin-top: 0;
 }
+
+#shipping_widget {
+    margin-top: 1.5em;
+    margin-bottom: -0.5em;
+}
+
+#shipping_widget_chooser_center {
+    border: 1.5px solid #646464;
+    border-radius: 6px;
+    text-align: center;
+}
+
+#shipping_widget_result {
+    margin-top: 1.5em;
+}
