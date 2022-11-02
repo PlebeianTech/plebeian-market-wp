@@ -53,14 +53,6 @@ function setupSlideshow() {
     });
 }
 
-function satsToBTC(sats) {
-    return sats / 100000000;
-}
-function satsToFiat(sats) {
-    // USD for now
-    return (satsToBTC(sats) * btcPriceInUSD).toFixed(2);
-}
-
 $(document).ready(function () {
     setupSlideshow();
 });
