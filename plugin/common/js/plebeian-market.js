@@ -7,11 +7,12 @@ function stopSetTimeout() {
 }
 
 function satsToBTC(sats) {
-    return sats / 100000000;
+    let amountInBTC = sats / 100000000;
+    return amountInBTC.toLocaleString('fullwide', { useGrouping: true, maximumSignificantDigits: 6 });
 }
 function satsToFiat(sats) {
     // USD for now
-    return (satsToBTC(sats) * btcPriceInUSD).toFixed(2);
+    return (sats / 100000000 * btcPriceInUSD).toFixed(2);
 }
 
 function showLoadingModal() {
