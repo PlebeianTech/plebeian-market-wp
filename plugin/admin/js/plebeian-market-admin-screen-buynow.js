@@ -260,8 +260,8 @@ $(document).ready(function () {
                 className: "dt-center"
             },
             {
-                render: function (data, row, meta) {
-                    return '<p></p>';
+                render: function (data, type, row) {
+                    return row.media.length;
                 }
             },
             {
