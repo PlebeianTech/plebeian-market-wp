@@ -110,7 +110,7 @@ function step0() {
 
             if (errorMessage === 'Listing not active.') {
                 hideLoadingModal();
-                showAlertModal('The item is not active, so you cannot buy it yet.');
+                showAlertModal('The item is not yet active, so you cannot buy it now.');
             }
 
             if (errorMessage === 'Invalid token.') {
