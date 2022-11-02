@@ -262,16 +262,18 @@ $(document).ready(function () {
             {
                 render: function (data, type, row) {
                     return row.media.length;
-                }
+                },
+                className: "dt-center"
             },
             {
-                data: 'created_at'
+                data: 'created_at',
+                className: "dt-center"
             },
             {
-                data: 'start_date'
+                data: 'start_date',
+                className: "dt-center"
             },
             {
-                className: "dt-center",
                 render: function (data, type, row) {
                     let key = row.key;
                     let title = row.title;
@@ -287,7 +289,8 @@ $(document).ready(function () {
                     iconsToBeDisplayed += '<img src="' + pluginBasePath + 'img/code-square.svg" class="dataTablesActionIcon copyShortCodeButton" data-key="' + key + '" alt="Copy Shortcode" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Copy shortcode">';
 
                     return iconsToBeDisplayed;
-                }
+                },
+                className: "dt-center"
             }
         ],
         columnDefs: [
