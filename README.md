@@ -17,6 +17,11 @@ The development environment for the Plebeian Market WordPress plugin is based on
 git clone https://github.com/PlebeianTech/plebeian-market-wp-plugin
 ```
 
+* Change to the plugin directory:
+```
+cd plebeian-market-wp-plugin
+```
+
 * Build the docker containers:
 ```
 docker-compose up -d
@@ -27,14 +32,11 @@ docker-compose up -d
 docker-compose exec pm_wordpress_cli wp core install --url=http://localhost:8000 --title="Plebeian Market WordPress plugin test site" --admin_user=admin --admin_password=pass4admin --admin_email=test@example.com --skip-email
 
 docker-compose exec pm_wordpress_cli wp plugin activate plebeian_market
-
-docker-compose exec pm_wordpress_cli wp post update /var/www/html/assets/post1-demo.txt 1 --post_title="Testing Plebeian Market shortcodes"
 ```
 
 ## URLs:
 
 * WordPress blog: http://localhost:8000/
-* WordPress Plebeian Market demo page: http://localhost:8000/?p=1
 * WordPress admin: http://localhost:8000/wp-admin
 * PHPMyAdmin: http://localhost:8080/
 
