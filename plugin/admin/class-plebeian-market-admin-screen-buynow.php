@@ -19,7 +19,7 @@ class Plebeian_Market_Admin_Screen_Buynow
 			return;
 		}
 
-		wp_enqueue_script('plebeian-market-admin-screen-options', plugin_dir_url(__FILE__) . 'js/plebeian-market-admin-screen-buynow.js', ['jquery', 'plebeian-market-admin'], PLEBEIAN_MARKET_VERSION, false);
+		wp_enqueue_script('plebeian-market-admin-screen-buynow', plugin_dir_url(__FILE__) . 'js/plebeian-market-admin-screen-buynow.js', ['jquery', 'plebeian-market-admin'], PLEBEIAN_MARKET_VERSION, false);
 ?>
 
 		<script>
