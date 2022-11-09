@@ -26,25 +26,6 @@ class Plebeian_Market_Admin_Common
 				pm_api: {
 					default_timeout: 10000,
 					XAccessToken: '<?= Plebeian_Market_Communications::getXAccessToken() ?>',
-					new: {
-						url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_NEW_BUYNOW_URL ?>',
-						method: '<?= PM_API_NEW_BUYNOW_METHOD ?>'
-					},
-					start: {
-						url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_START_BUYNOW_URL ?>',
-						method: '<?= PM_API_START_BUYNOW_METHOD ?>'
-					},
-					edit: {
-						url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_EDIT_BUYNOW_URL ?>',
-						method: '<?= PM_API_EDIT_BUYNOW_METHOD ?>'
-					},
-					delete: {
-						url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_DELETE_BUYNOW_URL ?>',
-						method: '<?= PM_API_DELETE_BUYNOW_METHOD ?>'
-					},
-					list: {
-						url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_LIST_BUYNOW_URL ?>'
-					},
 					get_login_info: {
 						url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_GET_LOGIN_INFO_URL ?>',
 						method: '<?= PM_API_GET_LOGIN_INFO_METHOD ?>'
@@ -58,7 +39,28 @@ class Plebeian_Market_Admin_Common
 						path: '<?= PM_API_USER_OPTIONS_URL ?>',
 						getMethod: '<?= PM_API_GET_USER_OPTIONS_METHOD ?>',
 						setMethod: '<?= PM_API_SET_USER_OPTIONS_METHOD ?>'
-					}
+					},
+                    buynow: {
+                        list: {
+                            url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_LIST_BUYNOW_URL ?>'
+                        },
+                        new: {
+                            url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_NEW_BUYNOW_URL ?>',
+                            method: '<?= PM_API_NEW_BUYNOW_METHOD ?>'
+                        },
+                        edit: {
+                            url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_EDIT_BUYNOW_URL ?>',
+                            method: '<?= PM_API_EDIT_BUYNOW_METHOD ?>'
+                        },
+                        delete: {
+                            url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_DELETE_BUYNOW_URL ?>',
+                            method: '<?= PM_API_DELETE_BUYNOW_METHOD ?>'
+                        },
+                        start: {
+                            url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_START_BUYNOW_URL ?>',
+                            method: '<?= PM_API_START_BUYNOW_METHOD ?>'
+                        },
+                    }
 				},
 				wordpress_pm_api: {
 					ajax_url: '<?= admin_url('admin-ajax.php') ?>',

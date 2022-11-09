@@ -225,7 +225,7 @@ $(document).ready(function () {
 
     let buyNowDatatable = $('#table_buynow').DataTable({
         ajax: {
-            url: requests.pm_api.list.url,
+            url: requests.pm_api.buynow.list.url,
             dataSrc: 'listings',
             headers: { "X-Access-Token": requests.pm_api.XAccessToken }
         },
@@ -331,11 +331,11 @@ $(document).ready(function () {
         console.log('clickedElementKey', clickedElementKey)
 
         $.ajax({
-            url: requests.pm_api.delete.url.replace('{KEY}', clickedElementKey),
+            url: requests.pm_api.buynow.delete.url.replace('{KEY}', clickedElementKey),
             cache: false,
             dataType: 'JSON',
             contentType: 'application/json;charset=UTF-8',
-            type: requests.pm_api.delete.method,
+            type: requests.pm_api.buynow.delete.method,
             headers: { "X-Access-Token": requests.pm_api.XAccessToken }
         })
             .done(function (response) {
@@ -376,11 +376,11 @@ $(document).ready(function () {
             if (typeof key !== 'undefined' && key !== '') {
                 // Modifying
                 modifying = true;
-                url = requests.pm_api.edit.url.replace('{KEY}', key);
+                url = requests.pm_api.buynow.edit.url.replace('{KEY}', key);
             } else {
                 // New item
                 modifying = false
-                url = requests.pm_api.new.url;
+                url = requests.pm_api.buynow.new.url;
 
                 buyNowFormData['start_date'] = (new Date()).toISOString();
             }
@@ -393,7 +393,7 @@ $(document).ready(function () {
                 cache: false,
                 dataType: 'JSON',
                 contentType: 'application/json;charset=UTF-8',
-                type: modifying ? requests.pm_api.edit.method : requests.pm_api.new.method,
+                type: modifying ? requests.pm_api.buynow.edit.method : requests.pm_api.buynow.new.method,
                 headers: { "X-Access-Token": requests.pm_api.XAccessToken },
             })
                 .done(function (response) {
@@ -412,12 +412,12 @@ $(document).ready(function () {
 
                         // START
                         $.ajax({
-                            url: requests.pm_api.start.url.replace('{KEY}', newItemKey),
+                            url: requests.pm_api.buynow.start.url.replace('{KEY}', newItemKey),
                             cache: false,
                             dataType: 'JSON',
                             data: '{}',
                             contentType: 'application/json;charset=UTF-8',
-                            type: requests.pm_api.start.method,
+                            type: requests.pm_api.buynow.start.method,
                             headers: { "X-Access-Token": requests.pm_api.XAccessToken },
                         })
                             .done(function (response) {
