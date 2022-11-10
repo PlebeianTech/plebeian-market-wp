@@ -244,6 +244,11 @@ $(document).ready(function () {
                 }
             }
         ],
+        language: {
+            "emptyTable": "Create your first product using the <b>New BuyNow item</b>",
+            "info": "Showing _START_ to _END_ of _TOTAL_ products",
+            "sInfoEmpty": "You have no auctions yet"
+        },
         columns: [
             {
                 data: 'key'
