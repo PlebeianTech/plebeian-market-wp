@@ -71,25 +71,30 @@ class Plebeian_Market_Communications
 		}
 	}
 
+    public static function getItem($type, $key)
+    {
+        switch($type) {
+            case 'buynow':
+                $query_path = 'listings';
+                $json_path = 'listing';
+                break;
+            case 'auction':
+                $query_path = 'auctions';
+                $json_path = 'auction';
+                break;
+        }
 
+        $item_response = wp_remote_get(self::getBackendAPIUrl() . '/' . $query_path . '/' . $key);
+        $item_body_json = wp_remote_retrieve_body($item_response);
+        $item_http_code = wp_remote_retrieve_response_code($item_response);
 
-	/**
-	 * Buy now
-	 */
-	public static function getBuyNow($key)
-	{
-		$buyNowItem_response = wp_remote_get(self::getBackendAPIUrl() . '/listings/' . $key);
+        if ($item_http_code === 200) {
+            $item_body = json_decode($item_body_json);
+            return $item_body->{$json_path};
+        }
 
-		$buyNowItem_body_json = wp_remote_retrieve_body($buyNowItem_response);
-		$buyNowItem_http_code = wp_remote_retrieve_response_code($buyNowItem_response);
-
-		if ($buyNowItem_http_code === 200) {
-			$buyNowItem_body = json_decode($buyNowItem_body_json);
-			return $buyNowItem_body->listing;
-		}
-
-		return null;
-	}
+        return null;
+    }
 
 	public static function getBuyNowListing()
 	{
@@ -111,23 +116,6 @@ class Plebeian_Market_Communications
 		}
 
 		return null;
-	}
-
-	/**
-	 * Auctions
-	 */
-	public static function getAuctionInfo($auction_id)
-	{
-		$auction_response = wp_remote_get('https://plebeian.market/auctions/' . $auction_id);
-		$auction_body_json = wp_remote_retrieve_body($auction_response);
-		$auction_http_code = wp_remote_retrieve_response_code($auction_response);
-
-		if ($auction_http_code === 200) {
-			$auction_body = json_decode($auction_body_json);
-			return $auction_body;
-		} else {
-			return null;
-		}
 	}
 
 	public static function getBTCPriceInUSD()

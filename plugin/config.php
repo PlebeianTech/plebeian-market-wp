@@ -21,7 +21,7 @@ define('PM_API_USER_OPTIONS_URL', '/users/me');
 define('PM_API_GET_USER_OPTIONS_METHOD', 'GET');
 define('PM_API_SET_USER_OPTIONS_METHOD', 'PUT');
 
-#  BuyNow
+# BuyNow
 define('PM_API_LIST_BUYNOW_URL', '/users/me/listings');
 
 define('PM_API_GET_BUYNOW_URL', '/listings/{KEY}');
@@ -41,6 +41,9 @@ define('PM_API_DELETE_BUYNOW_METHOD', 'DELETE');
 
 define('PM_API_BUY_BUYNOW_URL', '/listings/{KEY}/buy');
 define('PM_API_BUY_BUYNOW_METHOD', 'PUT');
+
+# Auctions
+define('PM_API_LIST_AUCTIONS_URL', '/users/me/auctions');
 
 # Media
 define('PM_API_ADD_MEDIA_BUYNOW_URL', '/listings/{KEY}/media');

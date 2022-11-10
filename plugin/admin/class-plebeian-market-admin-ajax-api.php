@@ -78,18 +78,19 @@ class Plebeian_Market_Admin_Ajax_Api
 		]);
 	}
 
-	function ajax_get_buynow_info()
+	function ajax_get_item_info()
 	{
-		$key = $_POST['plebeian_buynow_item_key'];
+        $type = $_POST['plebeian_item_type'];
+        $key = $_POST['plebeian_item_key'];
 
-		$buyNowItem = Plebeian_Market_Communications::getBuyNow($key);
+        $item = Plebeian_Market_Communications::getItem($type, $key);
 
-		if ($buyNowItem) {
-			wp_send_json_success($buyNowItem);
+		if ($item) {
+			wp_send_json_success($item);
 		}
 
 		wp_send_json_error([
-			'errorMessage' => 'There was a problem getting the info for the BuyNow item with key=' . $key . '.'
+			'errorMessage' => 'There was a problem getting the info for the item with key=' . $key . '.'
 		], 400);
 	}
 

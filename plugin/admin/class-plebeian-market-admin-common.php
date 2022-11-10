@@ -12,7 +12,7 @@
 
 class Plebeian_Market_Admin_Common
 {
-	static function plebeian_common_admin_code()
+	static function plebeian_common_admin_code($showDeleteItemModal = false)
 	{
 ?>
 		<script>
@@ -59,6 +59,11 @@ class Plebeian_Market_Admin_Common
                         start: {
                             url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_START_BUYNOW_URL ?>',
                             method: '<?= PM_API_START_BUYNOW_METHOD ?>'
+                        },
+                    },
+                    auctions: {
+                        list: {
+                            url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_LIST_AUCTIONS_URL ?>'
                         },
                     }
 				},
@@ -124,6 +129,29 @@ class Plebeian_Market_Admin_Common
 				</div>
 			</div>
 		</div>
+
+        <?php
+        if ($showDeleteItemModal) {
+            ?>
+            <!-- Modal (delete) -->
+            <div class="modal fade" id="delete-item-modal" tabindex="-1" aria-labelledby="titleModalDelete" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="titleModalDelete">Delete Auction</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="delete-item-modal-body"></div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary btn-delete" id="deleteItem">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
+        ?>
 <?php
 	}
 

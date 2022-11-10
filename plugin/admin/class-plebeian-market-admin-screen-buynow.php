@@ -19,7 +19,8 @@ class Plebeian_Market_Admin_Screen_Buynow
 			return;
 		}
 
-		wp_enqueue_script('plebeian-market-admin-screen-buynow', plugin_dir_url(__FILE__) . 'js/plebeian-market-admin-screen-buynow.js', ['jquery', 'plebeian-market-admin'], PLEBEIAN_MARKET_VERSION, false);
+        wp_enqueue_script('plebeian-market-admin-screen-items', plugin_dir_url(__FILE__) . 'js/plebeian-market-admin-screen-items.js', ['jquery', 'plebeian-market-admin'], PLEBEIAN_MARKET_VERSION, false);
+		wp_enqueue_script('plebeian-market-admin-screen-buynow', plugin_dir_url(__FILE__) . 'js/plebeian-market-admin-screen-buynow.js', ['jquery', 'plebeian-market-admin', 'plebeian-market-admin-screen-items'], PLEBEIAN_MARKET_VERSION, false);
 ?>
 
 		<script>
@@ -32,7 +33,7 @@ class Plebeian_Market_Admin_Screen_Buynow
 			<h3>List of current BuyNow items</h3>
 		</div>
 
-		<table id="table_buynow" class="display">
+		<table id="table_items" class="display">
 			<thead>
 				<tr>
 					<th>Key</th>
@@ -58,7 +59,7 @@ class Plebeian_Market_Admin_Screen_Buynow
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<form class="row g-3 needs-validation" id="buyNowForm" novalidate>
+						<form class="row g-3 needs-validation" id="itemForm" novalidate>
 							<input type="hidden" class="form-control" id="key" name="key">
 
 							<div class="mb-3">
@@ -124,24 +125,6 @@ class Plebeian_Market_Admin_Screen_Buynow
 			</div>
 		</div>
 
-		<!-- Modal (delete) -->
-		<div class="modal fade" id="delete-buynow-modal" tabindex="-1" aria-labelledby="titleModalDelete" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="titleModalDelete">Delete Buy Now product</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body" id="delete-buynow-modal-body"></div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-						<button type="button" class="btn btn-primary btn-delete" id="deleteBuyNowItem">Delete</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<?php Plebeian_Market_Admin_Common::plebeian_common_admin_code() ?>
-<?php
+		<?php Plebeian_Market_Admin_Common::plebeian_common_admin_code(true);
 	}
 }
