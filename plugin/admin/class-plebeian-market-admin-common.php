@@ -61,9 +61,13 @@ class Plebeian_Market_Admin_Common
                             method: '<?= PM_API_START_BUYNOW_METHOD ?>'
                         },
                     },
-                    auctions: {
+                    auction: {
                         list: {
                             url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_LIST_AUCTIONS_URL ?>'
+                        },
+                        delete: {
+                            url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_DELETE_AUCTIONS_URL ?>',
+                            method: '<?= PM_API_DELETE_AUCTIONS_METHOD ?>'
                         },
                     }
 				},

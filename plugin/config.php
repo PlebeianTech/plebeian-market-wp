@@ -45,6 +45,9 @@ define('PM_API_BUY_BUYNOW_METHOD', 'PUT');
 # Auctions
 define('PM_API_LIST_AUCTIONS_URL', '/users/me/auctions');
 
+define('PM_API_DELETE_AUCTIONS_URL', '/auctions/{KEY}');
+define('PM_API_DELETE_AUCTIONS_METHOD', 'DELETE');
+
 # Media
 define('PM_API_ADD_MEDIA_BUYNOW_URL', '/listings/{KEY}/media');
 define('PM_API_ADD_MEDIA_BUYNOW_METHOD', 'POST');

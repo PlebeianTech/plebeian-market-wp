@@ -1,6 +1,8 @@
 // This file gets included in both Auctions and BuyNow screens
 // and contains common functions used in both screens
 
+let itemsDatatable;
+
 function addImageToProduct(url, hash, index, saved) {
     let imageHTML =
         '<li class="ui-state-default">' +
@@ -194,6 +196,7 @@ function rebindIconClicks() {
 
     /* Show Delete item confirmation modal */
     $('.deleteButton').click(function () {
+        let pmtype = $(this).data('pmtype');
         let clickedElementKey = $(this).data('key');
         let clickedElementTitle = $(this).data('title');
 
@@ -202,7 +205,9 @@ function rebindIconClicks() {
             '<p><b>' + clickedElementTitle + '</b></p>'
         );
 
-        $('#deleteItem').data('key', clickedElementKey);
+        $('#deleteItem')
+            .data('pmtype', pmtype)
+            .data('key', clickedElementKey);
 
         const deleteModal = new bootstrap.Modal('#delete-item-modal', { keyboard: true });
         deleteModal.show();
@@ -223,6 +228,37 @@ function rebindIconClicks() {
 }
 
 $(document).ready( function () {
+    makeImagesOrderable();
+
+    /* Delete Item after user confirmation */
+    $('#deleteItem').click(function () {
+        $("#deleteItem").prop("disabled", true);
+
+        let pmtype = $(this).data('pmtype');
+        let clickedElementKey = $(this).data('key');
+
+        $.ajax({
+            url: requests.pm_api[pmtype].delete.url.replace('{KEY}', clickedElementKey),
+            cache: false,
+            dataType: 'JSON',
+            contentType: 'application/json;charset=UTF-8',
+            type: requests.pm_api[pmtype].delete.method,
+            headers: { "X-Access-Token": requests.pm_api.XAccessToken }
+        })
+            .done(function (response) {
+                itemsDatatable.ajax.reload();
+                showNotification('<p><b>Item deleted successfully</b></p>');
+            })
+            .fail(function (e) {
+                let errorMessage = e.responseJSON.message;
+                console.log("ERROR : ", errorMessage);
+                showNotification('<p><b>ERROR while trying to delete the item: ' + errorMessage + '</b>.</p> <p>Contact Plebeian Market support</p>');
+            })
+            .always(function () {
+                $(".btn-delete").prop("disabled", false);
+                $('#delete-item-modal').modal('hide');
+            });
+    });
 
     // WordPress image gallery setup
     var ds = ds || {};

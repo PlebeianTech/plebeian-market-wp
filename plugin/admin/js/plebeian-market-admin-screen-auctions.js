@@ -1,9 +1,7 @@
 $(document).ready( function () {
-    makeImagesOrderable();
-
-    let auctionsDatatable = $('#table_items').DataTable({
+    itemsDatatable = $('#table_items').DataTable({
         ajax: {
-            url: requests.pm_api.auctions.list.url,
+            url: requests.pm_api.auction.list.url,
             dataSrc: 'auctions',
             headers: { "X-Access-Token": requests.pm_api.XAccessToken }
         },
@@ -120,38 +118,6 @@ $(document).ready( function () {
         })
     });
 
-    /* Delete Item after user confirmation */
-    $('#deleteItem').click(function () {
-        $("#deleteItem").prop("disabled", true);
-
-        let clickedElementKey = $(this).data('key')
-        console.log('clickedElementKey', clickedElementKey)
-
-        $.ajax({
-            url: requests.pm_api.buynow.delete.url.replace('{KEY}', clickedElementKey),
-            cache: false,
-            dataType: 'JSON',
-            contentType: 'application/json;charset=UTF-8',
-            type: requests.pm_api.buynow.delete.method,
-            headers: { "X-Access-Token": requests.pm_api.XAccessToken }
-        })
-            .done(function (response) {
-                console.log('response', response);
-                buyNowDatatable.ajax.reload();
-                showNotification('<p><b>Item deleted successfully</b></p>');
-            })
-            .fail(function (e) {
-                let errorMessage = e.responseJSON.message;
-                console.log("ERROR : ", errorMessage);
-                showNotification('<p><b>ERROR while trying to delete the item: ' + errorMessage + '</b>.</p> <p>Contact Plebeian Market support</p>');
-            })
-            .always(function () {
-                $(".btn-delete").prop("disabled", false);
-
-                $('#delete-item-modal').modal('hide');
-            });
-    });
-
     /* Save Form */
     $('#saveBuyNowItem').click(function () {
         let form = $('#itemForm')[0];
@@ -227,7 +193,7 @@ $(document).ready( function () {
                             });
                     }
 
-                    buyNowDatatable.ajax.reload();
+                    itemsDatatable.ajax.reload();
                     $('#add-buynow-modal').modal('hide');
                 })
                 .fail(function (e) {
