@@ -103,12 +103,14 @@ class Plebeian_Market_Admin_Ajax_Api
 		$saveImages =	$images['save'];
 		$deleteImages =	$images['delete'];
 
+        $backendAPIUrl = Plebeian_Market_Communications::getBackendAPIUrl();
+
         if ($pmtype == 'auction') {
-            $addUrl = Plebeian_Market_Communications::getBackendAPIUrl() . PM_API_ADD_MEDIA_AUCTION_URL;
-            $deleteUrl = Plebeian_Market_Communications::getBackendAPIUrl() . PM_API_DELETE_MEDIA_AUCTION_URL;
+            $addUrl = $backendAPIUrl . PM_API_ADD_MEDIA_AUCTION_URL;
+            $deleteUrl = $backendAPIUrl . PM_API_DELETE_MEDIA_AUCTION_URL;
         } else {
-            $addUrl = Plebeian_Market_Communications::getBackendAPIUrl() . PM_API_ADD_MEDIA_BUYNOW_URL;
-            $deleteUrl = Plebeian_Market_Communications::getBackendAPIUrl() . PM_API_DELETE_MEDIA_BUYNOW_URL;
+            $addUrl = $backendAPIUrl . PM_API_ADD_MEDIA_BUYNOW_URL;
+            $deleteUrl = $backendAPIUrl . PM_API_DELETE_MEDIA_BUYNOW_URL;
         }
 
 		$addUrl = str_replace('{KEY}', $key, $addUrl);
