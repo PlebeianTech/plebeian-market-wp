@@ -22,6 +22,14 @@ h3 {
 .dataTablesActionIcon {
     width: 1.5em;
     margin-right: 5px;
+    cursor: pointer;
+}
+
+.dataTablesActionIconDisabled {
+    width: 1.5em;
+    margin-right: 5px;
+    cursor: not-allowed;
+    filter: invert(98%) sepia(1%) saturate(4869%) hue-rotate(178deg) brightness(83%) contrast(81%);
 }
 
 .toastImg {
@@ -30,10 +38,6 @@ h3 {
 
 .toastBottom {
     bottom: 2em !important;
-}
-
-.dataTablesActionIcon {
-    cursor: pointer;
 }
 
 #table_items {
