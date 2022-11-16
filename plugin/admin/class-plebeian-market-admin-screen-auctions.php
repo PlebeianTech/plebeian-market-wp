@@ -40,12 +40,12 @@ class Plebeian_Market_Admin_Screen_Auctions
                 <th>Title</th>
                 <th>Images</th>
                 <th>Duration (h)</th>
-                <th># bids</th>
-                <th>Starting bid</th>
-                <th>Current bid</th>
                 <th>Created at</th>
                 <th>Start date</th>
                 <th>End date</th>
+                <th>Starting bid</th>
+                <th># bids</th>
+                <th>Current bid</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -54,7 +54,7 @@ class Plebeian_Market_Admin_Screen_Auctions
         </table>
 
         <!-- Modal (New/Edit Auction) -->
-        <div class="modal fade" id="add-auctions-modal" tabindex="-1" aria-labelledby="titleModalItemInfo" aria-hidden="true">
+        <div class="modal fade" id="add-item-modal" tabindex="-1" aria-labelledby="titleModalItemInfo" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -62,7 +62,7 @@ class Plebeian_Market_Admin_Screen_Auctions
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form class="row g-3 needs-validation" id="itemForm" novalidate>
+                        <form class="row g-3 needs-validation" id="itemForm" data-pmtype="auction" novalidate>
                             <input type="hidden" class="form-control" id="key" name="key">
 
                             <div class="mb-3">
@@ -78,15 +78,14 @@ class Plebeian_Market_Admin_Screen_Auctions
 
                             </div>
                             <div class="col-md-6">
-                                <label for="price_usd" class="col-form-label">Price ($):</label>
-                                <input type="text" class="form-control fiat-to-btc-source" id="price_usd" name="price_usd" required>
-                                <div class="invalid-feedback">You must provide the <b>price</b> of the product.</div>
+                                <label for="starting_bid" class="col-form-label">Starting bid (sats - optional):</label>
+                                <input type="text" class="form-control fiat-to-btc-source" id="starting_bid" name="starting_bid">
                                 <small class="sats_container" id="price_usd_sats"></small>
                             </div>
                             <div class="col-md-6">
-                                <label for="available_quantity" class="col-form-label">Available quantity:</label>
-                                <input type="text" class="form-control" id="available_quantity" name="available_quantity" required>
-                                <div class="invalid-feedback">You must provice <b>how many units</b> of the product you're selling.</div>
+                                <label for="reserve_bid" class="col-form-label">Reserve bid (sats - optional):</label>
+                                <input type="text" class="form-control" id="reserve_bid" name="reserve_bid">
+                                <small class="sats_container" id="price_usd_sats"></small>
                             </div>
 
                             <!-- Shipping -->
@@ -107,6 +106,22 @@ class Plebeian_Market_Admin_Screen_Auctions
                                 <small class="sats_container" id="shipping_worldwide_usd_sats"></small>
                             </div>
 
+                            <!-- Auction Duration -->
+                            <div class="row mt-3 mb-3">
+                                <label for="duration" class="col-form-label">Auction duration:</label>
+                                <div class="col-2">
+                                    <input type="text" class="form-control" id="duration" name="duration" required>
+                                    <div class="invalid-feedback">This field is mandatory. You must set the duration of the auction in hours or days.</div>
+                                </div>
+                                <div class="col-2">
+                                    <label class="visually-hidden" for="duration_unit">Name</label>
+                                    <select class="form-control" id="duration_unit" name="duration_unit">
+                                        <option value="h">hours</option>
+                                        <option value="d">days</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <!-- Images -->
                             <div class="col-md-6">
                                 <label for="open-media-modal" class="col-form-label">Product images:</label>
@@ -122,7 +137,7 @@ class Plebeian_Market_Admin_Screen_Auctions
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary btn-save" id="saveBuyNowItem">Save</button>
+                        <button type="button" class="btn btn-primary btn-save" id="saveItem">Save</button>
                     </div>
                 </div>
             </div>

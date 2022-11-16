@@ -38,7 +38,7 @@ function makeImagesOrderable() {
     $("#product-images-container").disableSelection();
 }
 
-function saveImagesToProduct(key) {
+function saveImagesToProduct(pmtype, key) {
     let imagesSave = [];
     let imagesDelete = [];
 
@@ -87,7 +87,8 @@ function saveImagesToProduct(key) {
             data: {
                 _ajax_nonce: requests.wordpress_pm_api.nonce,
                 action: "plebeian-ajax_save_image_into_item",
-                item_key: key,
+                plebeian_item_key: key,
+                plebeian_item_type: pmtype,
                 images: {
                     save: imagesSave,
                     delete: imagesDelete
@@ -150,31 +151,48 @@ function rebindIconClicks() {
                 console.log('Information retrieved successfully!', response);
 
                 if (response.success === true) {
-                    let buynow_item_info = response.data;
+                    let item_info_from_api = response.data;
 
-                    if (buynow_item_info.is_mine === false) {
+                    if (item_info_from_api.is_mine === false) {
                         //                        showAlertModal("You don't have permission to modify this item because it's not yours.");
                         //                        return;
                     }
 
-                    $('#titleModalItemInfo').text('Modify BuyNow product');
+                    $('#titleModalItemInfo').text(pmtype === 'buynow' ? 'Modify BuyNow product' : 'Modify Auction');
 
-                    $('#key').val(buynow_item_info.key);
-                    $('#title').val(buynow_item_info.title);
-                    $('#description').val(buynow_item_info.description);
-                    $('#price_usd').val(buynow_item_info.price_usd);
-                    $('#available_quantity').val(buynow_item_info.available_quantity);
-                    $('#shipping_from').val(buynow_item_info.shipping_from);
-                    $('#shipping_domestic_usd').val(buynow_item_info.shipping_domestic_usd);
-                    $('#shipping_worldwide_usd').val(buynow_item_info.shipping_worldwide_usd);
+                    $('#key').val(item_info_from_api.key);
+                    $('#title').val(item_info_from_api.title);
+                    $('#description').val(item_info_from_api.description);
 
-                    $(buynow_item_info.media).each(function () {
+                    $('#shipping_from').val(item_info_from_api.shipping_from);
+                    $('#shipping_domestic_usd').val(item_info_from_api.shipping_domestic_usd);
+                    $('#shipping_worldwide_usd').val(item_info_from_api.shipping_worldwide_usd);
+
+                    if (pmtype === 'auction') {
+                        $('#starting_bid').val(item_info_from_api.starting_bid);
+                        $('#reserve_bid').val(item_info_from_api.reserve_bid);
+
+                        let duration_hours = item_info_from_api.duration_hours;
+                        if (duration_hours % 24 === 0) {
+                            $('#duration').val(duration_hours / 24);
+                            $('#duration_unit').val('d');
+                        } else {
+                            $('#duration').val(duration_hours);
+                            $('#duration_unit').val('h');
+                        }
+
+                    } else if (pmtype === 'buynow') {
+                        $('#price_usd').val(item_info_from_api.price_usd);
+                        $('#available_quantity').val(item_info_from_api.available_quantity);
+                    }
+
+                    $(item_info_from_api.media).each(function () {
                         addImageToProduct(this.url, this.hash, this.index, 'true');
                     });
 
                     $('.sats_container').text('');
 
-                    const modifyModal = new bootstrap.Modal('#add-buynow-modal', { keyboard: true });
+                    const modifyModal = new bootstrap.Modal('#add-item-modal', { keyboard: true });
                     modifyModal.show();
 
                 } else {
@@ -258,6 +276,106 @@ $(document).ready( function () {
                 $(".btn-delete").prop("disabled", false);
                 $('#delete-item-modal').modal('hide');
             });
+    });
+
+    /* Save Form */
+    $('#saveItem').click(function () {
+        let form = $('#itemForm')[0];
+        let pmtype = $(form).data('pmtype');
+        let validity = form.checkValidity();
+        form.classList.add('was-validated');
+
+        if (validity) {
+            let saveButton = $(this);
+            BtnLoading(saveButton, 'Saving...');
+
+            let itemForm = $("#itemForm");
+            let itemFormData = getFormData(itemForm);
+
+            let url;
+            let modifying;
+
+            let key = itemFormData['key'];
+
+            if (pmtype === 'auction') {
+                let duration = document.getElementById('duration').value;
+                let duration_unit = document.getElementById('duration_unit').value;
+
+                if (duration_unit === 'd') {
+                    duration *= 24;
+                }
+
+                itemFormData['duration_hours'] = duration;
+            }
+
+            if (typeof key !== 'undefined' && key !== '') {
+                // Modifying
+                modifying = true;
+                url = requests.pm_api[pmtype].edit.url.replace('{KEY}', key);
+            } else {
+                // New item
+                modifying = false
+                url = requests.pm_api[pmtype].new.url;
+
+                itemFormData['start_date'] = (new Date()).toISOString();
+            }
+
+            console.log('modifying', modifying);
+
+            $.ajax({
+                url: url,
+                data: JSON.stringify(itemFormData),
+                cache: false,
+                dataType: 'JSON',
+                contentType: 'application/json;charset=UTF-8',
+                type: modifying ? requests.pm_api[pmtype].edit.method : requests.pm_api[pmtype].new.method,
+                headers: { "X-Access-Token": requests.pm_api.XAccessToken },
+            })
+                .done(function (response) {
+                    console.log('response', response);
+
+                    console.log('Product saved correctly. Saving images now...');
+
+                    if (modifying) {
+                        saveImagesToProduct(pmtype, key);
+                        $('#add-item-modal').modal('hide');
+                        showNotification('<p><b>Item modified successfully!!</b></p>');
+                    } else {
+                        let newItemKey = response[pmtype].key;
+                        saveImagesToProduct(pmtype, newItemKey);
+                        showNotification('<p><b>Item created successfully!!</b></p>');
+
+                        // START
+                        $.ajax({
+                            url: requests.pm_api[pmtype].start.url.replace('{KEY}', newItemKey),
+                            cache: false,
+                            dataType: 'JSON',
+                            data: '{}',
+                            contentType: 'application/json;charset=UTF-8',
+                            type: requests.pm_api[pmtype].start.method,
+                            headers: { "X-Access-Token": requests.pm_api.XAccessToken },
+                        })
+                            .done(function (response) {
+                                console.log('Start OK. Response: ', response);
+                            })
+                            .fail(function (e) {
+                                console.log('Error: ', e);
+                            })
+                            .always(function () {
+                            });
+                    }
+
+                    itemsDatatable.ajax.reload();
+                    $('#add-item-modal').modal('hide');
+                })
+                .fail(function (e) {
+                    console.log('Error: ', e);
+                    showAlertModal('ERROR while trying to save the item: ' + e.responseJSON.message + '. Contact Plebeian Market support.');
+                })
+                .always(function () {
+                    BtnReset(saveButton);
+                });
+        }
     });
 
     // WordPress image gallery setup

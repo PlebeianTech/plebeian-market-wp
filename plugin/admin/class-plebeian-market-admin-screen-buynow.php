@@ -51,7 +51,7 @@ class Plebeian_Market_Admin_Screen_Buynow
 		</table>
 
 		<!-- Modal (New/Edit BuyNow) -->
-		<div class="modal fade" id="add-buynow-modal" tabindex="-1" aria-labelledby="titleModalItemInfo" aria-hidden="true">
+		<div class="modal fade" id="add-item-modal" tabindex="-1" aria-labelledby="titleModalItemInfo" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -59,7 +59,7 @@ class Plebeian_Market_Admin_Screen_Buynow
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<form class="row g-3 needs-validation" id="itemForm" novalidate>
+						<form class="row g-3 needs-validation" id="itemForm" data-pmtype="buynow" novalidate>
 							<input type="hidden" class="form-control" id="key" name="key">
 
 							<div class="mb-3">
@@ -83,7 +83,7 @@ class Plebeian_Market_Admin_Screen_Buynow
 							<div class="col-md-6">
 								<label for="available_quantity" class="col-form-label">Available quantity:</label>
 								<input type="text" class="form-control" id="available_quantity" name="available_quantity" required>
-								<div class="invalid-feedback">You must provice <b>how many units</b> of the product you're selling.</div>
+								<div class="invalid-feedback">You must enter <b>how many units</b> of the product you're selling.</div>
 							</div>
 
 							<!-- Shipping -->
@@ -119,7 +119,7 @@ class Plebeian_Market_Admin_Screen_Buynow
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary btn-save" id="saveBuyNowItem">Save</button>
+						<button type="button" class="btn btn-primary btn-save" id="saveItem">Save</button>
 					</div>
 				</div>
 			</div>

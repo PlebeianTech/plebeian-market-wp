@@ -42,18 +42,32 @@ const PM_API_DELETE_BUYNOW_METHOD = 'DELETE';
 const PM_API_BUY_BUYNOW_URL = '/listings/{KEY}/buy';
 const PM_API_BUY_BUYNOW_METHOD = 'PUT';
 
+//      media
+const PM_API_ADD_MEDIA_BUYNOW_URL = '/listings/{KEY}/media';
+const PM_API_ADD_MEDIA_BUYNOW_METHOD = 'POST';
+
+const PM_API_DELETE_MEDIA_BUYNOW_URL = '/listings/{KEY}/media/{HASH}';
+const PM_API_DELETE_MEDIA_BUYNOW_METHOD = 'DELETE';
+
 # Auctions
 const PM_API_LIST_AUCTIONS_URL = '/users/me/auctions';
 
 const PM_API_DELETE_AUCTIONS_URL = '/auctions/{KEY}';
 const PM_API_DELETE_AUCTIONS_METHOD = 'DELETE';
 
-# Media
-const PM_API_ADD_MEDIA_BUYNOW_URL = '/listings/{KEY}/media';
-const PM_API_ADD_MEDIA_BUYNOW_METHOD = 'POST';
+const PM_API_NEW_AUCTIONS_URL = '/users/me/auctions';
+const PM_API_NEW_AUCTIONS_METHOD = 'POST';
 
-const PM_API_DELETE_MEDIA_BUYNOW_URL = '/listings/{KEY}/media/{HASH}';
-const PM_API_DELETE_MEDIA_BUYNOW_METHOD = 'DELETE';
+const PM_API_EDIT_AUCTIONS_URL = '/auctions/{KEY}';
+const PM_API_EDIT_AUCTIONS_METHOD = 'PUT';
+
+//      media
+const PM_API_ADD_MEDIA_AUCTION_URL = '/auctions/{KEY}/media';
+const PM_API_ADD_MEDIA_AUCTION_METHOD = 'POST';
+
+const PM_API_DELETE_MEDIA_AUCTION_URL = '/auctions/{KEY}/media/{HASH}';
+const PM_API_DELETE_MEDIA_AUCTION_METHOD = 'DELETE';
+
 
 
 # Util / Misc

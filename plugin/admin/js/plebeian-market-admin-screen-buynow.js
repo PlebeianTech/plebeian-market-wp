@@ -1,3 +1,15 @@
+function setFormDefaultValues() {
+    let shipping_domestic_usd = document.getElementById('shipping_domestic_usd');
+    if (!shipping_domestic_usd.value) {
+        shipping_domestic_usd.value = 0;
+    }
+
+    let shipping_worldwide_usd = document.getElementById('shipping_worldwide_usd');
+    if (!shipping_worldwide_usd.value) {
+        shipping_worldwide_usd.value = 0;
+    }
+}
+
 $(document).ready(function () {
     itemsDatatable = $('#table_items').DataTable({
         ajax: {
@@ -13,10 +25,10 @@ $(document).ready(function () {
             'csv',
             {
                 text: 'New BuyNow item',
-                className: 'createButton',
+                className: 'newItemButton',
                 attr: {
                     'data-bs-toggle': 'modal',
-                    'data-bs-target': '#add-buynow-modal'
+                    'data-bs-target': '#add-item-modal'
                 }
             }
         ],
@@ -98,97 +110,10 @@ $(document).ready(function () {
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
-        $('.createButton').click(function () {
+        $('.newItemButton').click(function () {
             $('#titleModalItemInfo').text('New BuyNow product');
             clearForm();
+            setFormDefaultValues();
         })
-    });
-
-    /* Save Form */
-    $('#saveBuyNowItem').click(function () {
-        let form = $('#buyNowForm')[0];
-        let validity = form.checkValidity();
-        form.classList.add('was-validated');
-
-        if (validity) {
-            var $saveButton = $(this);
-            BtnLoading($saveButton, 'Saving...');
-
-            let buyNowForm = $("#buyNowForm");
-            let buyNowFormData = getFormData(buyNowForm);
-
-            let key = buyNowFormData['key'];
-
-            let url;
-            let modifying;
-
-            if (typeof key !== 'undefined' && key !== '') {
-                // Modifying
-                modifying = true;
-                url = requests.pm_api.buynow.edit.url.replace('{KEY}', key);
-            } else {
-                // New item
-                modifying = false
-                url = requests.pm_api.buynow.new.url;
-
-                buyNowFormData['start_date'] = (new Date()).toISOString();
-            }
-
-            console.log('modifying', modifying);
-
-            $.ajax({
-                url: url,
-                data: JSON.stringify(buyNowFormData),
-                cache: false,
-                dataType: 'JSON',
-                contentType: 'application/json;charset=UTF-8',
-                type: modifying ? requests.pm_api.buynow.edit.method : requests.pm_api.buynow.new.method,
-                headers: { "X-Access-Token": requests.pm_api.XAccessToken },
-            })
-                .done(function (response) {
-                    console.log('response', response);
-
-                    console.log('Product saved correctly. Saving images now...');
-
-                    if (modifying) {
-                        saveImagesToProduct(key);
-                        $('#add-buynow-modal').modal('hide');
-                        showNotification('<p><b>Item modified successfully!!</b></p>');
-                    } else {
-                        let newItemKey = response.listing.key;
-                        saveImagesToProduct(newItemKey);
-                        showNotification('<p><b>Item created successfully!!</b></p>');
-
-                        // START
-                        $.ajax({
-                            url: requests.pm_api.buynow.start.url.replace('{KEY}', newItemKey),
-                            cache: false,
-                            dataType: 'JSON',
-                            data: '{}',
-                            contentType: 'application/json;charset=UTF-8',
-                            type: requests.pm_api.buynow.start.method,
-                            headers: { "X-Access-Token": requests.pm_api.XAccessToken },
-                        })
-                            .done(function (response) {
-                                console.log('Start OK. Response: ', response);
-                            })
-                            .fail(function (e) {
-                                console.log('Error: ', e);
-                            })
-                            .always(function () {
-                            });
-                    }
-
-                    itemsDatatable.ajax.reload();
-                    $('#add-buynow-modal').modal('hide');
-                })
-                .fail(function (e) {
-                    console.log('Error: ', e);
-                    showAlertModal('ERROR while trying to save the item: ' + e.message + '. Contact Plebeian Market support.');
-                })
-                .always(function () {
-                    BtnReset($saveButton);
-                });
-        }
     });
 });

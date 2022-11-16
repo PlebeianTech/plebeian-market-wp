@@ -96,16 +96,22 @@ class Plebeian_Market_Admin_Ajax_Api
 
 	function ajax_save_image_into_item()
 	{
-		$key = $_POST['item_key'];
+        $pmtype = $_POST['plebeian_item_type'];
+		$key = $_POST['plebeian_item_key'];
 		$images = $_POST['images'];
 
 		$saveImages =	$images['save'];
 		$deleteImages =	$images['delete'];
 
-		$addUrl = Plebeian_Market_Communications::getBackendAPIUrl() . PM_API_ADD_MEDIA_BUYNOW_URL;
-		$addUrl = str_replace('{KEY}', $key, $addUrl);
+        if ($pmtype == 'auction') {
+            $addUrl = Plebeian_Market_Communications::getBackendAPIUrl() . PM_API_ADD_MEDIA_AUCTION_URL;
+            $deleteUrl = Plebeian_Market_Communications::getBackendAPIUrl() . PM_API_DELETE_MEDIA_AUCTION_URL;
+        } else {
+            $addUrl = Plebeian_Market_Communications::getBackendAPIUrl() . PM_API_ADD_MEDIA_BUYNOW_URL;
+            $deleteUrl = Plebeian_Market_Communications::getBackendAPIUrl() . PM_API_DELETE_MEDIA_BUYNOW_URL;
+        }
 
-		$deleteUrl = Plebeian_Market_Communications::getBackendAPIUrl() . PM_API_DELETE_MEDIA_BUYNOW_URL;
+		$addUrl = str_replace('{KEY}', $key, $addUrl);
 		$deleteUrl = str_replace('{KEY}', $key, $deleteUrl);
 
 		foreach ($saveImages as $saveImage) {

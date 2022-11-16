@@ -1,3 +1,31 @@
+function setFormDefaultValues() {
+    let starting_bid = document.getElementById('starting_bid');
+    if (!starting_bid.value) {
+        starting_bid.value = 0;
+    }
+
+    let reserve_bid = document.getElementById('reserve_bid');
+    if (!reserve_bid.value) {
+        reserve_bid.value = 0;
+    }
+
+    let shipping_domestic_usd = document.getElementById('shipping_domestic_usd');
+    if (!shipping_domestic_usd.value) {
+        shipping_domestic_usd.value = 0;
+    }
+
+    let shipping_worldwide_usd = document.getElementById('shipping_worldwide_usd');
+    if (!shipping_worldwide_usd.value) {
+        shipping_worldwide_usd.value = 0;
+    }
+
+    let duration = document.getElementById('duration');
+    if (!duration.value) {
+        duration.value = 3;
+        document.getElementById('duration_unit').value = 'd';
+    }
+}
+
 $(document).ready( function () {
     itemsDatatable = $('#table_items').DataTable({
         ajax: {
@@ -5,7 +33,7 @@ $(document).ready( function () {
             dataSrc: 'auctions',
             headers: { "X-Access-Token": requests.pm_api.XAccessToken }
         },
-        order: [[5, 'desc']],
+        order: [[4, 'desc']],
         dom: '<"toolbar">Bfrtip',
         //select: true,
         buttons: [
@@ -13,10 +41,10 @@ $(document).ready( function () {
             'csv',
             {
                 text: 'New Auction',
-                className: 'createButton',
+                className: 'newItemButton',
                 attr: {
                     'data-bs-toggle': 'modal',
-                    'data-bs-target': '#add-auctions-modal'
+                    'data-bs-target': '#add-item-modal'
                 }
             }
         ],
@@ -43,20 +71,6 @@ $(document).ready( function () {
                 className: "dt-center"
             },
             {
-                render: function (data, type, row) {
-                    return row.bids.length;
-                },
-                className: "dt-center"
-            },
-            {
-                data: 'starting_bid',
-                className: "dt-center"
-            },
-            {
-                data: 'current_bid',
-                className: "dt-center"
-            },
-            {
                 data: 'created_at',
                 className: "dt-center"
             },
@@ -66,6 +80,22 @@ $(document).ready( function () {
             },
             {
                 data: 'end_date',
+                className: "dt-center"
+            },
+            {
+                data: 'starting_bid',
+                className: "dt-center"
+            },
+            {
+                render: function (data, type, row) {
+                    return row.bids.length;
+                },
+                className: "dt-center"
+            },
+            {
+                render: function (data, type, row) {
+                    return row.current_bid ?? '';
+                },
                 className: "dt-center"
             },
             {
@@ -94,11 +124,11 @@ $(document).ready( function () {
                 render: DataTable.render.text(),
             },
             {
-                targets: [5, 6, 7, 8],
+                targets: [4, 5, 6],
                 render: DataTable.render.datetime(),
             },
             {
-                targets: 9,
+                targets: 10,
                 width: '10%'
             },
         ],
@@ -112,97 +142,10 @@ $(document).ready( function () {
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
-        $('.createButton').click(function () {
+        $('.newItemButton').click(function () {
             $('#titleModalItemInfo').text('New Auction');
             clearForm();
+            setFormDefaultValues();
         })
-    });
-
-    /* Save Form */
-    $('#saveBuyNowItem').click(function () {
-        let form = $('#itemForm')[0];
-        let validity = form.checkValidity();
-        form.classList.add('was-validated');
-
-        if (validity) {
-            var $saveButton = $(this);
-            BtnLoading($saveButton, 'Saving...');
-
-            let itemForm = $("#itemForm");
-            let itemFormData = getFormData(itemForm);
-
-            let key = itemFormData['key'];
-
-            let url;
-            let modifying;
-
-            if (typeof key !== 'undefined' && key !== '') {
-                // Modifying
-                modifying = true;
-                url = requests.pm_api.buynow.edit.url.replace('{KEY}', key);
-            } else {
-                // New item
-                modifying = false
-                url = requests.pm_api.buynow.new.url;
-
-                itemFormData['start_date'] = (new Date()).toISOString();
-            }
-
-            console.log('modifying', modifying);
-
-            $.ajax({
-                url: url,
-                data: JSON.stringify(itemFormData),
-                cache: false,
-                dataType: 'JSON',
-                contentType: 'application/json;charset=UTF-8',
-                type: modifying ? requests.pm_api.buynow.edit.method : requests.pm_api.buynow.new.method,
-                headers: { "X-Access-Token": requests.pm_api.XAccessToken },
-            })
-                .done(function (response) {
-                    console.log('response', response);
-
-                    console.log('Product saved correctly. Saving images now...');
-
-                    if (modifying) {
-                        saveImagesToProduct(key);
-                        $('#add-buynow-modal').modal('hide');
-                        showNotification('<p><b>Item modified successfully!!</b></p>');
-                    } else {
-                        let newItemKey = response.listing.key;
-                        saveImagesToProduct(newItemKey);
-                        showNotification('<p><b>Item created successfully!!</b></p>');
-
-                        // START
-                        $.ajax({
-                            url: requests.pm_api.buynow.start.url.replace('{KEY}', newItemKey),
-                            cache: false,
-                            dataType: 'JSON',
-                            data: '{}',
-                            contentType: 'application/json;charset=UTF-8',
-                            type: requests.pm_api.buynow.start.method,
-                            headers: { "X-Access-Token": requests.pm_api.XAccessToken },
-                        })
-                            .done(function (response) {
-                                console.log('Start OK. Response: ', response);
-                            })
-                            .fail(function (e) {
-                                console.log('Error: ', e);
-                            })
-                            .always(function () {
-                            });
-                    }
-
-                    itemsDatatable.ajax.reload();
-                    $('#add-buynow-modal').modal('hide');
-                })
-                .fail(function (e) {
-                    console.log('Error: ', e);
-                    showAlertModal('ERROR while trying to save the item: ' + e.message + '. Contact Plebeian Market support.');
-                })
-                .always(function () {
-                    BtnReset($saveButton);
-                });
-        }
     });
 });
