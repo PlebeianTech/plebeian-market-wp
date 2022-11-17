@@ -148,42 +148,131 @@ class Plebeian_Market_Public
 	 */
 	function plebeian_shortcodes_init()
 	{
-
-		function plebeian_show_buynow_listing($atts = [])
-		{
-			$args = shortcode_atts([		// default values
-				'slideshow_delay'   	=> 4000,
-				'slideshow'				=> 'false',
-				'size'					=> 15,
-				'show_price_fiat'		=> 'true',
-				'show_price_sats'		=> 'true',
-				'show_shipping_info'	=> 'true',
-				'show_quantity_info'	=> 'false',
-				'called_from_listing'	=> 'true'
-			], $atts);
-
-			$buyNowAllItems = Plebeian_Market_Communications::getBuyNowListing();
-
-			if (count($buyNowAllItems) > 0) {
-				$content = '';
-
-				foreach ($buyNowAllItems as $buyNowItem) {
-					$args['key'] = $buyNowItem->key;
-					$content .= plebeian_show_buynow($args, $buyNowItem);
-				}
-
-				return $content;
-			} else {
-				return "<div>Currently there are no products to show.</div>";
-			}
-		}
-
-		function plebeian_show_buynow($atts = [], $buyNowItem = null)
-		{
+		function plebeian_show_buynow($atts = [], $buyNowItem = null): string
+        {
 			$atts = array_change_key_case((array) $atts, CASE_LOWER);		// normalize attribute keys, lowercase
-			return Plebeian_Market_Render::plebeian_buynow_render_html($atts, $buyNowItem);
+			return Plebeian_Market_Render::plebeian_item_render_html($atts, 'buynow', $buyNowItem);
 		}
 
+        function plebeian_show_auction($atts = [], $auctionItem = null): string
+        {
+            $atts = array_change_key_case((array) $atts, CASE_LOWER);		// normalize attribute keys, lowercase
+            return Plebeian_Market_Render::plebeian_item_render_html($atts, 'auction', $auctionItem);
+        }
+
+        function plebeian_show_buynow_listing($atts = []): string
+        {
+            $args = shortcode_atts([		// default values
+                'slideshow_delay'   	=> 4000,
+                'slideshow'				=> 'false',
+                'size'					=> 15,
+                'show_price_fiat'		=> 'true',
+                'show_price_sats'		=> 'true',
+                'show_shipping_info'	=> 'true',
+                'show_quantity_info'	=> 'false',
+                'called_from_listing'	=> 'true'
+            ], $atts);
+
+            $buyNowAllItems = Plebeian_Market_Communications::getBuyNowListing();
+
+            if (count($buyNowAllItems) > 0) {
+                $content = '';
+
+                foreach ($buyNowAllItems as $buyNowItem) {
+                    $args['key'] = $buyNowItem->key;
+                    $content .= plebeian_show_buynow($args, $buyNowItem);
+                }
+
+                return $content;
+            } else {
+                return "<div>Currently there are no products to show.</div>";
+            }
+        }
+/*
+        function plebeian_show_auctions_listing($atts = []): string
+        {
+            $filter_text = "";
+
+            $atts = array_change_key_case((array) $atts, CASE_LOWER);		// normalize attribute keys, lowercase
+
+            if (array_key_exists('bids', $atts)) {
+                $filter_text .= "Showing auctions with {$atts['bids']} bids.";
+            }
+
+            $auctions_body_array = Plebeian_Market_Communications::getFeatured('auctions');
+
+            $content =
+                '<div class="pleb_listing_superdiv">
+				<p>Current auctions:</p>
+				<div class="pleb_listing_auctions">';
+
+            if (count($auctions_body_array) > 0) {
+                foreach ($auctions_body_array as $auction) {
+                    $auction_title = $auction->title;
+                    // $auction_bids = $auction->bids;
+                    $auction_media = $auction->media;
+                    $auction_first_image = $auction_media[0]->url;
+
+                    $content .=
+                        '<div class="pleb_listing_auction">
+						<div class="pleb_listing_auction_title">
+							' . $auction_title . '
+						</div>
+						<div class="pleb_listing_auction_image">
+							<img src="' . $auction_first_image . '">
+						</div>
+						<div class="pleb_listing_auction_description">
+							Piece of Bitcoin Reformation -- a copy of original work "Money Changer and his Wife" by Quentin Matsys, 1514.
+							Shipping from EU
+						</div>
+					</div>';
+                }
+            } else {
+                $content .=
+                    '<p>--- There are no auctions right now ---</p>
+
+				<div class="pleb_listing_auction">
+					<div class="pleb_listing_auction_title">
+						“Pepe Changer and his Wife”
+					</div>
+					<div class="pleb_listing_auction_image">
+						<img src="https://f004.backblazeb2.com/file/plebeian-market/P_auction_RLOA_media_1.jpeg">
+					</div>
+					<div class="pleb_listing_auction_description">
+						Piece of Bitcoin Reformation — a copy of original work “Money Changer and his Wife” by Quentin Matsys, 1514.
+						Shipping from EU
+					</div>
+				</div>';
+            }
+
+            $content .= '
+
+
+
+				<div class="pleb_listing_auction">
+					<div class="pleb_listing_auction_title">
+						“Pepe Changer and his Wife”
+					</div>
+					<div class="pleb_listing_auction_image">
+						<img src="https://f004.backblazeb2.com/file/plebeian-market/P_auction_RLOA_media_1.jpeg">
+					</div>
+					<div class="pleb_listing_auction_description">
+						Piece of Bitcoin Reformation — a copy of original work “Money Changer and his Wife” by Quentin Matsys, 1514.
+						Shipping from EU
+					</div>
+				</div>
+
+
+				</div>
+
+				<div class="pleb_listing_filter_text">';
+            $content .= $filter_text;
+            $content .=
+                '</div>
+			</div>';
+            return $content;
+        }
+*/
 		function plebeian_common_public_code()
 		{ ?>
 			<script>
@@ -263,95 +352,13 @@ class Plebeian_Market_Public
 
 <?php
 		}
+
 		add_action('wp_footer', 'plebeian_common_public_code');
-
-		function plebeian_show_auctions_listing($atts = [], $content = null)
-		{
-			$filter_text = "";
-
-			$atts = array_change_key_case((array) $atts, CASE_LOWER);		// normalize attribute keys, lowercase
-
-			if (array_key_exists('bids', $atts)) {
-				$filter_text .= "Showing auctions with {$atts['bids']} bids.";
-			}
-
-			$auctions_body_array = Plebeian_Market_Communications::getFeatured('auctions');
-
-			$content =
-				'<div class="pleb_listing_superdiv">
-				<p>Current auctions:</p>
-				<div class="pleb_listing_auctions">';
-
-			if (count($auctions_body_array) > 0) {
-				foreach ($auctions_body_array as $auction) {
-					$auction_title = $auction->title;
-					// $auction_bids = $auction->bids;
-					$auction_media = $auction->media;
-					$auction_first_image = $auction_media[0]->url;
-
-					$content .=
-						'<div class="pleb_listing_auction">
-						<div class="pleb_listing_auction_title">
-							' . $auction_title . '
-						</div>
-						<div class="pleb_listing_auction_image">
-							<img src="' . $auction_first_image . '">
-						</div>
-						<div class="pleb_listing_auction_description">
-							Piece of Bitcoin Reformation -- a copy of original work "Money Changer and his Wife" by Quentin Matsys, 1514.
-							Shipping from EU
-						</div>
-					</div>';
-				}
-			} else {
-				$content .=
-					'<p>--- There are no auctions right now ---</p>
-
-				<div class="pleb_listing_auction">
-					<div class="pleb_listing_auction_title">
-						“Pepe Changer and his Wife”
-					</div>
-					<div class="pleb_listing_auction_image">
-						<img src="https://f004.backblazeb2.com/file/plebeian-market/P_auction_RLOA_media_1.jpeg">
-					</div>
-					<div class="pleb_listing_auction_description">
-						Piece of Bitcoin Reformation — a copy of original work “Money Changer and his Wife” by Quentin Matsys, 1514.
-						Shipping from EU
-					</div>
-				</div>';
-			}
-
-			$content .= '
-
-
-
-				<div class="pleb_listing_auction">
-					<div class="pleb_listing_auction_title">
-						“Pepe Changer and his Wife”
-					</div>
-					<div class="pleb_listing_auction_image">
-						<img src="https://f004.backblazeb2.com/file/plebeian-market/P_auction_RLOA_media_1.jpeg">
-					</div>
-					<div class="pleb_listing_auction_description">
-						Piece of Bitcoin Reformation — a copy of original work “Money Changer and his Wife” by Quentin Matsys, 1514.
-						Shipping from EU
-					</div>
-				</div>
-
-
-				</div>
-
-				<div class="pleb_listing_filter_text">';
-			$content .= $filter_text;
-			$content .=
-				'</div>
-			</div>';
-			return $content;
-		}
 
 		add_shortcode('plebeian_show_buynow', 'plebeian_show_buynow');
 		add_shortcode('plebeian_show_buynow_listing', 'plebeian_show_buynow_listing');
 
-		add_shortcode('plebeian_show_auctions_listing', 'plebeian_show_auctions_listing');
+        add_shortcode('plebeian_show_auction', 'plebeian_show_auction');
+		//add_shortcode('plebeian_show_auctions_listing', 'plebeian_show_auctions_listing');
 	}
 }

@@ -17,8 +17,8 @@
  */
 class Plebeian_Market_Render
 {
-	static function plebeian_buynow_render_html($atts = [], $buyNowItem = null)
-	{
+	static function plebeian_item_render_html($atts = [], $type, $item = null): string
+    {
 		$atts = array_change_key_case((array) $atts, CASE_LOWER);		// normalize attribute keys, lowercase
 
 		$default_values = [
@@ -38,18 +38,18 @@ class Plebeian_Market_Render
 		$args = shortcode_atts($default_values, $widget_options);	// Options for the Customization screen + default values
 		$args = shortcode_atts($args, $atts);	// What's passet to shortcode as parameters + result from previous line
 
-		if (is_object($buyNowItem)) {
-			$key = $buyNowItem->key;
+		if (is_object($item)) {
+			$key = $item->key;
 		} else {
 			if (!array_key_exists('key', $atts)) {
 				return "<div><b>Plebeian Market plugin</b>: product key not specified</div>";
 			}
 
 			$key = $atts['key'];
-			$buyNowItem = Plebeian_Market_Communications::getItem('buynow', $key);
+            $item = Plebeian_Market_Communications::getItem($type, $key);
 
-			if (!is_object($buyNowItem)) {
-				return "<div class='pleb_buynow_item_superdiv'><b>Plebeian Market</b>: This product no longer exists</div>";
+			if (!is_object($item)) {
+				return "<div class='pleb_item_superdiv'><b>Plebeian Market</b>: This product no longer exists</div>";
 			}
 		}
 
@@ -77,13 +77,13 @@ class Plebeian_Market_Render
 			$slideshow_delay = 4000;
 		}
 
-		$title = $buyNowItem->title;
-		$description = $buyNowItem->description;
-		$price_usd = $buyNowItem->price_usd;
+		$title = $item->title;
+		$description = $item->description;
+		$price_usd = $item->price_usd;
 		$price_sats = '~' . Plebeian_Market_Communications::fiatToSats($price_usd);
-		$available_quantity = $buyNowItem->available_quantity;
-		$shipping_from = $buyNowItem->shipping_from;
-		$pictures = $buyNowItem->media;
+		$available_quantity = $item->available_quantity;
+		$shipping_from = $item->shipping_from;
+		$pictures = $item->media;
 
 		$title_fontsize = $args['title_fontsize'];
 		$description_fontsize = $args['description_fontsize'];
@@ -101,7 +101,7 @@ class Plebeian_Market_Render
 
 		$content = '
 		<div
-				class="pleb_buynow_item_superdiv"
+				class="pleb_item_superdiv"
 				style="
 					max-width: ' . ($size ? $size : '') . '%;
 					display: ' . ($atts['called_from_listing'] === "true" ? 'inline-flex' : 'flex') . '"
@@ -134,14 +134,23 @@ class Plebeian_Market_Render
 		$content .= '<div class="pleb_buynow_item_description" ' . $description_fontsize_text . '>' . $description . '</div>';
 
 		// Price
-		$content .= '<div class="pleb_buynow_item_price">';
-		if ($args['show_price_fiat'] !== 'false') {
-			$price_fiat_text = '$' . $price_usd . ' ';
-		}
-		if ($args['show_price_sats'] !== 'false') {
-			$price_sats_text = '(' . $price_sats . ' sats) ';
-		}
-		$content .= $price_fiat_text . $price_sats_text . '<button type="button" class="btn btn-success btn-buynow" data-key="' . $key . '">Buy Now</button> </div>';
+        if ($type === 'buynow') {
+            $content .= '<div class="pleb_buynow_item_price">';
+            if ($args['show_price_fiat'] !== 'false') {
+                $price_fiat_text = '$' . $price_usd . ' ';
+            }
+            if ($args['show_price_sats'] !== 'false') {
+                $price_sats_text = '(' . $price_sats . ' sats) ';
+            }
+            $content .= $price_fiat_text . $price_sats_text . '<button type="button" class="btn btn-success btn-buynow" data-key="' . $key . '">Buy Now</button> </div>';
+        }
+
+        // Bids
+        if ($type === 'auction') {
+            $content .= '<div class="pleb_buynow_item_price">';
+            $content .= '<button type="button" class="btn btn-success btn-buynow" data-key="' . $key . '">Bid now</button> </div>';
+        }
+
 
 		// Shipping
 		if ($args['show_shipping_info'] !== 'false' && $shipping_from != '') {
@@ -149,7 +158,7 @@ class Plebeian_Market_Render
 		}
 
 		// Quantity
-		if ($args['show_quantity_info'] === 'true') {
+		if ($type === 'buynow' && $args['show_quantity_info'] === 'true') {
 			$content .= '<div class="pleb_buynow_item_quantity">' . $available_quantity . ' available</div>';
 		}
 

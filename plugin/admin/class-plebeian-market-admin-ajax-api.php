@@ -71,7 +71,7 @@ class Plebeian_Market_Admin_Ajax_Api
 			}
 		}
 
-		$html = Plebeian_Market_Render::plebeian_buynow_render_html($parameters, (object)DEMO_BUYNOW_PRODUCT);
+		$html = Plebeian_Market_Render::plebeian_item_render_html($parameters, 'buynow', (object)DEMO_BUYNOW_PRODUCT);
 
 		wp_send_json_success([
 			'html' => $html
