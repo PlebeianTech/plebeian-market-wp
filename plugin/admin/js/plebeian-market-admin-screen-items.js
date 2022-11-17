@@ -318,8 +318,6 @@ $(document).ready( function () {
                 // New item
                 modifying = false
                 url = requests.pm_api[pmtype].new.url;
-
-                itemFormData['start_date'] = (new Date()).toISOString();
             }
 
             console.log('modifying', modifying);
