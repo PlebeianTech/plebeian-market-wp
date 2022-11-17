@@ -84,7 +84,14 @@ class Plebeian_Market_Communications
                 break;
         }
 
-        $item_response = wp_remote_get(self::getBackendAPIUrl() . '/' . $query_path . '/' . $key);
+        $item_response = wp_remote_get(
+            self::getBackendAPIUrl() . '/' . $query_path . '/' . $key,
+            [
+                'headers'     => [
+                    'X-Access-Token' => Plebeian_Market_Communications::getXAccessToken()
+                ]
+            ]
+        );
         $item_body_json = wp_remote_retrieve_body($item_response);
         $item_http_code = wp_remote_retrieve_response_code($item_response);
 
