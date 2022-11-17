@@ -35,14 +35,8 @@ class Plebeian_Market_Render
 
 		$widget_options = Plebeian_Market_Admin_Utils::load_options(FORM_FIELDS_PREFIX, true);
 
-		//		print_r($atts);
-		//		print_r('****************************************************************');
 		$args = shortcode_atts($default_values, $widget_options);	// Options for the Customization screen + default values
-		//		print_r($args);
-		//		print_r('-------------------------------------------------<br>');
 		$args = shortcode_atts($args, $atts);	// What's passet to shortcode as parameters + result from previous line
-		//		print_r($args);
-		//		print_r('-------------------------------------------------<br>');
 
 		if (is_object($buyNowItem)) {
 			$key = $buyNowItem->key;
@@ -52,7 +46,7 @@ class Plebeian_Market_Render
 			}
 
 			$key = $atts['key'];
-			$buyNowItem = Plebeian_Market_Communications::getBuyNow($key);
+			$buyNowItem = Plebeian_Market_Communications::getItem('buynow', $key);
 
 			if (!is_object($buyNowItem)) {
 				return "<div class='pleb_buynow_item_superdiv'><b>Plebeian Market</b>: This product no longer exists</div>";
