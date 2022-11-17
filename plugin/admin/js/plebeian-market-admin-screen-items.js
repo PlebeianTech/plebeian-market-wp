@@ -339,7 +339,7 @@ $(document).ready( function () {
                         saveImagesToProduct(pmtype, key);
                         showNotification('<p><b>Item modified successfully!!</b></p>');
                     } else {
-                        let newItemKey = response[pmtype].key;
+                        let newItemKey = response[(pmtype === 'auction' ? 'auction' : 'listing')].key;
                         saveImagesToProduct(pmtype, newItemKey);
                         showNotification('<p><b>Item created successfully!!</b></p>');
                     }
