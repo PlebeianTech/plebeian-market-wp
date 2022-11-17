@@ -30,14 +30,14 @@ const PM_API_GET_BUYNOW_METHOD = 'GET';
 const PM_API_NEW_BUYNOW_URL = '/users/me/listings';
 const PM_API_NEW_BUYNOW_METHOD = 'POST';
 
-const PM_API_START_BUYNOW_URL = '/listings/{KEY}/publish';
-const PM_API_START_BUYNOW_METHOD = 'PUT';
-
 const PM_API_EDIT_BUYNOW_URL = '/listings/{KEY}';
 const PM_API_EDIT_BUYNOW_METHOD = 'PUT';
 
 const PM_API_DELETE_BUYNOW_URL = '/listings/{KEY}';
 const PM_API_DELETE_BUYNOW_METHOD = 'DELETE';
+
+const PM_API_START_BUYNOW_URL = '/listings/{KEY}/publish';
+const PM_API_START_BUYNOW_METHOD = 'PUT';
 
 const PM_API_BUY_BUYNOW_URL = '/listings/{KEY}/buy';
 const PM_API_BUY_BUYNOW_METHOD = 'PUT';
@@ -54,6 +54,9 @@ const PM_API_LIST_AUCTIONS_URL = '/users/me/auctions';
 
 const PM_API_DELETE_AUCTIONS_URL = '/auctions/{KEY}';
 const PM_API_DELETE_AUCTIONS_METHOD = 'DELETE';
+
+const PM_API_START_AUCTIONS_URL = '/auctions/{KEY}/publish';
+const PM_API_START_AUCTIONS_METHOD = 'PUT';
 
 const PM_API_NEW_AUCTIONS_URL = '/users/me/auctions';
 const PM_API_NEW_AUCTIONS_METHOD = 'POST';

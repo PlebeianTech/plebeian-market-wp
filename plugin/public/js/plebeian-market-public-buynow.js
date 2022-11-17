@@ -106,7 +106,7 @@ function step0() {
 
             stopSetTimeout();
 
-            let errorMessage = e.responseJSON.message;
+            let errorMessage = e.responseJSON?.message ?? 'Unknown error';
 
             if (errorMessage === 'Listing not active.') {
                 hideLoadingModal();

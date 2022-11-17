@@ -212,23 +212,24 @@ function rebindIconClicks() {
         });
     });
 
-    /* Show Delete item confirmation modal */
-    $('.deleteButton').click(function () {
-        let pmtype = $(this).data('pmtype');
-        let clickedElementKey = $(this).data('key');
-        let clickedElementTitle = $(this).data('title');
+    /* Show Confirm Action modal (delete/publish/...) */
+    $('.confirmActionButton').click(function () {
+        let action = $(this).data('action');
 
-        $('#delete-item-modal-body').html(
-            '<p>Are you sure you want to <b>delete</b> this item?</p>' +
-            '<p><b>' + clickedElementTitle + '</b></p>'
+        $('#confirmActionTitleModal').html(action === 'publish' ? 'Publish item' : 'Delete item');
+
+        $('#confirmActionItemModalBody').html(
+            '<p>Are you sure you want to <b>' + (action === 'publish' ? 'PUBLISH' : 'DELETE') + '</b> this item?</p>' +
+            '<p><b>' + $(this).data('title') + '</b></p>'
         );
 
-        $('#deleteItem')
-            .data('pmtype', pmtype)
-            .data('key', clickedElementKey);
+        $('#confirmActionItemButton')
+            .html(action === 'publish' ? 'Publish' : 'Delete')
+            .data('pmtype', $(this).data('pmtype'))
+            .data('key', $(this).data('key'))
+            .data('action', action);
 
-        const deleteModal = new bootstrap.Modal('#delete-item-modal', { keyboard: true });
-        deleteModal.show();
+        (new bootstrap.Modal('#confirmActionItemModal', { keyboard: true })).show();
     });
 
     /* Copy short-code */
@@ -248,33 +249,34 @@ function rebindIconClicks() {
 $(document).ready( function () {
     makeImagesOrderable();
 
-    /* Delete Item after user confirmation */
-    $('#deleteItem').click(function () {
-        $("#deleteItem").prop("disabled", true);
+    /* Execute Action (delete/publish item) after user confirmation */
+    $('#confirmActionItemButton').click(function () {
+        $("#confirmActionItemButton").prop("disabled", true);
 
         let pmtype = $(this).data('pmtype');
         let clickedElementKey = $(this).data('key');
+        let action = $(this).data('action');
 
         $.ajax({
-            url: requests.pm_api[pmtype].delete.url.replace('{KEY}', clickedElementKey),
+            url: requests.pm_api[pmtype][action].url.replace('{KEY}', clickedElementKey),
             cache: false,
             dataType: 'JSON',
             contentType: 'application/json;charset=UTF-8',
-            type: requests.pm_api[pmtype].delete.method,
+            type: requests.pm_api[pmtype][action].method,
             headers: { "X-Access-Token": requests.pm_api.XAccessToken }
         })
             .done(function (response) {
                 itemsDatatable.ajax.reload();
-                showNotification('<p><b>Item deleted successfully</b></p>');
+                showNotification('<p><b>Item ' + (action === 'publish' ? 'published' : 'deleted') + ' successfully</b></p>');
             })
             .fail(function (e) {
-                let errorMessage = e.responseJSON.message;
+                let errorMessage = e.responseJSON?.message ?? 'Unknown error';
                 console.log("ERROR : ", errorMessage);
-                showNotification('<p><b>ERROR while trying to delete the item: ' + errorMessage + '</b>.</p> <p>Contact Plebeian Market support</p>');
+                showNotification('<p><b>ERROR while trying to ' + action + ' the item: ' + errorMessage + '</b>.</p> <p>Contact Plebeian Market support</p>');
             })
             .always(function () {
-                $(".btn-delete").prop("disabled", false);
-                $('#delete-item-modal').modal('hide');
+                $("#confirmActionItemButton").prop("disabled", false);
+                $('#confirmActionItemModal').modal('hide');
             });
     });
 
@@ -333,36 +335,15 @@ $(document).ready( function () {
             })
                 .done(function (response) {
                     console.log('response', response);
-
                     console.log('Product saved correctly. Saving images now...');
 
                     if (modifying) {
                         saveImagesToProduct(pmtype, key);
-                        $('#add-item-modal').modal('hide');
                         showNotification('<p><b>Item modified successfully!!</b></p>');
                     } else {
                         let newItemKey = response[pmtype].key;
                         saveImagesToProduct(pmtype, newItemKey);
                         showNotification('<p><b>Item created successfully!!</b></p>');
-
-                        // START
-                        $.ajax({
-                            url: requests.pm_api[pmtype].start.url.replace('{KEY}', newItemKey),
-                            cache: false,
-                            dataType: 'JSON',
-                            data: '{}',
-                            contentType: 'application/json;charset=UTF-8',
-                            type: requests.pm_api[pmtype].start.method,
-                            headers: { "X-Access-Token": requests.pm_api.XAccessToken },
-                        })
-                            .done(function (response) {
-                                console.log('Start OK. Response: ', response);
-                            })
-                            .fail(function (e) {
-                                console.log('Error: ', e);
-                            })
-                            .always(function () {
-                            });
                     }
 
                     itemsDatatable.ajax.reload();
@@ -370,7 +351,7 @@ $(document).ready( function () {
                 })
                 .fail(function (e) {
                     console.log('Error: ', e);
-                    showAlertModal('ERROR while trying to save the item: ' + e.responseJSON.message + '. Contact Plebeian Market support.');
+                    showAlertModal('ERROR while trying to save the item: ' + e.responseJSON?.message + '. Contact Plebeian Market support.');
                 })
                 .always(function () {
                     BtnReset(saveButton);

@@ -75,7 +75,12 @@ $(document).ready( function () {
                 className: "dt-center"
             },
             {
-                data: 'start_date',
+                render: function (data, type, row) {
+                    if (!row.started) {
+                        return '<button type="button" class="btn btn-primary btn-sm publishButton confirmActionButton" data-action="publish" data-pmtype="auction" data-key="' + row.key + '" data-title="' + row.title + '">Publish</button>';
+                    }
+                    return row.start_date;
+                },
                 className: "dt-center"
             },
             {
@@ -110,12 +115,10 @@ $(document).ready( function () {
                         iconsToBeDisplayed += '<img src="' + pluginBasePath + 'img/trash.svg" class="dataTablesActionIconDisabled" data-pmtype="auction" data-key="' + key + '" data-title="' + title + '" alt="Delete item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete is disabled because the auction already started">';
                     } else {
                         iconsToBeDisplayed += '<img src="' + pluginBasePath + 'img/pencil-square.svg" class="dataTablesActionIcon editButton" data-pmtype="auction" data-key="' + key + '" data-title="' + title + '" alt="Edit item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">';
-                        iconsToBeDisplayed += '<img src="' + pluginBasePath + 'img/trash.svg" class="dataTablesActionIcon deleteButton" data-pmtype="auction" data-key="' + key + '" data-title="' + title + '" alt="Delete item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">';
+                        iconsToBeDisplayed += '<img src="' + pluginBasePath + 'img/trash.svg" class="dataTablesActionIcon deleteButton" data-action="delete" data-pmtype="auction" data-key="' + key + '" data-title="' + title + '" alt="Delete item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">';
                     }
 
-
                     iconsToBeDisplayed += '<img src="' + pluginBasePath + 'img/code-square.svg" class="dataTablesActionIcon copyShortCodeButton" data-pmtype="auction" data-key="' + key + '" alt="Copy Shortcode" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Copy shortcode">';
-
                     return iconsToBeDisplayed;
                 },
                 className: "dt-center"
