@@ -118,7 +118,7 @@ class Plebeian_Market_Admin_Ajax_Api
 
 		foreach ($saveImages as $saveImage) {
 			$imageUrl = $saveImage['url'];
-			$filename = pathinfo($imageUrl, PATHINFO_FILENAME);
+			$filename = pathinfo($imageUrl, PATHINFO_BASENAME);
 			$imagePathLocal = "/tmp/" . $filename;
 
 			file_put_contents($imagePathLocal, file_get_contents($imageUrl));
