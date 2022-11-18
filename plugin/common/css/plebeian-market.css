@@ -164,3 +164,12 @@
 #shipping_widget_result {
     margin-top: 1.5em;
 }
+
+.pleb_bids_info {
+    font-size: 12px;
+    margin-bottom: 1em;
+}
+
+.pleb_bids_info p {
+    margin-bottom: 0;
+}

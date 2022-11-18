@@ -298,7 +298,7 @@ $(document).ready(function () {
                             if (contribution_percent) {
                                 $('#contribution_percent').val(contribution_percent);
                             } else {
-                                $('#contribution_percent').val(3);
+                                $('#contribution_percent').val(5);
                             }
                             contributionUpdated();
 

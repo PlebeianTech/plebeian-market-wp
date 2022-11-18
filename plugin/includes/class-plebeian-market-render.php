@@ -79,9 +79,6 @@ class Plebeian_Market_Render
 
 		$title = $item->title;
 		$description = $item->description;
-		$price_usd = $item->price_usd;
-		$price_sats = '~' . Plebeian_Market_Communications::fiatToSats($price_usd);
-		$available_quantity = $item->available_quantity;
 		$shipping_from = $item->shipping_from;
 		$pictures = $item->media;
 
@@ -135,6 +132,9 @@ class Plebeian_Market_Render
 
 		// Price
         if ($type === 'buynow') {
+            $price_usd = $item->price_usd;
+            $price_sats = '~' . Plebeian_Market_Communications::fiatToSats($price_usd);
+
             $content .= '<div class="pleb_buynow_item_price">';
             if ($args['show_price_fiat'] !== 'false') {
                 $price_fiat_text = '$' . $price_usd . ' ';
@@ -147,8 +147,19 @@ class Plebeian_Market_Render
 
         // Bids
         if ($type === 'auction') {
+            $bids = $item->bids;
+            $numBids = count($bids);
+
             $content .= '<div class="pleb_buynow_item_price">';
-            $content .= '<button type="button" class="btn btn-success btn-buynow" data-key="' . $key . '">Bid now</button> </div>';
+            $content .= '   <div class="pleb_bids_info">';
+            $content .= '       <p>Bids: ' . $numBids . '</p>';
+            if ($numBids) {
+                $content .= '   <p>Top bid: ' . $numBids . '</p>';
+                $content .= '   <p>Bidder: ' . $numBids . '</p>';
+            }
+            $content .= '   </div>';
+            $content .= '   <button type="button" class="btn btn-success btn-buynow" data-key="' . $key . '">Bid now</button>';
+            $content .= '</div>';
         }
 
 
@@ -159,6 +170,7 @@ class Plebeian_Market_Render
 
 		// Quantity
 		if ($type === 'buynow' && $args['show_quantity_info'] === 'true') {
+            $available_quantity = $item->available_quantity;
 			$content .= '<div class="pleb_buynow_item_quantity">' . $available_quantity . ' available</div>';
 		}
 
