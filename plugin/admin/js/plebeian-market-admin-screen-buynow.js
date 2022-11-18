@@ -79,7 +79,7 @@ $(document).ready(function () {
 
                     let iconsToBeDisplayed = '';
                     iconsToBeDisplayed += '<img src="' + pluginBasePath + 'img/pencil-square.svg" class="dataTablesActionIcon editButton" data-pmtype="buynow" data-key="' + key + '" data-title="' + title + '" alt="Edit item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">';
-                    iconsToBeDisplayed += '<img src="' + pluginBasePath + 'img/trash.svg" class="dataTablesActionIcon confirmActionButton" data-pmtype="buynow" data-key="' + key + '" data-title="' + title + '" alt="Delete item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">';
+                    iconsToBeDisplayed += '<img src="' + pluginBasePath + 'img/trash.svg" class="dataTablesActionIcon confirmActionButton" data-action="delete" data-pmtype="buynow" data-key="' + key + '" data-title="' + title + '" alt="Delete item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">';
                     iconsToBeDisplayed += '<img src="' + pluginBasePath + 'img/code-square.svg" class="dataTablesActionIcon copyShortCodeButton" data-pmtype="buynow" data-key="' + key + '" alt="Copy Shortcode" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Copy shortcode">';
                     return iconsToBeDisplayed;
                 },
