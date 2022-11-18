@@ -39,7 +39,7 @@ class Plebeian_Market_Admin_Screen_Auctions
                 <th>Key</th>
                 <th>Title</th>
                 <th>Images</th>
-                <th>Duration (h)</th>
+                <th>Duration</th>
                 <th>Created at</th>
                 <th>Start date</th>
                 <th>End date</th>

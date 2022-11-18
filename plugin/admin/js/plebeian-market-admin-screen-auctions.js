@@ -67,7 +67,20 @@ $(document).ready( function () {
                 className: "dt-center"
             },
             {
-                data: 'duration_hours',
+                render: function (data, type, row) {
+                    let duration_hours = row.duration_hours;
+
+                    if (duration_hours % 24 === 0) {
+                        return duration_hours + ' h ('+duration_hours / 24 + ' d)';
+                    } else {
+                        if (duration_hours < 24) {
+                            return duration_hours + ' h';
+                        } else {
+                            return duration_hours + ' h (>' + Math.floor(duration_hours / 24) + ' d)';
+                        }
+                    }
+
+                },
                 className: "dt-center"
             },
             {
