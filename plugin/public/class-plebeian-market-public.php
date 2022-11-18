@@ -291,14 +291,20 @@ class Plebeian_Market_Public
 							url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_CHECK_LOGIN_URL ?>',
 							method: '<?= PM_API_CHECK_LOGIN_METHOD ?>'
 						},
-						buynow_get: {
-							url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_GET_BUYNOW_URL ?>',
-							method: '<?= PM_API_GET_BUYNOW_METHOD ?>'
-						},
-						buynow_buy: {
-							url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_BUY_BUYNOW_URL ?>',
-							method: '<?= PM_API_BUY_BUYNOW_METHOD ?>'
-						},
+                        buynow: {
+                            get: {
+                                url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_GET_BUYNOW_URL ?>',
+                                method: '<?= PM_API_GET_BUYNOW_METHOD ?>'
+                            },
+                            buy: {
+                                url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_BUY_BUYNOW_URL ?>',
+                                method: '<?= PM_API_BUY_BUYNOW_METHOD ?>'
+                            },
+                        },
+                        auctions: {
+                            bid: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_BID_AUCTIONS_URL ?>',
+                            method: '<?= PM_API_BID_AUCTIONS_METHOD ?>'
+                        }
 					},
 					wordpress_pm_api: {
 						ajax_url: '<?= admin_url('admin-ajax.php') ?>',

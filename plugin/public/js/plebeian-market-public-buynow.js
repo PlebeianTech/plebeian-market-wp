@@ -18,7 +18,7 @@ function buyNow(shouldShowLoadingModal) {
             console.log('buynowInfo', buynowInfo);
             let sales = buynowInfo.sales;
 
-            if (!sales || typeof sales === 'undefined' || sales === null) {
+            if (!sales || typeof sales === 'undefined') {
                 step0();    // No sales or no active sales, so let's create one
                 waitAndAskAgain();
 
@@ -90,12 +90,12 @@ function step0() {
 
     // We don't yet have a sale, so lets start one
     $.ajax({
-        url: requests.pm_api.buynow_buy.url.replace('{KEY}', buynow_product_buying_key),
+        url: requests.pm_api.buynow.buy.url.replace('{KEY}', buynow_product_buying_key),
         timeout: requests.pm_api.default_timeout,
         cache: false,
         dataType: 'JSON',
         contentType: 'application/json;charset=UTF-8',
-        type: requests.pm_api.buynow_buy.method,
+        type: requests.pm_api.buynow.buy.method,
         headers: { "X-Access-Token": buyerGetPlebeianMarketAuthToken() },
     })
         .done(function (response) {
@@ -318,18 +318,18 @@ function shippingCalculator(remaining_price, shipping_domestic, shipping_worldwi
 }
 
 function getBuyNowItemInfo(key, callback) {
-    if (typeof key === 'undefined' || key == '') {
+    if (typeof key === 'undefined' || key === '') {
         console.log('getBuyNowItemInfo - I cannot get the info of the buynow item: ', key);
         return null;
     }
 
     $.ajax({
-        url: requests.pm_api.buynow_get.url.replace('{KEY}', key),
+        url: requests.pm_api.buynow.get.url.replace('{KEY}', key),
         timeout: requests.pm_api.default_timeout,
         cache: false,
         dataType: 'JSON',
         contentType: 'application/json;charset=UTF-8',
-        type: requests.pm_api.buynow_get.method,
+        type: requests.pm_api.buynow.get.method,
         headers: { "X-Access-Token": buyerGetPlebeianMarketAuthToken() },
     })
         .done(function (response) {

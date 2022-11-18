@@ -64,6 +64,9 @@ const PM_API_NEW_AUCTIONS_METHOD = 'POST';
 const PM_API_EDIT_AUCTIONS_URL = '/auctions/{KEY}';
 const PM_API_EDIT_AUCTIONS_METHOD = 'PUT';
 
+const PM_API_BID_AUCTIONS_URL = '/listings/{KEY}/buy';
+const PM_API_BID_AUCTIONS_METHOD = 'POST';
+
 //      media
 const PM_API_ADD_MEDIA_AUCTION_URL = '/auctions/{KEY}/media';
 const PM_API_ADD_MEDIA_AUCTION_METHOD = 'POST';
