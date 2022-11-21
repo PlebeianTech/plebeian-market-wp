@@ -7,7 +7,7 @@
 const PM_API_URL_DEFAULT = 'https://plebeian.market/api';
 const PM_API_URL_BACKEND_DEFAULT = 'https://plebeian.market/api';
 
-# ROUTES
+# API ROUTES
 
 #  Login
 const PM_API_GET_LOGIN_INFO_URL = '/login';
@@ -64,7 +64,7 @@ const PM_API_NEW_AUCTIONS_METHOD = 'POST';
 const PM_API_EDIT_AUCTIONS_URL = '/auctions/{KEY}';
 const PM_API_EDIT_AUCTIONS_METHOD = 'PUT';
 
-const PM_API_BID_AUCTIONS_URL = '/listings/{KEY}/buy';
+const PM_API_BID_AUCTIONS_URL = '/auctions/{KEY}/bids';
 const PM_API_BID_AUCTIONS_METHOD = 'POST';
 
 //      media
