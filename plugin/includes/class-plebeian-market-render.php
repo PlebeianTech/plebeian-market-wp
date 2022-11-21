@@ -104,7 +104,7 @@ class Plebeian_Market_Render
 					display: ' . ($atts['called_from_listing'] === "true" ? 'inline-flex' : 'flex') . '"
 			>
 
-			<h4 class="pleb_buynow_item_title" ' . $title_fontsize_text . '>' . $title . '</h3>';
+			<h3 class="pleb_buynow_item_title" ' . $title_fontsize_text . '>' . $title . '</h3>';
 
 		// Slideshow / Pictures
 		if (count($pictures) > 0) {
