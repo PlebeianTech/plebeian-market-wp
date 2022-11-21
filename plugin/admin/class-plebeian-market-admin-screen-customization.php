@@ -29,7 +29,7 @@ class Plebeian_Market_Admin_Screen_Customization
 
 		wp_enqueue_script(
 			'plebeian-market-slideshow-js',
-			plugin_dir_url(__DIR__) . 'common/js/plebeian-market-slideshow.js',
+            pluginBasePath . 'common/js/plebeian-market-slideshow.js',
 			['jquery'],
 			PLEBEIAN_MARKET_VERSION,
 			false
@@ -37,7 +37,7 @@ class Plebeian_Market_Admin_Screen_Customization
 
 		wp_enqueue_style(
 			'plebeian-market-css',
-			plugin_dir_url(__DIR__) . 'common/css/plebeian-market.css',
+            pluginBasePath . 'common/css/plebeian-market.css',
 			[],
 			PLEBEIAN_MARKET_VERSION,
 			'all'

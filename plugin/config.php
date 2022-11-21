@@ -100,6 +100,8 @@ const PM_OPTIONS = [
     'plebeian_market_cutomization_js',
 ];
 
+define("pluginBasePath", plugin_dir_url(__FILE__));
+
 define("DEMO_BUYNOW_PRODUCT", [
     'key' => 'ABCXYZ123',
     'title' => 'INFINITE POTENTIAL',
@@ -112,19 +114,19 @@ As ever, Satoshi will ride the waves of change',
     'media' => [
         [
             'index' => 1,
-            'url' => plugin_dir_url(__FILE__) . 'common/img/demo_product/picture1.jpeg'
+            'url' => pluginBasePath . 'common/img/demo_product/picture1.jpeg'
         ],
         [
             'index' => 2,
-            'url' => plugin_dir_url(__FILE__) . 'common/img/demo_product/picture2.jpeg'
+            'url' => pluginBasePath . 'common/img/demo_product/picture2.jpeg'
         ],
         [
             'index' => 3,
-            'url' => plugin_dir_url(__FILE__) . 'common/img/demo_product/picture3.jpeg'
+            'url' => pluginBasePath . 'common/img/demo_product/picture3.jpeg'
         ],
         [
             'index' => 4,
-            'url' => plugin_dir_url(__FILE__) . 'common/img/demo_product/picture4.jpeg'
+            'url' => pluginBasePath . 'common/img/demo_product/picture4.jpeg'
         ]
     ],
     'price_usd' => 500,

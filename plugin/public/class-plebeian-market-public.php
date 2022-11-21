@@ -54,7 +54,7 @@ class Plebeian_Market_Public
 	{
 		wp_enqueue_style(
 			'plebeian-market-css',
-			plugin_dir_url(__DIR__) . 'common/css/plebeian-market.css',
+            pluginBasePath . 'common/css/plebeian-market.css',
 			[],
 			$this->version,
 			'all'
@@ -86,7 +86,7 @@ class Plebeian_Market_Public
 
 		wp_enqueue_script(
 			'plebeian-market-js',
-			plugin_dir_url(__DIR__) . 'common/js/plebeian-market.js',
+            pluginBasePath . 'common/js/plebeian-market.js',
 			['jquery', 'bootstrap-js'],
 			$this->version,
 			false
@@ -94,7 +94,7 @@ class Plebeian_Market_Public
 
 		wp_enqueue_script(
 			'plebeian-market-auth-js',
-			plugin_dir_url(__DIR__) . 'common/js/plebeian-market-auth.js',
+            pluginBasePath . 'common/js/plebeian-market-auth.js',
 			['jquery', 'js.cookie', 'bootstrap-js', 'plebeian-market-js'],
 			$this->version,
 			false
@@ -102,7 +102,7 @@ class Plebeian_Market_Public
 
 		wp_enqueue_script(
 			'plebeian-market-slideshow-js',
-			plugin_dir_url(__DIR__) . 'common/js/plebeian-market-slideshow.js',
+            pluginBasePath . 'common/js/plebeian-market-slideshow.js',
 			['jquery'],
 			$this->version,
 			false
@@ -110,7 +110,7 @@ class Plebeian_Market_Public
 
 		wp_enqueue_script(
 			'plebeian-market-public-js',
-			plugin_dir_url(__FILE__) . 'js/plebeian-market-public.js',
+            pluginBasePath . 'public/js/plebeian-market-public.js',
 			['jquery', 'plebeian-market-auth-js', 'plebeian-market-slideshow-js'],
 			$this->version,
 			false
@@ -276,7 +276,7 @@ class Plebeian_Market_Public
 		function plebeian_common_public_code()
 		{ ?>
 			<script>
-				let pluginBasePath = '<?= plugin_dir_url(__FILE__) ?>';
+				let pluginBasePath = '<?= pluginBasePath ?>';
 
 				let btcPriceInUSD = <?= Plebeian_Market_Communications::getBTCPriceInUSD() ?>;
 

@@ -124,14 +124,14 @@ $(document).ready( function () {
                     let iconsToBeDisplayed = '';
 
                     if (row.started) {
-                        iconsToBeDisplayed += '<img src="' + pluginBasePath + 'img/pencil-square.svg" class="dataTablesActionIconDisabled" data-pmtype="auction" data-key="' + key + '" data-title="' + title + '" alt="Edit item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit is disabled because the auction already started">';
-                        iconsToBeDisplayed += '<img src="' + pluginBasePath + 'img/trash.svg" class="dataTablesActionIconDisabled" data-pmtype="auction" data-key="' + key + '" data-title="' + title + '" alt="Delete item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete is disabled because the auction already started">';
+                        iconsToBeDisplayed += '<img src="' + pluginBasePath + 'admin/img/pencil-square.svg" class="dataTablesActionIconDisabled" data-pmtype="auction" data-key="' + key + '" data-title="' + title + '" alt="Edit item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit is disabled because the auction already started">';
+                        iconsToBeDisplayed += '<img src="' + pluginBasePath + 'admin/img/trash.svg" class="dataTablesActionIconDisabled" data-pmtype="auction" data-key="' + key + '" data-title="' + title + '" alt="Delete item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete is disabled because the auction already started">';
                     } else {
-                        iconsToBeDisplayed += '<img src="' + pluginBasePath + 'img/pencil-square.svg" class="dataTablesActionIcon editButton" data-pmtype="auction" data-key="' + key + '" data-title="' + title + '" alt="Edit item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">';
-                        iconsToBeDisplayed += '<img src="' + pluginBasePath + 'img/trash.svg" class="dataTablesActionIcon confirmActionButton" data-action="delete" data-pmtype="auction" data-key="' + key + '" data-title="' + title + '" alt="Delete item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">';
+                        iconsToBeDisplayed += '<img src="' + pluginBasePath + 'admin/img/pencil-square.svg" class="dataTablesActionIcon editButton" data-pmtype="auction" data-key="' + key + '" data-title="' + title + '" alt="Edit item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">';
+                        iconsToBeDisplayed += '<img src="' + pluginBasePath + 'admin/img/trash.svg" class="dataTablesActionIcon confirmActionButton" data-action="delete" data-pmtype="auction" data-key="' + key + '" data-title="' + title + '" alt="Delete item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">';
                     }
 
-                    iconsToBeDisplayed += '<img src="' + pluginBasePath + 'img/code-square.svg" class="dataTablesActionIcon copyShortCodeButton" data-pmtype="auction" data-key="' + key + '" alt="Copy Shortcode" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Copy shortcode">';
+                    iconsToBeDisplayed += '<img src="' + pluginBasePath + 'admin/img/code-square.svg" class="dataTablesActionIcon copyShortCodeButton" data-pmtype="auction" data-key="' + key + '" alt="Copy Shortcode" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Copy shortcode">';
                     return iconsToBeDisplayed;
                 },
                 className: "dt-center"

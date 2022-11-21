@@ -24,7 +24,7 @@ class Plebeian_Market_Admin_Screen_Buynow
 ?>
 
 		<script>
-			let pluginBasePath = '<?= plugin_dir_url(__FILE__) ?>';
+			let pluginBasePath = '<?= pluginBasePath ?>';
 		</script>
 
 		<div class="wrap">

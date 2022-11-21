@@ -29,7 +29,7 @@ class Plebeian_Market_Admin_Screen_Setup
 
 		wp_enqueue_script(
 			'plebeian-market-auth-js',
-			plugin_dir_url(__DIR__) . 'common/js/plebeian-market-auth.js',
+            pluginBasePath . 'common/js/plebeian-market-auth.js',
 			['jquery', 'bootstrap-js', 'plebeian-market-js'],
 			PLEBEIAN_MARKET_VERSION,
 			false

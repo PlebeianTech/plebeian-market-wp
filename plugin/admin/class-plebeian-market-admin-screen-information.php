@@ -24,7 +24,7 @@ class Plebeian_Market_Admin_Screen_Information
 			</p>
 		</div>
 
-		<img src="<?= plugin_dir_url(__DIR__) ?>common/img/plebeian_market_logo.png" alt="Plebeian Market, powered by Plebeian Technology">
+		<img src="<?= pluginBasePath ?>common/img/plebeian_market_logo.png" alt="Plebeian Market, powered by Plebeian Technology">
 
 		<p>
 			Plebeian Market is a marketplace where anyone can sell anything. All you need is a Bitcoin wallet and you'll start selling or
@@ -59,7 +59,7 @@ class Plebeian_Market_Admin_Screen_Information
 		<p></p>
 		<p>
 			You can use the
-			<img src="<?= plugin_dir_url(__FILE__) ?>img/code-square.svg" class="shortCodeIcon" alt="Copy Shortcode" style="font-size: 2em;">
+			<img src="<?= pluginBasePath ?>admin/img/code-square.svg" class="shortCodeIcon" alt="Copy Shortcode" style="font-size: 2em;">
 			(copy shortcode) icon in <a href="<?= admin_url('admin.php?page=plebeian_market_buynow') ?>">Buy Now items</a> to
 			directly copy the shortcode for a specific item.
 		</p>
@@ -164,7 +164,7 @@ class Plebeian_Market_Admin_Screen_Information
         <code>[plebeian_show_auction key="RLOA"]</code>
         <p></p>
         <p>You can use the
-            <img src="<?= plugin_dir_url(__FILE__) ?>img/code-square.svg" class="shortCodeIcon" alt="Copy Shortcode" style="font-size: 2em;">
+            <img src="<?= pluginBasePath ?>admin/img/code-square.svg" class="shortCodeIcon" alt="Copy Shortcode" style="font-size: 2em;">
             (copy shortcode) icon in <a href="<?= admin_url('admin.php?page=plebeian_market_auctions') ?>">Auctions</a> to directly copy the shortcode for a specific auction.
         </p>
 
