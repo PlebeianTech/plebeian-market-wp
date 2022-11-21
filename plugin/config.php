@@ -100,28 +100,36 @@ const PM_OPTIONS = [
     'plebeian_market_cutomization_js',
 ];
 
-const DEMO_BUYNOW_PRODUCT = [
+define("DEMO_BUYNOW_PRODUCT", [
     'key' => 'ABCXYZ123',
-    'title' => 'Amazing product!',
-    'description' => 'Handmade rattan straw purse Crossbody strap',
-    'available_quantity' => 100,
+    'title' => 'INFINITE POTENTIAL',
+    'description' => 'It is impossible, even for the most knowledgable, to appreciate the full impact bitcoin will have upon humanity 
+
+More than a change in economics, there will be a fundamental change in the human mindset and our way of life 
+
+As ever, Satoshi will ride the waves of change',
+    'available_quantity' => 1,
     'media' => [
         [
             'index' => 1,
-            'url' => 'https://f004.backblazeb2.com/file/plebeian-market/STAGING_listing_5A_media_1.jpeg'
+            'url' => plugin_dir_url(__FILE__) . 'common/img/demo_product/picture1.jpeg'
         ],
         [
             'index' => 2,
-            'url' => 'https://f004.backblazeb2.com/file/plebeian-market/STAGING_listing_5A_media_4.jpeg'
+            'url' => plugin_dir_url(__FILE__) . 'common/img/demo_product/picture2.jpeg'
         ],
         [
             'index' => 3,
-            'url' => 'https://f004.backblazeb2.com/file/plebeian-market/STAGING_listing_5A_media_3.jpeg'
+            'url' => plugin_dir_url(__FILE__) . 'common/img/demo_product/picture3.jpeg'
         ],
+        [
+            'index' => 4,
+            'url' => plugin_dir_url(__FILE__) . 'common/img/demo_product/picture4.jpeg'
+        ]
     ],
-    'price_usd' => 100,
-    'shipping_from' => 'New York',
-    'shipping_domestic_usd' => 10,
-    'shipping_worldwide_usd' => 20,
-    'seller_nym' => 'seller_remnant'
-];
+    'price_usd' => 500,
+    'shipping_from' => 'UK',
+    'shipping_domestic_usd' => 25,
+    'shipping_worldwide_usd' => 50,
+    'seller_nym' => 'chiefmonkey'
+]);
