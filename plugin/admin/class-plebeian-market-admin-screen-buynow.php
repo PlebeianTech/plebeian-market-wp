@@ -19,8 +19,8 @@ class Plebeian_Market_Admin_Screen_Buynow
 			return;
 		}
 
-        wp_enqueue_script('plebeian-market-admin-screen-items', plugin_dir_url(__FILE__) . 'js/plebeian-market-admin-screen-items.js', ['jquery', 'plebeian-market-admin'], PLEBEIAN_MARKET_VERSION, false);
-		wp_enqueue_script('plebeian-market-admin-screen-buynow', plugin_dir_url(__FILE__) . 'js/plebeian-market-admin-screen-buynow.js', ['jquery', 'plebeian-market-admin', 'plebeian-market-admin-screen-items'], PLEBEIAN_MARKET_VERSION, false);
+        wp_enqueue_script('plebeian-market-admin-screen-items', pluginBasePath . 'admin/js/plebeian-market-admin-screen-items.js', ['jquery', 'plebeian-market-admin'], PLEBEIAN_MARKET_VERSION, false);
+		wp_enqueue_script('plebeian-market-admin-screen-buynow', pluginBasePath . 'admin/js/plebeian-market-admin-screen-buynow.js', ['jquery', 'plebeian-market-admin', 'plebeian-market-admin-screen-items'], PLEBEIAN_MARKET_VERSION, false);
 ?>
 
 		<script>

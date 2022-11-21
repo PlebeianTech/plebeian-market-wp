@@ -21,7 +21,7 @@ class Plebeian_Market_Admin_Screen_Setup
 
 		wp_enqueue_script(
 			'plebeian-market-admin-screen-options',
-			plugin_dir_url(__FILE__) . 'js/plebeian-market-admin-screen-setup.js',
+            pluginBasePath . 'admin/js/plebeian-market-admin-screen-setup.js',
 			['jquery'],
 			PLEBEIAN_MARKET_VERSION,
 			false

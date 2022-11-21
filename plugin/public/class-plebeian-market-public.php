@@ -72,7 +72,7 @@ class Plebeian_Market_Public
 	{
 		wp_enqueue_script(
 			'js.cookie',
-			plugin_dir_url(__FILE__) . 'js/js.cookie.min.js',
+            pluginBasePath . 'public/js/js.cookie.min.js',
 			['jquery'],
 			$this->version,
 			false
@@ -118,7 +118,7 @@ class Plebeian_Market_Public
 
 		wp_enqueue_script(
 			'plebeian-market-public-buynow',
-			plugin_dir_url(__FILE__) . 'js/plebeian-market-public-buynow.js',
+            pluginBasePath . 'public/js/plebeian-market-public-buynow.js',
 			['jquery', 'js.cookie', 'bootstrap-js', 'plebeian-market-auth-js', 'plebeian-market-public-js'],
 			$this->version,
 			false

@@ -52,16 +52,16 @@ class Plebeian_Market_Admin
 	 */
 	public function enqueue_styles()
 	{
-		wp_enqueue_style('plebeian-market-admin-css', plugin_dir_url(__FILE__) . 'css/plebeian-market-admin.css', [], $this->version, 'all');
+		wp_enqueue_style('plebeian-market-admin-css', pluginBasePath . 'admin/css/plebeian-market-admin.css', [], $this->version, 'all');
 
 		// Datatables
-		wp_enqueue_style('jquery.dataTables', plugin_dir_url(__FILE__) . 'css/datatables/jquery.dataTables.min.css', [], $this->version, 'all');
-		wp_enqueue_style('buttons.dataTables', plugin_dir_url(__FILE__) . 'css/datatables/buttons.dataTables.min.css', [], $this->version, 'all');
-		wp_enqueue_style('dataTables.dateTime', plugin_dir_url(__FILE__) . 'css/datatables/dataTables.dateTime.min.css', [], $this->version, 'all');
-		wp_enqueue_style('fixedHeader.dataTables', plugin_dir_url(__FILE__) . 'css/datatables/fixedHeader.dataTables.min.css', [], $this->version, 'all');
-		wp_enqueue_style('responsive.dataTables', plugin_dir_url(__FILE__) . 'css/datatables/responsive.dataTables.min.css', [], $this->version, 'all');
-		wp_enqueue_style('scroller.dataTables', plugin_dir_url(__FILE__) . 'css/datatables/scroller.dataTables.min.css', [], $this->version, 'all');
-		wp_enqueue_style('select.dataTables', plugin_dir_url(__FILE__) . 'css/datatables/select.dataTables.min.css', [], $this->version, 'all');
+		wp_enqueue_style('jquery.dataTables', pluginBasePath . 'admin/css/datatables/jquery.dataTables.min.css', [], $this->version, 'all');
+		wp_enqueue_style('buttons.dataTables', pluginBasePath . 'admin/css/datatables/buttons.dataTables.min.css', [], $this->version, 'all');
+		wp_enqueue_style('dataTables.dateTime', pluginBasePath . 'admin/css/datatables/dataTables.dateTime.min.css', [], $this->version, 'all');
+		wp_enqueue_style('fixedHeader.dataTables', pluginBasePath . 'admin/css/datatables/fixedHeader.dataTables.min.css', [], $this->version, 'all');
+		wp_enqueue_style('responsive.dataTables', pluginBasePath . 'admin/css/datatables/responsive.dataTables.min.css', [], $this->version, 'all');
+		wp_enqueue_style('scroller.dataTables', pluginBasePath . 'admin/css/datatables/scroller.dataTables.min.css', [], $this->version, 'all');
+		wp_enqueue_style('select.dataTables', pluginBasePath . 'admin/css/datatables/select.dataTables.min.css', [], $this->version, 'all');
 		// DataTables-1.12.1
 		// Buttons-2.2.3
 		// DateTime-1.1.2
@@ -80,19 +80,19 @@ class Plebeian_Market_Admin
 	 */
 	public function enqueue_scripts()
 	{
-		wp_enqueue_script('plebeian-market-admin', plugin_dir_url(__FILE__) . 'js/plebeian-market-admin.js', ['jquery', 'plebeian-market-js'], $this->version, false);
-		wp_enqueue_script('plebeian-market-js',	plugin_dir_url(__DIR__) . 'common/js/plebeian-market.js', ['jquery', 'bootstrap-js'], $this->version, false);
+		wp_enqueue_script('plebeian-market-admin', pluginBasePath . 'admin/js/plebeian-market-admin.js', ['jquery', 'plebeian-market-js'], $this->version, false);
+		wp_enqueue_script('plebeian-market-js',	pluginBasePath . 'common/js/plebeian-market.js', ['jquery', 'bootstrap-js'], $this->version, false);
 
 		// Datatables
-		wp_enqueue_script('jquery.dataTables', plugin_dir_url(__FILE__) . 'js/datatables/jquery.dataTables.min.js', ['jquery'], $this->version, false);
-		wp_enqueue_script('dataTables.buttons', plugin_dir_url(__FILE__) . 'js/datatables/dataTables.buttons.min.js', ['jquery'], $this->version, false);
-		wp_enqueue_script('buttons.colVis', plugin_dir_url(__FILE__) . 'js/datatables/buttons.colVis.min.js', ['jquery'], $this->version, false);
-		wp_enqueue_script('buttons.html5', plugin_dir_url(__FILE__) . 'js/datatables/buttons.html5.min.js', ['jquery'], $this->version, false);
-		wp_enqueue_script('dataTables.dateTime', plugin_dir_url(__FILE__) . 'js/datatables/dataTables.dateTime.min.js', ['jquery'], $this->version, false);
-		wp_enqueue_script('dataTables.fixedHeader', plugin_dir_url(__FILE__) . 'js/datatables/dataTables.fixedHeader.min.js', ['jquery'], $this->version, false);
-		wp_enqueue_script('dataTables.responsive', plugin_dir_url(__FILE__) . 'js/datatables/dataTables.responsive.min.js', ['jquery'], $this->version, false);
-		wp_enqueue_script('dataTables.scroller', plugin_dir_url(__FILE__) . 'js/datatables/dataTables.scroller.min.js', ['jquery'], $this->version, false);
-		wp_enqueue_script('dataTables.select', plugin_dir_url(__FILE__) . 'js/datatables/dataTables.select.min.js', ['jquery'], $this->version, false);
+		wp_enqueue_script('jquery.dataTables', pluginBasePath . 'admin/js/datatables/jquery.dataTables.min.js', ['jquery'], $this->version, false);
+		wp_enqueue_script('dataTables.buttons', pluginBasePath . 'admin/js/datatables/dataTables.buttons.min.js', ['jquery'], $this->version, false);
+		wp_enqueue_script('buttons.colVis', pluginBasePath . 'admin/js/datatables/buttons.colVis.min.js', ['jquery'], $this->version, false);
+		wp_enqueue_script('buttons.html5', pluginBasePath . 'admin/js/datatables/buttons.html5.min.js', ['jquery'], $this->version, false);
+		wp_enqueue_script('dataTables.dateTime', pluginBasePath . 'admin/js/datatables/dataTables.dateTime.min.js', ['jquery'], $this->version, false);
+		wp_enqueue_script('dataTables.fixedHeader', pluginBasePath . 'admin/js/datatables/dataTables.fixedHeader.min.js', ['jquery'], $this->version, false);
+		wp_enqueue_script('dataTables.responsive', pluginBasePath . 'admin/js/datatables/dataTables.responsive.min.js', ['jquery'], $this->version, false);
+		wp_enqueue_script('dataTables.scroller', pluginBasePath . 'admin/js/datatables/dataTables.scroller.min.js', ['jquery'], $this->version, false);
+		wp_enqueue_script('dataTables.select', pluginBasePath . 'admin/js/datatables/dataTables.select.min.js', ['jquery'], $this->version, false);
 		// DataTables-1.12.1
 		// Buttons-2.2.3
 		// DateTime-1.1.2
