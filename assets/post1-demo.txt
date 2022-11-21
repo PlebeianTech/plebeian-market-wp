@@ -1,2 +1,0 @@
-<!-- wp:paragraph --> <p>This is the current list of auctions that I'm running for my products:</p> <!-- /wp:paragraph -->  <!-- wp:paragraph --> <p>[plebeian_show_auctions_listing bids=0]</p> <!-- /wp:paragraph -->  <!-- wp:paragraph --> <p></p> <!-- |
-|                       |  /wp:paragraph -->  <!-- wp:paragraph --> <p>So this was the list of the products. If you want more information, just contact me.</p> <!-- /wp:paragraph -->
