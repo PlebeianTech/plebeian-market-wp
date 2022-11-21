@@ -67,7 +67,7 @@ $(document).ready(function () {
                     if (!row.started) {
                         return '<button type="button" class="btn btn-primary btn-sm confirmActionButton" data-action="publish" data-pmtype="buynow" data-key="' + row.key + '" data-title="' + row.title + '">Publish</button>';
                     }
-                    return row.start_date;
+                    return moment(row.start_date).format('D/M/YYYY, H:M:s');
                 },
                 className: "dt-center"
             },
