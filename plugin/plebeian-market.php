@@ -12,7 +12,7 @@
  * Version:           1.0.0
  * Author:            Plebeian Technology
  * Author URI:        https://plebeian.technology/
- * License:           GPL-2.0+
+ * License:           GPL-3.0
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.txt
  * Text Domain:       plebeian-market
  * Domain Path:       /languages

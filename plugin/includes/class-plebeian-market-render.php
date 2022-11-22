@@ -99,6 +99,8 @@ class Plebeian_Market_Render
 		$content = '
 		<div
 				class="pleb_item_superdiv"
+				data-type="' . $type . '"
+				data-key="' . $key . '"
 				style="
 					max-width: ' . ($size ? $size : '') . '%;
 					display: ' . ($atts['called_from_listing'] === "true" ? 'inline-flex' : 'flex') . '"
