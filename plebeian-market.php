@@ -23,7 +23,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define( 'PLEBEIAN_MARKET_VERSION', '1.0.0' );
+define( 'PLEBEIAN_MARKET_VERSION', '1.1.0' );
 
 function activate_plebeian_market() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-plebeian-market-activator.php';

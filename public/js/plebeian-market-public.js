@@ -1,6 +1,8 @@
 let loadingModal, gpModal;
 
 $(document).ready(function () {
+    // updateAuctionsPeriodically();
+
     $('.btn-buynow').click(function () {
         if (buynow_product_buying_key !== $(this).data('key')) {
             buynow_product_buying_key = $(this).data('key');

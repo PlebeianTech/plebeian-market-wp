@@ -116,6 +116,14 @@ class Plebeian_Market_Public
 			false
 		);
 
+        wp_enqueue_script(
+            'plebeian-market-public-auction',
+            pluginBasePath . 'public/js/plebeian-market-public-auction.js',
+            ['jquery', 'js.cookie', 'bootstrap-js', 'plebeian-market-auth-js', 'plebeian-market-public-js'],
+            $this->version,
+            false
+        );
+
 		wp_enqueue_script(
 			'plebeian-market-public-buynow',
             pluginBasePath . 'public/js/plebeian-market-public-buynow.js',

@@ -3,7 +3,7 @@ Tags: ecommerce, marketplace, bitcoin, lightning, shop
 Requires at least: 5.6.0
 Tested up to: 6.1.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv3
 Contributors: plebeiantechnology
 
@@ -35,6 +35,9 @@ You will own your market stall and you'll be happy!
 [Release notes on GitHub](https://github.com/PlebeianTech/plebeian-market-wp/releases)
 
 == Upgrade Notice ==
+
+= 1.0.0 =
+We now support Auctions!
 
 = 1.0.0 =
 Initial release with support for BuyNow products
