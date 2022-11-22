@@ -5,7 +5,7 @@ services:
     image: wordpress:latest
     volumes:
       - wordpress:/var/www/html:rw
-      - ./plugin:/var/www/html/wp-content/plugins/plebeian_market:ro
+      - .:/var/www/html/wp-content/plugins/plebeian_market:ro
     ports:
       - "8000:80"
     restart: always
@@ -49,7 +49,7 @@ services:
     command: tail -f /dev/null
     volumes:
       - wordpress:/var/www/html:rw
-      - ./plugin:/var/www/html/wp-content/plugins/plebeian_market:ro
+      - .:/var/www/html/wp-content/plugins/plebeian_market:ro
       - ./assets:/var/www/html/assets:ro
     environment:
       - WORDPRESS_DB_HOST=pm_wordpress_db
