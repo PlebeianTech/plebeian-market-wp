@@ -154,8 +154,6 @@ class Plebeian_Market_Admin_Screen_Information
 
 		<h2>Auctions</h2>
 		<hr>
-        <h5><span class="badge text-bg-danger">Comming soon!</span></h5>
-        <!--
 		<p>
 			You can go to the <a href="<?= admin_url('admin.php?page=plebeian_market_auctions') ?>">
 				Auctions</a> menu to manage (create, modify, delete) your <i>Auctions</i>, then use shortcodes
@@ -180,7 +178,6 @@ class Plebeian_Market_Admin_Screen_Information
 		<p>Find a list of parameters here:</p>
 		<ul><code>bids</code> - sets the number of bids you want your products to have</ul>
 		<ul><code>listing-title</code> - sets the title of the widget to show</ul>
-		-->
 <?php
 		Plebeian_Market_Admin_Common::plebeian_common_admin_code();
 	}

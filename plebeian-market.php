@@ -9,7 +9,7 @@
  * Plugin Name:       Plebeian Market
  * Plugin URI:        https://github.com/PlebeianTech/plebeian-market-wp
  * Description:       This is the WordPress plugin for Plebeian Market sites. You can make your actions appear in your WordPress site so your users don't need to abandon the site to bid on your items.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Author:            Plebeian Technology
  * Author URI:        https://plebeian.technology/
  * License:           GPL-3.0

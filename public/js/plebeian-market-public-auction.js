@@ -1,10 +1,18 @@
-function waitAndAskAgainAuctions() {
-    plebeianSetTimeout = setTimeout(function () {
-        updateAuctionsPeriodically(false);
-    }, 5000);
+function updateAuctionsPeriodically() {
+    $('.pleb_item_superdiv').each(function () {
+        let auctionObject = $(this);
+
+        if (auctionObject.data('type') === 'auction'){
+            getAuctionInfoPeriodically(auctionObject);
+        }
+    });
 }
 
-function getAuctionInfo(pmtype, key) {
+function getAuctionInfoPeriodically(auctionObject) {
+    let pmtype = auctionObject.data('type');
+    let key = auctionObject.data('key');
+    let bids_info = auctionObject.find('.pleb_bids_info');
+
     $.ajax({
         url: requests.wordpress_pm_api.ajax_url,
         cache: false,
@@ -18,31 +26,41 @@ function getAuctionInfo(pmtype, key) {
         }
     })
         .done(function (response) {
-            console.log('Information retrieved successfully!', response);
+            // console.log('Information retrieved successfully!', response);
 
             if (response.success === true) {
                 let item_info_from_api = response.data;
+                // console.log('Information retrieved successfully!', item_info_from_api);
 
-                // pmtype === 'buynow'
+                let ended = item_info_from_api.ended;
+                let bids = item_info_from_api.bids.length;
+                let starting_bid = item_info_from_api.starting_bid;
+                let htmlBids = '<p>Bids: ' + bids + '</p>';
 
-                console.log('item_info_from_api', item_info_from_api);
+                if (bids === 0) {
+                    htmlBids += '<p>Starting bid: ' + starting_bid + '</p>'
 
-                if (pmtype === 'auction') {
-                    $('#starting_bid').val(item_info_from_api.starting_bid);
-                    $('#reserve_bid').val(item_info_from_api.reserve_bid);
+                } else {
+                    let current_bid = item_info_from_api.bids[0]?.amount;
+                    let bidder_name = item_info_from_api.bids[0]?.buyer_display_name;
 
-                    let duration_hours = item_info_from_api.duration_hours;
-                    if (duration_hours % 24 === 0) {
-                        $('#duration').val(duration_hours / 24);
-                        $('#duration_unit').val('d');
+                    if (ended) {
+                        htmlBids += '<p>Winning bid: ' + current_bid + ' sats</p>'
+                        htmlBids += '<p>Winner: ' + bidder_name + '</p>'
                     } else {
-                        $('#duration').val(duration_hours);
-                        $('#duration_unit').val('h');
+                        htmlBids += '<p>Top bid: ' + current_bid + ' sats</p>'
+                        htmlBids += '<p>Bidder: ' + bidder_name + '</p>'
                     }
-//                } else if (pmtype === 'buynow') {
-//                    $('#price_usd').val(item_info_from_api.price_usd);
-//                    $('#available_quantity').val(item_info_from_api.available_quantity);
                 }
+
+                if (ended) {
+                    htmlBids += '<p>Ended</p>'
+                } else {
+                    let end_time = item_info_from_api.end_date;
+                    htmlBids += '<p>End time: ' + end_time + '</p>'
+                }
+
+                $(bids_info).html(htmlBids);
 
             } else {
                 console.log("ERROR getting information: ", response);
@@ -52,27 +70,10 @@ function getAuctionInfo(pmtype, key) {
             console.log("ERROR getting information: ", error);
         })
         .always(function () {
-            waitAndAskAgainAuctions();
+            console.log('Sleeping 5 secs...');
+
+            setTimeout(function () {
+                getAuctionInfoPeriodically(auctionObject);
+            }, 5000)
         });
-}
-
-function updateAuctionsPeriodically() {
-    $('.pleb_item_superdiv').each(function () {
-        let auctionObject = $(this);
-
-        if (auctionObject.data('type') !== 'auction'){
-            return;
-        }
-
-        let key = auctionObject.data('key');
-        let bids_info = auctionObject.find('.pleb_bids_info');
-
-        console.log('key', key);
-
-        getAuctionInfo(key);
-        console.log('bids_info', bids_info);
-        $(bids_info).html('rucu');
-
-        getAuctionInfo('auction', key);
-    });
 }
