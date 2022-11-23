@@ -112,7 +112,7 @@ $(document).ready( function () {
             },
             {
                 render: function (data, type, row) {
-                    return row.current_bid ?? '';
+                    return row.bids[0]?.amount ?? '';
                 },
                 className: "dt-center"
             },
