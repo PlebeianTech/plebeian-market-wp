@@ -263,7 +263,8 @@ $(document).ready( function () {
             dataType: 'JSON',
             contentType: 'application/json;charset=UTF-8',
             type: requests.pm_api[pmtype][action].method,
-            headers: { "X-Access-Token": requests.pm_api.XAccessToken }
+            headers: { "X-Access-Token": requests.pm_api.XAccessToken },
+            data: JSON.stringify({})
         })
             .done(function (response) {
                 itemsDatatable.ajax.reload();
