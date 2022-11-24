@@ -154,7 +154,7 @@ class Plebeian_Market_Admin_Ajax_Api
 					'headers'     => [
 						'X-Access-Token' => Plebeian_Market_Communications::getXAccessToken()
 					],
-					'method'     => PM_API_DELETE_MEDIA_BUYNOW_METHOD
+					'method'     => PLEBEIAN_MARKET_API_DELETE_MEDIA_BUYNOW_METHOD
 				]
 			);
 			$deleteImage_http_code = wp_remote_retrieve_response_code($deleteImageResponse);
