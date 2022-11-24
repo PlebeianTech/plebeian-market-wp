@@ -75,7 +75,6 @@ $(document).ready(function () {
                 render: function (data, type, row) {
                     let key = row.key;
                     let title = row.title;
-                    let isMine = row.is_mine;
 
                     let iconsToBeDisplayed = '';
                     iconsToBeDisplayed += '<img src="' + pluginBasePath + 'admin/img/pencil-square.svg" class="dataTablesActionIcon editButton" data-pmtype="buynow" data-key="' + key + '" data-title="' + title + '" alt="Edit item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">';

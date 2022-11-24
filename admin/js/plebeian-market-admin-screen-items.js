@@ -153,11 +153,6 @@ function rebindIconClicks() {
                 if (response.success === true) {
                     let item_info_from_api = response.data;
 
-                    if (item_info_from_api.is_mine === false) {
-                        //                        showAlertModal("You don't have permission to modify this item because it's not yours.");
-                        return;
-                    }
-
                     $('#titleModalItemInfo').text(pmtype === 'buynow' ? 'Modify BuyNow product' : 'Modify Auction');
 
                     $('#key').val(item_info_from_api.key);
