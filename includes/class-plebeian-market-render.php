@@ -160,7 +160,7 @@ class Plebeian_Market_Render
                 $content .= '   <p>Bidder: ' . $numBids . '</p>';
             }
             $content .= '   </div>';
-            $content .= '   <button type="button" class="btn btn-success btn-buynow" data-key="' . $key . '">Bid now</button>';
+            $content .= '   <button type="button" class="btn btn-success btn-bidnow" data-key="' . $key . '">Bid now</button>';
             $content .= '</div>';
         }
 
