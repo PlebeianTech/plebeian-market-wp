@@ -29,7 +29,7 @@ class Plebeian_Market_Admin_Ajax_Api
 			$filter = null;
 		}
 
-		wp_send_json_success(Plebeian_Market_Admin_Utils::load_options($filter));
+		wp_send_json_success(Plebeian_Market_Admin_Utils::plebeian_market_load_options($filter));
 	}
 
 	function ajax_save_options()

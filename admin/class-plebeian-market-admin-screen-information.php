@@ -179,6 +179,6 @@ class Plebeian_Market_Admin_Screen_Information
 		<ul><code>bids</code> - sets the number of bids you want your products to have</ul>
 		<ul><code>listing-title</code> - sets the title of the widget to show</ul>
 <?php
-		Plebeian_Market_Admin_Common::plebeian_common_admin_code();
+		Plebeian_Market_Admin_Common::plebeian_market_common_admin_code();
 	}
 }

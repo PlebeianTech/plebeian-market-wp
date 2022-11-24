@@ -143,6 +143,6 @@ class Plebeian_Market_Admin_Screen_Auctions
             </div>
         </div>
 
-        <?php Plebeian_Market_Admin_Common::plebeian_common_admin_code(true);
+        <?php Plebeian_Market_Admin_Common::plebeian_market_common_admin_code(true);
     }
 }

@@ -126,6 +126,6 @@ class Plebeian_Market_Admin_Screen_Setup
 
 		</div>
 <?php
-		Plebeian_Market_Admin_Common::plebeian_common_admin_code();
+		Plebeian_Market_Admin_Common::plebeian_market_common_admin_code();
 	}
 }

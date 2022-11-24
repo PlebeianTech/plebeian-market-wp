@@ -12,8 +12,8 @@
 
 class Plebeian_Market_Admin_Utils
 {
-	static function load_options($prefix = null, $remove_prefix = false)
-	{
+	static function plebeian_market_load_options($prefix = null, $remove_prefix = false): array
+    {
 		$optionsLoaded = [];
 
 		foreach (PLEBEIAN_MARKET_OPTIONS as $option) {

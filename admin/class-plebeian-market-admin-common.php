@@ -12,7 +12,7 @@
 
 class Plebeian_Market_Admin_Common
 {
-	static function plebeian_common_admin_code($showConfirmActionItemModal = false)
+	static function plebeian_market_common_admin_code($showConfirmActionItemModal = false)
 	{
 ?>
 		<script>

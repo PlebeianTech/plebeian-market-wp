@@ -59,7 +59,7 @@ class Plebeian_Market_Admin_Screen_Customization
 		</div>
 
 		<h2>Widget customization</h2>
-		<?php Plebeian_Market_Admin_Common::plebeian_common_admin_code() ?>
+		<?php Plebeian_Market_Admin_Common::plebeian_market_common_admin_code() ?>
 
 
 		<div class="row">
