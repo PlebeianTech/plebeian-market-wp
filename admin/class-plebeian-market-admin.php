@@ -86,7 +86,7 @@ class Plebeian_Market_Admin
 		wp_enqueue_script('dataTables.responsive', pluginBasePath . 'admin/js/datatables/dataTables.responsive.min.js', ['jquery'], '2.3.0', false);
 		wp_enqueue_script('dataTables.scroller', pluginBasePath . 'admin/js/datatables/dataTables.scroller.min.js', ['jquery'], '2.0.7', false);
 		wp_enqueue_script('dataTables.select', pluginBasePath . 'admin/js/datatables/dataTables.select.min.js', ['jquery'], '1.4.0', false);
-        wp_enqueue_script('moment.js', pluginBasePath . 'admin/js/datatables/moment.min.js', ['jquery'], '2.11.2', false);
+        wp_enqueue_script('moment');
 
 		wp_enqueue_script('bootstrap-js', pluginBasePath . 'common/js/bootstrap.bundle.min.js', ['jquery'], '5.2.3');
 
