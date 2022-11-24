@@ -63,7 +63,7 @@ class Plebeian_Market_Admin
 		wp_enqueue_style('scroller.dataTables', pluginBasePath . 'admin/css/datatables/scroller.dataTables.min.css', [], '2.0.7', 'all');
 		wp_enqueue_style('select.dataTables', pluginBasePath . 'admin/css/datatables/select.dataTables.min.css', [], '1.4.0', 'all');
 
-		wp_enqueue_style('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css');
+		wp_enqueue_style('bootstrap-css', pluginBasePath . 'common/css/bootstrap.min.css', [], '5.2.3');
 	}
 
 	/**
@@ -88,7 +88,7 @@ class Plebeian_Market_Admin
 		wp_enqueue_script('dataTables.select', pluginBasePath . 'admin/js/datatables/dataTables.select.min.js', ['jquery'], '1.4.0', false);
         wp_enqueue_script('moment.js', pluginBasePath . 'admin/js/datatables/moment.min.js', ['jquery'], '2.11.2', false);
 
-		wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js', ['jquery']);
+		wp_enqueue_script('bootstrap-js', pluginBasePath . 'common/js/bootstrap.bundle.min.js', ['jquery'], '5.2.3');
 		wp_enqueue_script('jquery-ui-js', 'https://code.jquery.com/ui/1.13.2/jquery-ui.min.js', ['jquery', 'bootstrap-js']);
 
 		wp_enqueue_media();

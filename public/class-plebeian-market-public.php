@@ -60,7 +60,7 @@ class Plebeian_Market_Public
 			'all'
 		);
 
-		wp_enqueue_style('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css');
+        wp_enqueue_style('bootstrap-css', pluginBasePath . 'common/css/bootstrap.min.css', [], '5.2.3');
 	}
 
 	/**
@@ -78,11 +78,7 @@ class Plebeian_Market_Public
 			false
 		);
 
-		wp_enqueue_script(
-			'bootstrap-js',
-			'https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js',
-			['jquery']
-		);
+        wp_enqueue_script('bootstrap-js', pluginBasePath . 'common/js/bootstrap.bundle.min.js', ['jquery'], '5.2.3');
 
 		wp_enqueue_script(
 			'plebeian-market-js',
