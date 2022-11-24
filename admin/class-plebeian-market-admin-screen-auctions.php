@@ -24,7 +24,7 @@ class Plebeian_Market_Admin_Screen_Auctions
         ?>
 
         <script>
-            let pluginBasePath = '<?= pluginBasePath ?>';
+            let pluginBasePath = '<?php echo pluginBasePath ?>';
         </script>
 
         <div class="wrap">

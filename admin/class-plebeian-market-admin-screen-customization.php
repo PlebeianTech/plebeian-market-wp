@@ -86,7 +86,7 @@ class Plebeian_Market_Admin_Screen_Customization
 						<label for="plebeian_market_widget_title_fontsize" class="form-label">Title font size</label>
 						<div class="col-md-2 mb-0">
 							<select id="plebeian_market_widget_title_fontsize" name="plebeian_market_widget_title_fontsize" class="form-control" aria-describedby="plebeian_market_widget_title_fontsizeHelpBlock">
-								<?= Plebeian_Market_Admin_Common::getHTMLOptions() ?>
+								<?php echo Plebeian_Market_Admin_Common::getHTMLOptions() ?>
 							</select>
 						</div>
 						<div id="plebeian_market_widget_title_fontsizeHelpBlock" class="form-text col-md-9">
@@ -99,7 +99,7 @@ class Plebeian_Market_Admin_Screen_Customization
 						<label for="plebeian_market_widget_description_fontsize" class="form-label">Description font size</label>
 						<div class="col-md-2 mb-0">
 							<select id="plebeian_market_widget_description_fontsize" name="plebeian_market_widget_title_fontsize" class="form-control" aria-describedby="plebeian_market_widget_description_fontsizeHelpBlock">
-								<?= Plebeian_Market_Admin_Common::getHTMLOptions() ?>
+								<?php echo Plebeian_Market_Admin_Common::getHTMLOptions() ?>
 							</select>
 						</div>
 						<div id="plebeian_market_widget_description_fontsizeHelpBlock" class="form-text col-md-9">

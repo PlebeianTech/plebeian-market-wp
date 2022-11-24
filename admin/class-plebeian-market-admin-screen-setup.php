@@ -84,7 +84,7 @@ class Plebeian_Market_Admin_Screen_Setup
 				<div class="collapse" id="customizationAdvanced">
 					<div class="mb-3">
 						<label for="pmURL" class="form-label">Plebeian Market API URL:</label><span class="badge text-bg-success" style="margin-left: 10px;">Optional</span>
-						<input type="text" id="pmURL" class="form-control" aria-describedby="pmURLHelpBlock" placeholder="<?= Plebeian_Market_Communications::getAPIUrl() ?>">
+						<input type="text" id="pmURL" class="form-control" aria-describedby="pmURLHelpBlock" placeholder="<?php echo Plebeian_Market_Communications::getAPIUrl() ?>">
 						<div id="pmURLHelpBlock" class="form-text">
 							By default, this points to the centralized version of Plebeian Market, but if you want
 							to be self-sovereign, soon you'll be able to run your own Plebeian Market in your Bitcoin

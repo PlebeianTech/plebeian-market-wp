@@ -196,39 +196,39 @@ class Plebeian_Market_Public
 		function plebeian_common_public_code()
 		{ ?>
 			<script>
-				let pluginBasePath = '<?= pluginBasePath ?>';
+				let pluginBasePath = '<?php echo pluginBasePath ?>';
 
-				let btcPriceInUSD = <?= Plebeian_Market_Communications::getBTCPriceInUSD() ?>;
+				let btcPriceInUSD = <?php echo Plebeian_Market_Communications::getBTCPriceInUSD() ?>;
 
 				let requests = {
 					pm_api: {
 						default_timeout: 10000,
 						get_login_info: {
-							url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_GET_LOGIN_INFO_URL ?>',
-							method: '<?= PM_API_GET_LOGIN_INFO_METHOD ?>'
+							url: '<?php echo Plebeian_Market_Communications::getAPIUrl() . PM_API_GET_LOGIN_INFO_URL ?>',
+							method: '<?php echo PM_API_GET_LOGIN_INFO_METHOD ?>'
 						},
 						check_login: {
-							url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_CHECK_LOGIN_URL ?>',
-							method: '<?= PM_API_CHECK_LOGIN_METHOD ?>'
+							url: '<?php echo Plebeian_Market_Communications::getAPIUrl() . PM_API_CHECK_LOGIN_URL ?>',
+							method: '<?php echo PM_API_CHECK_LOGIN_METHOD ?>'
 						},
                         buynow: {
                             get: {
-                                url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_GET_BUYNOW_URL ?>',
-                                method: '<?= PM_API_GET_BUYNOW_METHOD ?>'
+                                url: '<?php echo Plebeian_Market_Communications::getAPIUrl() . PM_API_GET_BUYNOW_URL ?>',
+                                method: '<?php echo PM_API_GET_BUYNOW_METHOD ?>'
                             },
                             buy: {
-                                url: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_BUY_BUYNOW_URL ?>',
-                                method: '<?= PM_API_BUY_BUYNOW_METHOD ?>'
+                                url: '<?php echo Plebeian_Market_Communications::getAPIUrl() . PM_API_BUY_BUYNOW_URL ?>',
+                                method: '<?php echo PM_API_BUY_BUYNOW_METHOD ?>'
                             },
                         },
                         auctions: {
-                            bid: '<?= Plebeian_Market_Communications::getAPIUrl() . PM_API_BID_AUCTIONS_URL ?>',
-                            method: '<?= PM_API_BID_AUCTIONS_METHOD ?>'
+                            bid: '<?php echo Plebeian_Market_Communications::getAPIUrl() . PM_API_BID_AUCTIONS_URL ?>',
+                            method: '<?php echo PM_API_BID_AUCTIONS_METHOD ?>'
                         }
 					},
 					wordpress_pm_api: {
-						ajax_url: '<?= admin_url('admin-ajax.php') ?>',
-						nonce: '<?= wp_create_nonce('save_options_nonce') ?>'
+						ajax_url: '<?php echo admin_url('admin-ajax.php') ?>',
+						nonce: '<?php echo wp_create_nonce('save_options_nonce') ?>'
 					}
 				}
 			</script>;

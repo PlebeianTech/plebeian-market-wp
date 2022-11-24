@@ -24,7 +24,7 @@ class Plebeian_Market_Admin_Screen_Information
 			</p>
 		</div>
 
-		<img src="<?= pluginBasePath ?>common/img/plebeian_market_logo.png" alt="Plebeian Market, powered by Plebeian Technology">
+		<img src="<?php echo pluginBasePath ?>common/img/plebeian_market_logo.png" alt="Plebeian Market, powered by Plebeian Technology">
 
 		<p>
 			Plebeian Market is a marketplace where anyone can sell anything. All you need is a Bitcoin wallet and you'll start selling or
@@ -48,7 +48,7 @@ class Plebeian_Market_Admin_Screen_Information
 		<h2>Buy Now products</h2>
 		<hr>
 		<p>
-			You can go to the <a href="<?= admin_url('admin.php?page=plebeian_market_buynow') ?>">
+			You can go to the <a href="<?php echo admin_url('admin.php?page=plebeian_market_buynow') ?>">
 				Buy Now items</a> menu to manage (create, modify, delete) your <i>Buy Now</i> products, then simply
 			add the shortcodes to your WordPress posts or pages:
 		</p>
@@ -59,8 +59,8 @@ class Plebeian_Market_Admin_Screen_Information
 		<p></p>
 		<p>
 			You can use the
-			<img src="<?= pluginBasePath ?>admin/img/code-square.svg" class="shortCodeIcon" alt="Copy Shortcode" style="font-size: 2em;">
-			(copy shortcode) icon in <a href="<?= admin_url('admin.php?page=plebeian_market_buynow') ?>">Buy Now items</a> to
+			<img src="<?php echo pluginBasePath ?>admin/img/code-square.svg" class="shortCodeIcon" alt="Copy Shortcode" style="font-size: 2em;">
+			(copy shortcode) icon in <a href="<?php echo admin_url('admin.php?page=plebeian_market_buynow') ?>">Buy Now items</a> to
 			directly copy the shortcode for a specific item.
 		</p>
 		<p></p>
@@ -155,7 +155,7 @@ class Plebeian_Market_Admin_Screen_Information
 		<h2>Auctions</h2>
 		<hr>
 		<p>
-			You can go to the <a href="<?= admin_url('admin.php?page=plebeian_market_auctions') ?>">
+			You can go to the <a href="<?php echo admin_url('admin.php?page=plebeian_market_auctions') ?>">
 				Auctions</a> menu to manage (create, modify, delete) your <i>Auctions</i>, then use shortcodes
 			this way to show the products in your WordPress posts or pages:
 		</p>
@@ -164,8 +164,8 @@ class Plebeian_Market_Admin_Screen_Information
         <code>[plebeian_show_auction key="RLOA"]</code>
         <p></p>
         <p>You can use the
-            <img src="<?= pluginBasePath ?>admin/img/code-square.svg" class="shortCodeIcon" alt="Copy Shortcode" style="font-size: 2em;">
-            (copy shortcode) icon in <a href="<?= admin_url('admin.php?page=plebeian_market_auctions') ?>">Auctions</a> to directly copy the shortcode for a specific auction.
+            <img src="<?php echo pluginBasePath ?>admin/img/code-square.svg" class="shortCodeIcon" alt="Copy Shortcode" style="font-size: 2em;">
+            (copy shortcode) icon in <a href="<?php echo admin_url('admin.php?page=plebeian_market_auctions') ?>">Auctions</a> to directly copy the shortcode for a specific auction.
         </p>
 
         <p></p>
