@@ -19,12 +19,12 @@ class Plebeian_Market_Admin_Screen_Buynow
 			return;
 		}
 
-        wp_enqueue_script('plebeian-market-admin-screen-items', pluginBasePath . 'admin/js/plebeian-market-admin-screen-items.js', ['jquery', 'plebeian-market-admin'], PLEBEIAN_MARKET_VERSION, false);
-		wp_enqueue_script('plebeian-market-admin-screen-buynow', pluginBasePath . 'admin/js/plebeian-market-admin-screen-buynow.js', ['jquery', 'plebeian-market-admin', 'plebeian-market-admin-screen-items'], PLEBEIAN_MARKET_VERSION, false);
+        wp_enqueue_script('plebeian-market-admin-screen-items', PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'admin/js/plebeian-market-admin-screen-items.js', ['jquery', 'plebeian-market-admin'], PLEBEIAN_MARKET_VERSION, false);
+		wp_enqueue_script('plebeian-market-admin-screen-buynow', PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'admin/js/plebeian-market-admin-screen-buynow.js', ['jquery', 'plebeian-market-admin', 'plebeian-market-admin-screen-items'], PLEBEIAN_MARKET_VERSION, false);
 ?>
 
 		<script>
-			let pluginBasePath = '<?php echo pluginBasePath ?>';
+			let pluginBasePath = '<?php echo PLEBEIAN_MARKET_PLUGIN_BASEPATH ?>';
 		</script>
 
 		<div class="wrap">

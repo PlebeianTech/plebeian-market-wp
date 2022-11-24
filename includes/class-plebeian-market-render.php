@@ -33,7 +33,7 @@ class Plebeian_Market_Render
 			'show_quantity_info' => 'false'
 		];
 
-		$widget_options = Plebeian_Market_Admin_Utils::load_options(FORM_FIELDS_PREFIX, true);
+		$widget_options = Plebeian_Market_Admin_Utils::load_options(PLEBEIAN_MARKET_FORM_FIELDS_PREFIX, true);
 
 		$args = shortcode_atts($default_values, $widget_options);	// Options for the Customization screen + default values
 		$args = shortcode_atts($args, $atts);	// What's passet to shortcode as parameters + result from previous line

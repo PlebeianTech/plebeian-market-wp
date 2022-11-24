@@ -54,13 +54,13 @@ class Plebeian_Market_Public
 	{
 		wp_enqueue_style(
 			'plebeian-market-css',
-            pluginBasePath . 'common/css/plebeian-market.css',
+            PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'common/css/plebeian-market.css',
 			[],
 			$this->version,
 			'all'
 		);
 
-        wp_enqueue_style('bootstrap-css', pluginBasePath . 'common/css/bootstrap.min.css', [], '5.2.3');
+        wp_enqueue_style('bootstrap-css', PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'common/css/bootstrap.min.css', [], '5.2.3');
 	}
 
 	/**
@@ -72,17 +72,17 @@ class Plebeian_Market_Public
 	{
 		wp_enqueue_script(
 			'js.cookie',
-            pluginBasePath . 'public/js/js.cookie.min.js',
+            PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'public/js/js.cookie.min.js',
 			['jquery'],
 			$this->version,
 			false
 		);
 
-        wp_enqueue_script('bootstrap-js', pluginBasePath . 'common/js/bootstrap.bundle.min.js', ['jquery'], '5.2.3');
+        wp_enqueue_script('bootstrap-js', PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'common/js/bootstrap.bundle.min.js', ['jquery'], '5.2.3');
 
 		wp_enqueue_script(
 			'plebeian-market-js',
-            pluginBasePath . 'common/js/plebeian-market.js',
+            PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'common/js/plebeian-market.js',
 			['jquery', 'bootstrap-js'],
 			$this->version,
 			false
@@ -90,7 +90,7 @@ class Plebeian_Market_Public
 
 		wp_enqueue_script(
 			'plebeian-market-auth-js',
-            pluginBasePath . 'common/js/plebeian-market-auth.js',
+            PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'common/js/plebeian-market-auth.js',
 			['jquery', 'js.cookie', 'bootstrap-js', 'plebeian-market-js'],
 			$this->version,
 			false
@@ -98,7 +98,7 @@ class Plebeian_Market_Public
 
 		wp_enqueue_script(
 			'plebeian-market-slideshow-js',
-            pluginBasePath . 'common/js/plebeian-market-slideshow.js',
+            PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'common/js/plebeian-market-slideshow.js',
 			['jquery'],
 			$this->version,
 			false
@@ -106,7 +106,7 @@ class Plebeian_Market_Public
 
 		wp_enqueue_script(
 			'plebeian-market-public-js',
-            pluginBasePath . 'public/js/plebeian-market-public.js',
+            PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'public/js/plebeian-market-public.js',
 			['jquery', 'plebeian-market-auth-js', 'plebeian-market-slideshow-js'],
 			$this->version,
 			false
@@ -114,7 +114,7 @@ class Plebeian_Market_Public
 
         wp_enqueue_script(
             'plebeian-market-public-auction',
-            pluginBasePath . 'public/js/plebeian-market-public-auction.js',
+            PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'public/js/plebeian-market-public-auction.js',
             ['jquery', 'js.cookie', 'bootstrap-js', 'plebeian-market-auth-js', 'plebeian-market-public-js'],
             $this->version,
             false
@@ -122,7 +122,7 @@ class Plebeian_Market_Public
 
 		wp_enqueue_script(
 			'plebeian-market-public-buynow',
-            pluginBasePath . 'public/js/plebeian-market-public-buynow.js',
+            PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'public/js/plebeian-market-public-buynow.js',
 			['jquery', 'js.cookie', 'bootstrap-js', 'plebeian-market-auth-js', 'plebeian-market-public-js'],
 			$this->version,
 			false
@@ -196,7 +196,7 @@ class Plebeian_Market_Public
 		function plebeian_common_public_code()
 		{ ?>
 			<script>
-				let pluginBasePath = '<?php echo pluginBasePath ?>';
+				let pluginBasePath = '<?php echo PLEBEIAN_MARKET_PLUGIN_BASEPATH ?>';
 
 				let btcPriceInUSD = <?php echo Plebeian_Market_Communications::getBTCPriceInUSD() ?>;
 
@@ -204,26 +204,26 @@ class Plebeian_Market_Public
 					pm_api: {
 						default_timeout: 10000,
 						get_login_info: {
-							url: '<?php echo Plebeian_Market_Communications::getAPIUrl() . PM_API_GET_LOGIN_INFO_URL ?>',
-							method: '<?php echo PM_API_GET_LOGIN_INFO_METHOD ?>'
+							url: '<?php echo Plebeian_Market_Communications::getAPIUrl() . PLEBEIAN_MARKET_API_GET_LOGIN_INFO_URL ?>',
+							method: '<?php echo PLEBEIAN_MARKET_API_GET_LOGIN_INFO_METHOD ?>'
 						},
 						check_login: {
-							url: '<?php echo Plebeian_Market_Communications::getAPIUrl() . PM_API_CHECK_LOGIN_URL ?>',
-							method: '<?php echo PM_API_CHECK_LOGIN_METHOD ?>'
+							url: '<?php echo Plebeian_Market_Communications::getAPIUrl() . PLEBEIAN_MARKET_API_CHECK_LOGIN_URL ?>',
+							method: '<?php echo PLEBEIAN_MARKET_API_CHECK_LOGIN_METHOD ?>'
 						},
                         buynow: {
                             get: {
-                                url: '<?php echo Plebeian_Market_Communications::getAPIUrl() . PM_API_GET_BUYNOW_URL ?>',
-                                method: '<?php echo PM_API_GET_BUYNOW_METHOD ?>'
+                                url: '<?php echo Plebeian_Market_Communications::getAPIUrl() . PLEBEIAN_MARKET_API_GET_BUYNOW_URL ?>',
+                                method: '<?php echo PLEBEIAN_MARKET_API_GET_BUYNOW_METHOD ?>'
                             },
                             buy: {
-                                url: '<?php echo Plebeian_Market_Communications::getAPIUrl() . PM_API_BUY_BUYNOW_URL ?>',
-                                method: '<?php echo PM_API_BUY_BUYNOW_METHOD ?>'
+                                url: '<?php echo Plebeian_Market_Communications::getAPIUrl() . PLEBEIAN_MARKET_API_BUY_BUYNOW_URL ?>',
+                                method: '<?php echo PLEBEIAN_MARKET_API_BUY_BUYNOW_METHOD ?>'
                             },
                         },
                         auctions: {
-                            bid: '<?php echo Plebeian_Market_Communications::getAPIUrl() . PM_API_BID_AUCTIONS_URL ?>',
-                            method: '<?php echo PM_API_BID_AUCTIONS_METHOD ?>'
+                            bid: '<?php echo Plebeian_Market_Communications::getAPIUrl() . PLEBEIAN_MARKET_API_BID_AUCTIONS_URL ?>',
+                            method: '<?php echo PLEBEIAN_MARKET_API_BID_AUCTIONS_METHOD ?>'
                         }
 					},
 					wordpress_pm_api: {

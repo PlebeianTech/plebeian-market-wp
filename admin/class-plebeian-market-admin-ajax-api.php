@@ -36,7 +36,7 @@ class Plebeian_Market_Admin_Ajax_Api
 	{
 		check_ajax_referer('save_options_nonce');
 
-		foreach (PM_OPTIONS as $option) {
+		foreach (PLEBEIAN_MARKET_OPTIONS as $option) {
 			if (isset($_POST[$option])) {
 				update_option($option, $_POST[$option]);
 			}
@@ -65,13 +65,13 @@ class Plebeian_Market_Admin_Ajax_Api
 		$parameters = $_POST['parameters'];
 
 		foreach ($parameters as $key => $value) {
-			if (substr($key, 0, strlen(FORM_FIELDS_PREFIX)) === FORM_FIELDS_PREFIX) {
-				$key_without_prefix = substr($key, strlen(FORM_FIELDS_PREFIX));
+			if (substr($key, 0, strlen(PLEBEIAN_MARKET_FORM_FIELDS_PREFIX)) === PLEBEIAN_MARKET_FORM_FIELDS_PREFIX) {
+				$key_without_prefix = substr($key, strlen(PLEBEIAN_MARKET_FORM_FIELDS_PREFIX));
 				$parameters[$key_without_prefix] = $value;
 			}
 		}
 
-		$html = Plebeian_Market_Render::plebeian_item_render_html($parameters, 'buynow', (object)DEMO_BUYNOW_PRODUCT);
+		$html = Plebeian_Market_Render::plebeian_item_render_html($parameters, 'buynow', (object)PLEBEIAN_MARKET_DEMO_BUYNOW_PRODUCT);
 
 		wp_send_json_success([
 			'html' => $html
@@ -106,11 +106,11 @@ class Plebeian_Market_Admin_Ajax_Api
         $backendAPIUrl = Plebeian_Market_Communications::getBackendAPIUrl();
 
         if ($pmtype == 'auction') {
-            $addUrl = $backendAPIUrl . PM_API_ADD_MEDIA_AUCTION_URL;
-            $deleteUrl = $backendAPIUrl . PM_API_DELETE_MEDIA_AUCTION_URL;
+            $addUrl = $backendAPIUrl . PLEBEIAN_MARKET_API_ADD_MEDIA_AUCTION_URL;
+            $deleteUrl = $backendAPIUrl . PLEBEIAN_MARKET_API_DELETE_MEDIA_AUCTION_URL;
         } else {
-            $addUrl = $backendAPIUrl . PM_API_ADD_MEDIA_BUYNOW_URL;
-            $deleteUrl = $backendAPIUrl . PM_API_DELETE_MEDIA_BUYNOW_URL;
+            $addUrl = $backendAPIUrl . PLEBEIAN_MARKET_API_ADD_MEDIA_BUYNOW_URL;
+            $deleteUrl = $backendAPIUrl . PLEBEIAN_MARKET_API_DELETE_MEDIA_BUYNOW_URL;
         }
 
 		$addUrl = str_replace('{KEY}', $key, $addUrl);

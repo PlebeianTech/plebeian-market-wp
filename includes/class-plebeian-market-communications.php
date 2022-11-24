@@ -28,13 +28,13 @@ class Plebeian_Market_Communications
 	public static function getAPIUrl()
 	{
 		$customUrl = get_option('plebeian_market_url_connect');
-		return ($customUrl === false || $customUrl === '') ? PM_API_URL_DEFAULT : $customUrl;
+		return ($customUrl === false || $customUrl === '') ? PLEBEIAN_MARKET_API_URL_DEFAULT : $customUrl;
 	}
 
 	public static function getBackendAPIUrl()
 	{
 		$customUrl = get_option('plebeian_market_url_connect');
-		return ($customUrl === false || $customUrl === '') ? PM_API_URL_BACKEND_DEFAULT : $customUrl;
+		return ($customUrl === false || $customUrl === '') ? PLEBEIAN_MARKET_API_URL_BACKEND_DEFAULT : $customUrl;
 	}
 
 	public static function getXAccessToken()
@@ -106,7 +106,7 @@ class Plebeian_Market_Communications
 	public static function getBuyNowListing()
 	{
 		$buyNowListing_respose = wp_remote_get(
-			self::getBackendAPIUrl() . PM_API_LIST_BUYNOW_URL,
+			self::getBackendAPIUrl() . PLEBEIAN_MARKET_API_LIST_BUYNOW_URL,
 			[
 				'headers'     => [
 					'X-Access-Token' => Plebeian_Market_Communications::getXAccessToken()
@@ -132,7 +132,7 @@ class Plebeian_Market_Communications
 
 		if (false === $bitcoin_price_quote) {
 
-			$btcprice_response = wp_remote_get(KRAKEN_BTCUSD_API_URL);
+			$btcprice_response = wp_remote_get(PLEBEIAN_MARKET_KRAKEN_BTCUSD_API_URL);
 			$btcprice_body_json = wp_remote_retrieve_body($btcprice_response);
 			$btcprice_http_code = wp_remote_retrieve_response_code($btcprice_response);
 
@@ -143,7 +143,7 @@ class Plebeian_Market_Communications
 				return 0;
 			}
 
-			set_transient($cache_key, $bitcoin_price_quote, KRAKEN_BTCUSD_API_CACHETIME);
+			set_transient($cache_key, $bitcoin_price_quote, PLEBEIAN_MARKET_KRAKEN_BTCUSD_API_CACHETIME);
 		}
 
 		return $bitcoin_price_quote;

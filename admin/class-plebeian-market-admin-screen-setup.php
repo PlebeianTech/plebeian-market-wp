@@ -21,7 +21,7 @@ class Plebeian_Market_Admin_Screen_Setup
 
 		wp_enqueue_script(
 			'plebeian-market-admin-screen-options',
-            pluginBasePath . 'admin/js/plebeian-market-admin-screen-setup.js',
+            PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'admin/js/plebeian-market-admin-screen-setup.js',
 			['jquery'],
 			PLEBEIAN_MARKET_VERSION,
 			false
@@ -29,7 +29,7 @@ class Plebeian_Market_Admin_Screen_Setup
 
 		wp_enqueue_script(
 			'plebeian-market-auth-js',
-            pluginBasePath . 'common/js/plebeian-market-auth.js',
+            PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'common/js/plebeian-market-auth.js',
 			['jquery', 'bootstrap-js', 'plebeian-market-js'],
 			PLEBEIAN_MARKET_VERSION,
 			false

@@ -16,7 +16,7 @@ class Plebeian_Market_Admin_Utils
 	{
 		$optionsLoaded = [];
 
-		foreach (PM_OPTIONS as $option) {
+		foreach (PLEBEIAN_MARKET_OPTIONS as $option) {
 			$optionValue = get_option($option);
 
 			if ($prefix !== null && substr($option, 0, strlen($prefix)) === $prefix) {

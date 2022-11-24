@@ -21,7 +21,7 @@ class Plebeian_Market_Admin_Screen_Customization
 
 		wp_enqueue_script(
 			'plebeian-market-admin-screen-customization',
-            pluginBasePath . 'admin/js/plebeian-market-admin-screen-customization.js',
+            PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'admin/js/plebeian-market-admin-screen-customization.js',
 			['jquery'],
 			PLEBEIAN_MARKET_VERSION,
 			false
@@ -29,7 +29,7 @@ class Plebeian_Market_Admin_Screen_Customization
 
 		wp_enqueue_script(
 			'plebeian-market-slideshow-js',
-            pluginBasePath . 'common/js/plebeian-market-slideshow.js',
+            PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'common/js/plebeian-market-slideshow.js',
 			['jquery'],
 			PLEBEIAN_MARKET_VERSION,
 			false
@@ -37,7 +37,7 @@ class Plebeian_Market_Admin_Screen_Customization
 
 		wp_enqueue_style(
 			'plebeian-market-css',
-            pluginBasePath . 'common/css/plebeian-market.css',
+            PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'common/css/plebeian-market.css',
 			[],
 			PLEBEIAN_MARKET_VERSION,
 			'all'
