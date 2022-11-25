@@ -23,11 +23,7 @@ class Plebeian_Market_Admin_Ajax_Api
 
 	function ajax_load_options()
 	{
-		if (isset($_POST['filter'])) {
-			$filter = $_POST['filter'];
-		} else {
-			$filter = null;
-		}
+        $filter = sanitize_text_field($_POST['filter']) ?? null;
 
 		wp_send_json_success(Plebeian_Market_Admin_Utils::plebeian_market_load_options($filter));
 	}
@@ -38,7 +34,7 @@ class Plebeian_Market_Admin_Ajax_Api
 
 		foreach (PLEBEIAN_MARKET_OPTIONS as $option) {
 			if (isset($_POST[$option])) {
-				update_option($option, $_POST[$option]);
+				update_option($option, sanitize_text_field($_POST[$option]));
 			}
 		}
 
@@ -47,7 +43,7 @@ class Plebeian_Market_Admin_Ajax_Api
 
 	function ajax_get_price_in_btc()
 	{
-		$item_price_usd = $_POST['plebeian_fiat_price'];
+		$item_price_usd = sanitize_text_field($_POST['plebeian_fiat_price']);
 
 		if (!is_numeric($item_price_usd)) {
 			wp_send_json_error([
@@ -67,8 +63,10 @@ class Plebeian_Market_Admin_Ajax_Api
 		foreach ($parameters as $key => $value) {
 			if (substr($key, 0, strlen(PLEBEIAN_MARKET_FORM_FIELDS_PREFIX)) === PLEBEIAN_MARKET_FORM_FIELDS_PREFIX) {
 				$key_without_prefix = substr($key, strlen(PLEBEIAN_MARKET_FORM_FIELDS_PREFIX));
-				$parameters[$key_without_prefix] = $value;
-			}
+				$parameters[$key_without_prefix] = sanitize_text_field($value);
+			} else {
+                $parameters[$key] = sanitize_text_field($value);
+            }
 		}
 
 		$html = Plebeian_Market_Render::plebeian_item_render_html($parameters, 'buynow', (object)PLEBEIAN_MARKET_DEMO_BUYNOW_PRODUCT);
@@ -80,8 +78,8 @@ class Plebeian_Market_Admin_Ajax_Api
 
 	function ajax_get_item_info()
 	{
-        $type = $_POST['plebeian_item_type'];
-        $key = $_POST['plebeian_item_key'];
+        $type = sanitize_text_field($_POST['plebeian_item_type']);
+        $key = sanitize_text_field($_POST['plebeian_item_key']);
 
         $item = Plebeian_Market_Communications::getItem($type, $key);
 
@@ -96,8 +94,8 @@ class Plebeian_Market_Admin_Ajax_Api
 
 	function ajax_save_image_into_item()
 	{
-        $pmtype = $_POST['plebeian_item_type'];
-		$key = $_POST['plebeian_item_key'];
+        $pmtype = sanitize_text_field($_POST['plebeian_item_type']);
+		$key = sanitize_text_field($_POST['plebeian_item_key']);
 		$images = $_POST['images'];
 
 		$saveImages =	$images['save'];
@@ -159,7 +157,7 @@ class Plebeian_Market_Admin_Ajax_Api
 			);
 			$deleteImage_http_code = wp_remote_retrieve_response_code($deleteImageResponse);
 			echo (" - HTTP code: " . $deleteImage_http_code);
-			if (!$deleteImage_http_code === 200) {
+			if (!$deleteImage_http_code == 200) {
 				wp_send_json_error([
 					'errorMessage' => 'There was a problem deleting pictures using PM API'
 				], 400);

@@ -140,10 +140,10 @@ class Plebeian_Market_Public
 
 	public function plebeian_output_custom_js()
 	{
-		$js_output = esc_js(stripslashes(get_option('plebeian_market_cutomization_js')));
+		$js_output = stripslashes(get_option('plebeian_market_cutomization_js'));
 
 		if ($js_output) {
-			echo '<script>' . $js_output . '</script>';
+			echo '<script>' . esc_js($js_output) . '</script>';
 		}
 	}
 

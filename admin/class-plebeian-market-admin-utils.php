@@ -19,17 +19,17 @@ class Plebeian_Market_Admin_Utils
 		foreach (PLEBEIAN_MARKET_OPTIONS as $option) {
 			$optionValue = get_option($option);
 
-			if ($prefix !== null && substr($option, 0, strlen($prefix)) === $prefix) {
+			if (substr($option, 0, strlen($prefix)) === $prefix) {
 				if ($optionValue !== false) {
 					if ($remove_prefix) {
 						$option_without_prefix = substr($option, strlen($prefix));
-						$optionsLoaded[$option_without_prefix] = $optionValue;
+						$optionsLoaded[$option_without_prefix] = sanitize_text_field($optionValue);
 					} else {
-						$optionsLoaded[$option] = $optionValue;
+						$optionsLoaded[$option] = sanitize_text_field($optionValue);
 					}
 				}
 			} else {
-				$optionsLoaded[$option] = $optionValue;
+				$optionsLoaded[$option] = sanitize_text_field($optionValue);
 			}
 		}
 
