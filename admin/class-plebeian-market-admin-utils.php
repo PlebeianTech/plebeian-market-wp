@@ -21,13 +21,12 @@ class Plebeian_Market_Admin_Utils
 
 			if ($prefix !== null && substr($option, 0, strlen($prefix)) === $prefix) {
 				if ($optionValue !== false) {
-					if ($remove_prefix && $prefix !== null) {
+					if ($remove_prefix) {
 						$option_without_prefix = substr($option, strlen($prefix));
 						$optionsLoaded[$option_without_prefix] = $optionValue;
 					} else {
 						$optionsLoaded[$option] = $optionValue;
 					}
-					
 				}
 			} else {
 				$optionsLoaded[$option] = $optionValue;
