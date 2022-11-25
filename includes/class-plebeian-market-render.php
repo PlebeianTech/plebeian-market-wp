@@ -86,12 +86,12 @@ class Plebeian_Market_Render
 		$description_fontsize = $args['description_fontsize'];
 
 		if ($title_fontsize) {
-			$title_fontsize_text = 'style="font-size: ' . $title_fontsize . 'px"';
+			$title_fontsize_text = 'style="font-size: ' . esc_attr($title_fontsize) . 'px"';
 		} else {
 			$title_fontsize_text = '';
 		}
 		if ($description_fontsize) {
-			$description_fontsize_text = 'style="font-size: ' . $description_fontsize . 'px"';
+			$description_fontsize_text = 'style="font-size: ' . esc_attr($description_fontsize) . 'px"';
 		} else {
 			$description_fontsize_text = '';
 		}
@@ -99,26 +99,26 @@ class Plebeian_Market_Render
 		$content = '
 		<div
 				class="pleb_item_superdiv"
-				data-type="' . $type . '"
-				data-key="' . $key . '"
+				data-type="' . esc_attr($type) . '"
+				data-key="' . esc_attr($key) . '"
 				style="
-					max-width: ' . ($size ? $size : '') . '%;
-					display: ' . ($atts['called_from_listing'] === "true" ? 'inline-flex' : 'flex') . '"
+					max-width: ' . esc_attr($size ? $size : '') . '%;
+					display: ' . esc_attr($atts['called_from_listing'] === "true" ? 'inline-flex' : 'flex') . '"
 			>
 
-			<h3 class="pleb_buynow_item_title" ' . $title_fontsize_text . '>' . $title . '</h3>';
+			<h3 class="pleb_buynow_item_title" ' . $title_fontsize_text . '>' . esc_html($title) . '</h3>';
 
 		// Slideshow / Pictures
 		if (count($pictures) > 0) {
 			$content .= '<div
 				class="pleb_buynow_item_slideshow"
-				data-slideshow-transitions="' . $slideshow_delay . '"
-				data-disabled-slideshow="' . ($args['slideshow_enabled'] === 'false' || count($pictures) == 1 ? '1' : '0') . '">';
+				data-slideshow-transitions="' . esc_attr($slideshow_delay) . '"
+				data-disabled-slideshow="' . esc_attr($args['slideshow_enabled'] === 'false' || count($pictures) == 1 ? '1' : '0') . '">';
 
 			$firstImageInLoop = true;
 			foreach ($pictures as $picture) {
 				$picture = (object)$picture;	// In case it's not already an object
-				$content .= '<img data-src="' . $picture->url . '" class="' . ($firstImageInLoop ? 'active' : '') . '">';
+				$content .= '<img data-src="' . esc_url($picture->url) . '" class="' . esc_attr($firstImageInLoop ? 'active' : '') . '">';
 
 				if ($firstImageInLoop && $args['slideshow_enabled'] === 'false') {
 					break;
@@ -130,11 +130,11 @@ class Plebeian_Market_Render
 			$content .= '</div>';
 		}
 
-		$content .= '<div class="pleb_buynow_item_description" ' . $description_fontsize_text . '>' . $description . '</div>';
+		$content .= '<div class="pleb_buynow_item_description" ' . $description_fontsize_text . '>' . esc_html($description) . '</div>';
 
 		// Price
         if ($type === 'buynow') {
-            $price_usd = $item->price_usd;
+            $price_usd = esc_html($item->price_usd);
             $price_sats = '~' . Plebeian_Market_Communications::fiatToSats($price_usd);
 
             $content .= '<div class="pleb_buynow_item_price">';
@@ -144,7 +144,7 @@ class Plebeian_Market_Render
             if ($args['show_price_sats'] !== 'false') {
                 $price_sats_text = '(' . $price_sats . ' sats) ';
             }
-            $content .= $price_fiat_text . $price_sats_text . '<button type="button" class="btn btn-success btn-buynow" data-key="' . $key . '">Buy Now</button> </div>';
+            $content .= $price_fiat_text . $price_sats_text . '<button type="button" class="btn btn-success btn-buynow" data-key="' . esc_attr($key) . '">Buy Now</button> </div>';
         }
 
         // Bids
@@ -154,26 +154,26 @@ class Plebeian_Market_Render
 
             $content .= '<div class="pleb_buynow_item_price">';
             $content .= '   <div class="pleb_bids_info">';
-            $content .= '       <p>Bids: ' . $numBids . '</p>';
+            $content .= '       <p>Bids: ' . esc_html($numBids) . '</p>';
             if ($numBids) {
-                $content .= '   <p>Top bid: ' . $numBids . '</p>';
-                $content .= '   <p>Bidder: ' . $numBids . '</p>';
+                $content .= '   <p>Top bid: ' . esc_html($numBids) . '</p>';
+                $content .= '   <p>Bidder: ' . esc_html($numBids) . '</p>';
             }
             $content .= '   </div>';
-            $content .= '   <button type="button" class="btn btn-success btn-bidnow" data-key="' . $key . '">Bid now</button>';
+            $content .= '   <button type="button" class="btn btn-success btn-bidnow" data-key="' . esc_attr($key) . '">Bid now</button>';
             $content .= '</div>';
         }
 
 
 		// Shipping
 		if ($args['show_shipping_info'] !== 'false' && $shipping_from != '') {
-			$content .= '<div class="pleb_buynow_item_shipping">Shipping from ' . $shipping_from . '</div>';
+			$content .= '<div class="pleb_buynow_item_shipping">Shipping from ' . esc_html($shipping_from) . '</div>';
 		}
 
 		// Quantity
 		if ($type === 'buynow' && $args['show_quantity_info'] === 'true') {
             $available_quantity = $item->available_quantity;
-			$content .= '<div class="pleb_buynow_item_quantity">' . $available_quantity . ' available</div>';
+			$content .= '<div class="pleb_buynow_item_quantity">' . esc_html($available_quantity) . ' available</div>';
 		}
 
 		$content .= '</div>';

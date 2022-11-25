@@ -168,8 +168,8 @@ class Plebeian_Market_Admin_Common
         }
 	}
 
-	static function getHTMLOptions($start = 10, $end = 40, $includeBlank = true)
-	{
+	static function getHTMLOptions($start = 10, $end = 40, $includeBlank = true): string
+    {
 		$options = '';
 
 		if ($includeBlank) {
@@ -177,7 +177,7 @@ class Plebeian_Market_Admin_Common
 		}
 
 		for ($i = $start; $i <= $end; $i++) {
-			$options .= '<option value="' . $i . '">' . $i . '</option>';
+			$options .= '<option value="' . esc_attr($i) . '">' . esc_html($i) . '</option>';
 		}
 
 		return $options;

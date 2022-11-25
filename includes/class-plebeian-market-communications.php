@@ -156,7 +156,7 @@ class Plebeian_Market_Communications
 	 * 
 	 * 2- Returns the price of the item in satoshis.
 	 * 
-	 * Uses the WordPress cache so we don't query Kraken too often.
+	 * Uses the WordPress cache, so we don't query Kraken too often.
 	 */
 	public static function fiatToSats($item_price_usd)
 	{
