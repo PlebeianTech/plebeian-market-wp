@@ -87,8 +87,12 @@ $(document).ready(function () {
         ],
         columnDefs: [
             {
-                targets: 1,
+                targets: [0, 1],
                 render: DataTable.render.text(),
+            },
+            {
+                targets: 3,
+                render: DataTable.render.number(',', '.', 1, '$'),
             },
             {
                 targets: [5, 6],
