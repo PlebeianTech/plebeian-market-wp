@@ -94,13 +94,21 @@ function loginInvalid() {
     adminLogout(pluginSetupURL);
 }
 
-$(document).ready(function () {
-    loadingModal = new bootstrap.Modal('#loadingModal', { keyboard: true });
-    gpModal = new bootstrap.Modal('#gpModal', { keyboard: true });
+$(document).ready(async function () {
+    loadingModal = new bootstrap.Modal('#loadingModal', {keyboard: true});
+    gpModal = new bootstrap.Modal('#gpModal', {keyboard: true});
 
     if (plebeian_market_auth_key === '') {
         // We don't have the token, so lets login/register
-        adminLoginThenCallFunction();
+        let additionalText =
+            "<p>You need to <b>login with your Lightning wallet</b> to be able to use the <b>Plebeian Market API</b>.</p>" +
+            "<p>If you've already used Plebeian Market before, use the same wallet to login now, so you can use the same account.</p>";
+
+        await tryLogin(additionalText, true)
+            .catch(function (e) {
+                console.log("I couldn't login as an admin. Error:", e);
+            });
+
         return;
 
     } else {
@@ -168,7 +176,7 @@ $(document).ready(function () {
             dataType: "JSON",
             contentType: 'application/json;charset=UTF-8',
             type: requests.pm_api.user_info.getMethod,
-            headers: { "X-Access-Token": pmAuthKey },
+            headers: {"X-Access-Token": pmAuthKey},
             success: function (response) {
                 $('#saveUserOptions').prop('disabled', false);
                 showAlertModal('Connection successful! You can now click the Save button.');
@@ -282,7 +290,7 @@ $(document).ready(function () {
                         dataType: "JSON",
                         contentType: 'application/json;charset=UTF-8',
                         type: requests.pm_api.user_info.getMethod,
-                        headers: { "X-Access-Token": plebeian_market_auth_key },
+                        headers: {"X-Access-Token": plebeian_market_auth_key},
                         success: function (response) {
                             let user = response.user;
                             // console.log('user', user);

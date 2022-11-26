@@ -103,6 +103,7 @@ function showAlertModal(message) {
 
 $(document).ready(function () {
     $('#closeGPModal').click(function () {
+        continueListeningForLoginSignal = false;
         stopSetTimeout();
     });
 });

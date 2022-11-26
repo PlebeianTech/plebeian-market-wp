@@ -1,16 +1,128 @@
-function buyerLoginThenCallFunction(callback) {
-    if (buyerAmILoggedIn()) {
-        callback(true);
-    } else {
-        getLoginWidget(callback);
-    }
+let continueListeningForLoginSignal = false;
+
+async function buyerIsLoggedInOrDoLogin(adminLogin = false, additionalText = '') {
+    return new Promise(async function (resolve, reject) {
+        if (buyerAmILoggedIn()) {
+            resolve();
+        } else {
+            await tryLogin()
+                .then(function () {
+                    resolve();
+                })
+                .catch(function () {
+                    reject();
+                });
+        }
+    });
 }
 
-function adminLoginThenCallFunction(callback) {
-    let additionalText =
-        "<p>You need to <b>login with your Lightning wallet</b> to be able to use the <b>Plebeian Market API</b>.</p>" +
-        "<p>If you've already used Plebeian Market before, use the same wallet to login now so you can use the same account.</p>";
-    getLoginWidget(callback, additionalText, true);
+async function tryLogin(additionalText = '', adminLogin = false) {
+    return new Promise(async function (resolve, reject) {
+        await getLoginWidget(additionalText)
+            .then(async function (k1) {
+                continueListeningForLoginSignal = true;
+
+                do {
+                    await checkIfLoginDone(k1, adminLogin)
+                        .then(function () {
+                            continueListeningForLoginSignal = false;
+                            resolve();
+                        })
+                        .catch(function () {
+                            // Not logged in yet, be we must catch the reject here
+                        });
+
+                    await new Promise(r => setTimeout(r, 2000));
+                }
+                while (continueListeningForLoginSignal);
+
+                reject();
+            })
+            .catch(function (e) {
+                console.log('Error while trying to login:', e);
+                reject();
+            });
+    });
+}
+
+/**
+ * Get login widget
+ */
+function getLoginWidget(additionalText = '') {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            url: requests.pm_api.get_login_info.url,
+            timeout: requests.pm_api.default_timeout,
+            cache: false,
+            dataType: 'JSON',
+            contentType: 'application/json;charset=UTF-8',
+            type: requests.pm_api.get_login_info.method,
+            success: function (loginResponse) {
+                let textToShowInWidget = '';
+                textToShowInWidget += additionalText;
+
+                textToShowInWidget += '<p>Scan with <a class="link text-reset" target="_blank" href="https://breez.technology/">Breez</a>, ' +
+                    '<a class="link text-reset" target="_blank" href="https://phoenix.acinq.co/">Phoenix</a>, ' +
+                    '<a class="link text-reset" target="_blank" href="https://zeusln.app/">Zeus</a>, ' +
+                    'or use <a class="link text-reset" target="_blank" href="https://getalby.com/">Alby</a>, ' +
+                    '<a class="link text-reset" target="_blank" href="https://thunderhub.io/">Thunderhub</a> ' +
+                    'or any <a class="link text-reset" target="_blank" href="https://github.com/fiatjaf/lnurl-rfc#lnurl-documents">' +
+                    'LNurl compatible wallet</a> to login into the marketplace.</p>';
+
+                putIntoHtmlElementTextQrLnAddress('#gpModal', textToShowInWidget, loginResponse.lnurl, loginResponse.qr, 'lightning');
+
+                showGPModal();
+
+                resolve(loginResponse.k1);
+            },
+            error: function (error) {
+                console.log("ERROR getting information: ", error);
+                reject();
+            }
+        });
+    });
+}
+
+function checkIfLoginDone(k1, adminLogin) {
+    console.log('checkIfLoginDone k1:', k1);
+
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            url: requests.pm_api.check_login.url + k1,
+            timeout: requests.pm_api.default_timeout,
+            cache: false,
+            dataType: 'JSON',
+            contentType: 'application/json;charset=UTF-8',
+            type: requests.pm_api.check_login.method,
+            success: function (data) {
+                if (data.success === true) {
+                    let authToken = data.token;
+                    if (authToken !== '') {
+                        hideGPModal();
+
+                        if (adminLogin) {
+                            // Login in the admin area to use PM API
+                            adminSaveAPIKey(authToken, pluginSetupURL);
+                        } else {
+                            // Login a customer while trying to buy a product
+                            Cookies.set('plebeianMarketAuthToken', authToken);
+                        }
+
+                        resolve();
+                    } else {
+                        console.log("plebeianMarketAuthToken not set - response: ", response);
+                        reject();
+                    }
+                } else {
+                    reject();
+                }
+            },
+            error: function (error) {
+                console.log("ERROR getting information: ", error);
+                reject();
+            }
+        });
+    });
 }
 
 function buyerGetPlebeianMarketAuthToken() {
@@ -25,7 +137,6 @@ function buyerGetPlebeianMarketAuthToken() {
  */
 function buyerAmILoggedIn() {
     let plebeianMarketAuthToken = buyerGetPlebeianMarketAuthToken();
-    console.log('imLoggedIn - plebeianMarketAuthToken: ', plebeianMarketAuthToken);
 
     if (!plebeianMarketAuthToken || typeof plebeianMarketAuthToken === 'undefined' || plebeianMarketAuthToken === '') {
         return false;
@@ -119,95 +230,4 @@ function adminCheckAPIKeyIsValid(functionValid, functionInvalid) {
             functionInvalid();
         }
     });
-}
-
-/**
- * Get login widget and run callback function
- * when/if login is ok.
- * 
- * @param {function} callback 
- */
-function getLoginWidget(callback, additionalText = '', adminLogin = false) {
-
-    $.ajax({
-        url: requests.pm_api.get_login_info.url,
-        timeout: requests.pm_api.default_timeout,
-        cache: false,
-        dataType: 'JSON',
-        contentType: 'application/json;charset=UTF-8',
-        type: requests.pm_api.get_login_info.method
-    })
-        .done(function (response) {
-            console.log('response', response);
-
-            let textToShowInWidget = '';
-
-            if (additionalText !== '') {
-                textToShowInWidget += additionalText;
-            }
-
-            textToShowInWidget += '<p>Scan with <a class="link text-reset" target="_blank" href="https://breez.technology/">Breez</a>, ' +
-                '<a class="link text-reset" target="_blank" href="https://phoenix.acinq.co/">Phoenix</a>, ' +
-                '<a class="link text-reset" target="_blank" href="https://zeusln.app/">Zeus</a>, ' +
-                'or use <a class="link text-reset" target="_blank" href="https://getalby.com/">Alby</a>, ' +
-                '<a class="link text-reset" target="_blank" href="https://thunderhub.io/">Thunderhub</a> ' +
-                'or any <a class="link text-reset" target="_blank" href="https://github.com/fiatjaf/lnurl-rfc#lnurl-documents">' +
-                'LNurl compatible wallet</a> to login into the marketplace.</p>';
-
-            putIntoHtmlElementTextQrLnAddress('#gpModal', textToShowInWidget, response.lnurl, response.qr, 'lightning');
-
-            showGPModal();
-
-            checkIfLoginDone(response.k1, callback, adminLogin);
-        })
-        .fail(function (e) {
-            console.log('Error: ', e);
-        });
-}
-
-function checkIfLoginDone(k1, callback, adminLogin = false) {
-    console.log('checkIfLoginDone k1:', k1);
-
-    $.ajax({
-        url: requests.pm_api.check_login.url + k1,
-        timeout: requests.pm_api.default_timeout,
-        cache: false,
-        dataType: 'JSON',
-        contentType: 'application/json;charset=UTF-8',
-        type: requests.pm_api.check_login.method
-    })
-        .done(function (response) {
-            console.log('checkIfLoginDone response:', response);
-
-            if (response.success !== true) {
-                plebeianSetTimeout = setTimeout(function () {
-                    checkIfLoginDone(k1, callback, adminLogin);
-                }, 2000);
-
-            } else {
-                let authToken = response.token;
-                if (authToken !== '') {
-                    hideGPModal();
-
-                    if (adminLogin) {
-                        // Login in the admin area to use PM API
-                        adminSaveAPIKey(authToken, pluginSetupURL);
-                    } else {
-                        // Login a customer while trying to buy a product
-                        Cookies.set('plebeianMarketAuthToken', authToken);
-                        callback(true);
-                    }
-
-                } else {
-                    console.log("plebeianMarketAuthToken not set - response: ", response);
-                }
-            }
-        })
-        .fail(function (e) {
-            console.log('Error: ', e);
-            console.log('Error message: ', e.message);
-        })
-        .always(function () {
-
-        });
 }
