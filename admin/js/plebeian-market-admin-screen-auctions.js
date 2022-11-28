@@ -92,7 +92,7 @@ $(document).ready( function () {
                     if (!row.started) {
                         return '<button type="button" class="btn btn-primary btn-sm confirmActionButton" data-action="publish" data-pmtype="auction" data-key="' + row.key + '" data-title="' + row.title + '">Publish</button>';
                     }
-                    return moment(row.start_date).format('D/M/YYYY, H:M:s');
+                    return moment(row.start_date).format('D/M/YYYY, H:mm:ss');
                 },
                 className: "dt-center"
             },
