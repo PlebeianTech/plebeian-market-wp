@@ -127,6 +127,8 @@ class Plebeian_Market_Public
 			$this->version,
 			false
 		);
+
+        wp_enqueue_script('moment');
 	}
 
 	public function plebeian_output_custom_css()

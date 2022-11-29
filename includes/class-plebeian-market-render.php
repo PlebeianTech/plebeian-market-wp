@@ -152,18 +152,17 @@ class Plebeian_Market_Render
             $bids = $item->bids;
             $numBids = count($bids);
 
-            $content .= '<div class="pleb_buynow_item_price">';
-            $content .= '   <div class="pleb_bids_info">';
-            $content .= '       <p>Bids: ' . esc_html($numBids) . '</p>';
-            if ($numBids) {
-                $content .= '   <p>Top bid: ' . esc_html($numBids) . '</p>';
-                $content .= '   <p>Bidder: ' . esc_html($numBids) . '</p>';
-            }
-            $content .= '   </div>';
-            $content .= '   <button type="button" class="btn btn-success btn-bidnow" data-key="' . esc_attr($key) . '">Bid now</button>';
-            $content .= '</div>';
-        }
+            $content .= '<div class="pleb_buynow_item_price">
+                            <div class="pleb_bids_info">
 
+                                <div class="d-flex justify-content-center">
+							        <div class="spinner-border" role="status"></div>
+						        </div>
+						    </div>
+
+						    <button type="button" class="btn btn-success btn-bidnow" data-key="' . esc_attr($key) . '">Bid now</button>
+                         </div>';
+        }
 
 		// Shipping
 		if ($args['show_shipping_info'] !== 'false' && $shipping_from != '') {

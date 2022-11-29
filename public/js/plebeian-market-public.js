@@ -21,9 +21,11 @@ $(document).ready(function () {
     });
 
     $('.btn-bidnow').click(async function () {
+        let key = $(this).data('key');
+
         await buyerIsLoggedInOrDoLogin()
             .then(function () {
-                showBidsExtendedInfo();
+                showBidsExtendedInfo(key);
             })
             .catch(function (e) {
                 console.log('Not showing bid dialog because there was a problem:', e);

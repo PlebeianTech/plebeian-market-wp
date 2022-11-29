@@ -55,6 +55,16 @@ function addAlertToDivElement(element, message, type) {
     ].join(''));
 }
 
+function putIntoHtmlElementText(elementSelector, html, title) {
+    $(elementSelector + ' .modal-body').html(html);
+
+    if (typeof title !== 'undefined' && title !== '') {
+        $(elementSelector + ' .modal-title').html(title);
+    } else {
+        $(elementSelector + ' .modal-title').html('');
+    }
+}
+
 function putIntoHtmlElementTextQrLnAddress(elementSelector, text, lnurl, qr, protocol, title, waitingPaymentSpinnerEnabled) {
     let loginWidget = text;
 
