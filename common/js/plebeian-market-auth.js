@@ -125,7 +125,7 @@ function checkIfLoginDone(k1, adminLogin) {
     });
 }
 
-function buyerGetPlebeianMarketAuthToken() {
+function customerGetPlebeianMarketAuthToken() {
     return Cookies.get('plebeianMarketAuthToken');
 }
 
@@ -136,7 +136,7 @@ function buyerGetPlebeianMarketAuthToken() {
  * @returns boolean
  */
 function buyerAmILoggedIn() {
-    let plebeianMarketAuthToken = buyerGetPlebeianMarketAuthToken();
+    let plebeianMarketAuthToken = customerGetPlebeianMarketAuthToken();
 
     if (!plebeianMarketAuthToken || typeof plebeianMarketAuthToken === 'undefined' || plebeianMarketAuthToken === '') {
         return false;
