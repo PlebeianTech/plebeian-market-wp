@@ -149,18 +149,14 @@ class Plebeian_Market_Render
 
         // Bids
         if ($type === 'auction') {
-            $bids = $item->bids;
-            $numBids = count($bids);
-
             $content .= '<div class="pleb_buynow_item_price">
                             <div class="pleb_bids_info">
-
                                 <div class="d-flex justify-content-center">
 							        <div class="spinner-border" role="status"></div>
 						        </div>
 						    </div>
 
-						    <button type="button" class="btn btn-success btn-bidnow" data-key="' . esc_attr($key) . '">Bid now</button>
+						    <button type="button" class="btn btn-success btn-bidnow" data-key="' . esc_attr($key) . '">' . ($item->ended ? 'See bids' : 'Bid now') . '</button>
                          </div>';
         }
 
