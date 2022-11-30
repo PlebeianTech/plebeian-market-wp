@@ -128,6 +128,14 @@ class Plebeian_Market_Public
 			false
 		);
 
+        wp_enqueue_script(
+            'jquery-countdown-min-js',
+            PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'common/js/jquery.countdown.min.js',
+            ['jquery'],
+            '2.2.0.1',
+            false
+        );
+
         wp_enqueue_script('moment');
 	}
 
@@ -224,8 +232,10 @@ class Plebeian_Market_Public
                             },
                         },
                         auctions: {
-                            bid: '<?php echo Plebeian_Market_Communications::getAPIUrl() . PLEBEIAN_MARKET_API_BID_AUCTIONS_URL ?>',
-                            method: '<?php echo PLEBEIAN_MARKET_API_BID_AUCTIONS_METHOD ?>'
+                            bid: {
+                                url: '<?php echo Plebeian_Market_Communications::getAPIUrl() . PLEBEIAN_MARKET_API_BID_AUCTIONS_URL ?>',
+                                method: '<?php echo PLEBEIAN_MARKET_API_BID_AUCTIONS_METHOD ?>'
+                            }
                         }
 					},
 					wordpress_pm_api: {

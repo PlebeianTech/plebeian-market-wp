@@ -186,3 +186,64 @@
 .fiatDestination {
     font-size: 12px;
 }
+
+/*   Auctions Countdown   */
+.plebeian_auctions_countdown {
+    display: inline-grid;
+    margin-top: 22px;
+    margin-bottom: 10px;
+}
+.countdown-wrapper {
+    display: flex;
+    gap: 3%;
+    min-width: 255px;
+    width: 75%;
+    min-height: 90px;
+    height: calc(25vw);
+    justify-content: space-between;
+}
+.countdown-wrapper .finished {
+    font-size: 22px;
+    font-weight: bolder;
+    height: 1em;
+}
+@media screen and (min-width: 1024px) {
+.countdown-wrapper {
+    width: 70px;
+    height: 70px;
+}
+.item span {
+    font-size: 4rem;
+}
+
+.item .number span {
+    font-size: 12.8rem;
+}
+}
+.item {
+display: flex;
+flex-direction: column;
+text-align: center;
+gap: 3%;
+width: 22%;
+}
+
+.item span {
+color: #000;
+font-size: 0.6vw;
+}
+
+.item .number {
+display: flex;
+align-items: center;
+justify-content: center;
+background-color: #e9e6e6;
+border-radius: 5%;
+height: 75%;
+}
+
+.item .number span {
+font-size: 1vw;
+line-height: 4.7rem;
+font-weight: bold;
+}

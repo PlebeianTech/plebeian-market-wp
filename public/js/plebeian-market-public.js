@@ -25,6 +25,7 @@ $(document).ready(function () {
 
         await buyerIsLoggedInOrDoLogin()
             .then(function () {
+                numBidsLastTimeWeLook = 9999;    // Reset
                 showBidsExtendedInfo(key);
             })
             .catch(function (e) {
