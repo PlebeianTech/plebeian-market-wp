@@ -114,33 +114,33 @@ class Plebeian_Market_Admin_Ajax_Api
 		$addUrl = str_replace('{KEY}', $key, $addUrl);
 		$deleteUrl = str_replace('{KEY}', $key, $deleteUrl);
 
-		foreach ($saveImages as $saveImage) {
-			$imageUrl = $saveImage['url'];
-			$filename = pathinfo($imageUrl, PATHINFO_BASENAME);
-			$imagePathLocal = "/tmp/" . $filename;
+        foreach ($saveImages as $saveImage) {
+            $imageUrl = sanitize_url($saveImage['url']);
+            $filename = pathinfo($imageUrl, PATHINFO_BASENAME);
+            $imagePathLocal = "/tmp/" . $filename;
 
-			file_put_contents($imagePathLocal, file_get_contents($imageUrl));
+            file_put_contents($imagePathLocal, file_get_contents($imageUrl));
 
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, $addUrl);
-			curl_setopt($ch, CURLOPT_POST, true);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_HTTPHEADER, [
-				'X-Access-Token: ' . Plebeian_Market_Communications::getXAccessToken(),
-			]);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, [
-				'media' => new CURLFile($imagePathLocal)
-			]);
-			$result = curl_exec($ch);
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $addUrl);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'X-Access-Token: ' . Plebeian_Market_Communications::getXAccessToken(),
+            ]);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, [
+                'media' => new CURLFile($imagePathLocal)
+            ]);
+            $result = curl_exec($ch);
 
-			$curl_errNo = curl_errno($ch);
-			if ($curl_errNo) {
-				wp_send_json_error([
-					'errorMessage' => 'There was a problem uploading pictures using PM API: ' . $curl_errNo,
-					'host' => $addUrl
-				], 400);
-			}
-		}
+            $curl_errNo = curl_errno($ch);
+            if ($curl_errNo) {
+                wp_send_json_error([
+                    'errorMessage' => 'There was a problem uploading pictures using PM API: ' . $curl_errNo,
+                    'host' => $addUrl
+                ], 400);
+            }
+        }
 
 		foreach ($deleteImages as $deleteImage) {
 			$imageHash = $deleteImage['hash'];
