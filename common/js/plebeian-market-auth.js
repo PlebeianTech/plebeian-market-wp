@@ -231,3 +231,9 @@ function adminCheckAPIKeyIsValid(functionValid, functionInvalid) {
         }
     });
 }
+
+$(document).ready(function () {
+    $('#closeGPModal').click(function () {
+        continueListeningForLoginSignal = false;
+    });
+});

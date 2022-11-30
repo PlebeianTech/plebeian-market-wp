@@ -1,11 +1,5 @@
 $ = jQuery;
 
-let plebeianSetTimeout;
-
-function stopSetTimeout() {
-    clearTimeout(plebeianSetTimeout);
-}
-
 function satsToBTC(sats) {
     let amountInBTC = sats / 100000000;
     return amountInBTC.toLocaleString('fullwide', { useGrouping: true, maximumSignificantDigits: 6 });
@@ -110,10 +104,3 @@ function showAlertModal(message) {
     const myModal = new bootstrap.Modal('#alertModal', { keyboard: true });
     myModal.show();
 }
-
-$(document).ready(function () {
-    $('#closeGPModal').click(function () {
-        continueListeningForLoginSignal = false;
-        stopSetTimeout();
-    });
-});

@@ -1,8 +1,14 @@
 let buynow_product_buying_key;
 let buynow_product_buying_currentStep;
 
+let buynowRefreshSetTimeout;
+
+function stopSetTimeout() {
+    clearTimeout(buynowRefreshSetTimeout);
+}
+
 function waitAndAskAgain() {
-    plebeianSetTimeout = setTimeout(function () {
+    buynowRefreshSetTimeout = setTimeout(function () {
         buyNow(false);
     }, 4000);
 }
@@ -96,7 +102,7 @@ function step0() {
         dataType: 'JSON',
         contentType: 'application/json;charset=UTF-8',
         type: requests.pm_api.buynow.buy.method,
-        headers: { "X-Access-Token": buyerGetPlebeianMarketAuthToken() },
+        headers: { "X-Access-Token": customerGetPlebeianMarketAuthToken() },
     })
         .done(function (response) {
             console.log('step0 response:', response);
@@ -330,7 +336,7 @@ function getBuyNowItemInfo(key, callback) {
         dataType: 'JSON',
         contentType: 'application/json;charset=UTF-8',
         type: requests.pm_api.buynow.get.method,
-        headers: { "X-Access-Token": buyerGetPlebeianMarketAuthToken() },
+        headers: { "X-Access-Token": customerGetPlebeianMarketAuthToken() },
     })
         .done(function (response) {
             console.log('response', response);
@@ -341,3 +347,9 @@ function getBuyNowItemInfo(key, callback) {
             console.log('Error message: ', e.message);
         });
 }
+
+$(document).ready(function () {
+    $('#closeGPModal').click(function () {
+        stopSetTimeout();
+    });
+});
