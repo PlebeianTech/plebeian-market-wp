@@ -1,5 +1,34 @@
 let loadingModal, gpModal;
 
+function convertAllBtcToFiat() {
+    $('.btc-to-fiat-source').each(function () {
+        let satsPrice = this.value;
+
+        if (!$.isNumeric(satsPrice)) {
+            satsPrice = $(this).html();
+        }
+
+        let destination = $(this).parent().find('.fiatDestination')[0];
+
+        if (!$.isNumeric(satsPrice)) {
+            $(destination).text('-');
+            return;
+        }
+
+        let fiat = satsPrice * btcPriceInUSD / 100000000;
+
+        if (parseInt(fiat) < 1) {
+            fiat = parseFloat(fiat).toFixed(4);
+        } else if (parseInt(fiat) >= 1 && parseInt(fiat) < 1000) {
+            fiat = parseFloat(fiat).toFixed(2);
+        } else {
+            fiat = parseFloat(fiat).toFixed(0);
+        }
+
+        $(destination).text('~$' + fiat);
+    });
+}
+
 $(document).ready(function () {
     updateAuctionsPeriodically();
 
