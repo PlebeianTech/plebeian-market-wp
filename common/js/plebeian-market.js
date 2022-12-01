@@ -67,28 +67,28 @@ function putIntoHtmlElementTextQrLnAddress(elementSelector, modalName, text, lnu
     $('#closeGPModal').data('modalName', modalName);
 
     if (lnurl !== null && qr !== null && protocol !== null) {
-        loginWidget +=
-            '<div class="qrcodeImageDiv">' +
-            '   <a href="' + protocol + ':' + lnurl + '"><svg id="qrcodeImage"></svg></a>' +
-            '</div>' +
-            '<div class="input-group lnurlValue">' +
-            '   <input type="text" class="form-control text-truncate text-center" value="' + lnurl + '" id="url"> <button type="button" class="input-group-btn btn btn-outline-primary" id="btc-copy-url">Copy</button>' +
-            '</div>';
+        loginWidget += `
+            <div class="qrcodeImageDiv">
+               <a href="` + protocol + ':' + lnurl + `"><svg id="qrcodeImage"></svg></a>
+            </div>
+            <div class="input-group lnurlValue">
+               <input type="text" class="form-control text-truncate text-center" value="` + lnurl + `" id="url"> <button type="button" class="input-group-btn btn btn-outline-primary" id="btc-copy-url">Copy</button>
+            </div>`;
 
-        loginWidget +=
-            '<script>' +
-            '   $("#btc-copy-url").click(function () {' +
-            '       navigator.clipboard.writeText($("#url").val())' +
-            '   });' +
-            '</script>';
+        loginWidget += `
+            <script>
+               $("#btc-copy-url").click(function () {
+                   navigator.clipboard.writeText($("#url").val())
+               });
+            </script>`;
     }
 
     if (waitingPaymentSpinnerEnabled) {
-        loginWidget +=
-            '<div class="d-flex justify-content-center spinnerWaitingPayment"> ' +
-            '   <div class="spinner-border" role="status"></div> ' +
-            '   <div class="justify-content-center d-flex spinnerWaitingPaymentText"><p>Waiting for payment...</p></div> ' +
-            '</div>';
+        loginWidget += `
+            <div class="d-flex justify-content-center spinnerWaitingPayment">
+               <div class="spinner-border" role="status"></div>
+               <div class="justify-content-center d-flex spinnerWaitingPaymentText"><p>Waiting for payment...</p></div>
+            </div>`;
     }
 
     $(elementSelector + ' .modal-body').html(loginWidget);
