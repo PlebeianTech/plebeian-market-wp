@@ -18,8 +18,6 @@ function updateAuctionsPeriodically() {
 }
 
 function getAuctionInfo(pmtype, key) {
-    current_auction_key = key;
-
     return $.ajax({
         url: requests.wordpress_pm_api.ajax_url,
         cache: false,
@@ -99,7 +97,7 @@ async function getAuctionInfoPeriodically(auctionObject) {
     }, 2000)
 }
 
-async function showBidsExtendedInfo(key, shouldShowLoadingModal = true) {
+async function showBidsExtendedInfo(key, loadEvenWithoutChanges = false, shouldShowLoadingModal = true) {
     if (shouldShowLoadingModal) {
         showLoadingModal();
     }
@@ -113,7 +111,7 @@ async function showBidsExtendedInfo(key, shouldShowLoadingModal = true) {
         let bids = item_info_from_api.bids;
         let numBids = bids.length;
 
-        if (numBids !== numBidsLastTimeWeLook) {
+        if (loadEvenWithoutChanges || numBids !== numBidsLastTimeWeLook) {
             numBidsLastTimeWeLook = numBids;
 
             let auction_ended = item_info_from_api.ended;
@@ -191,7 +189,7 @@ async function showBidsExtendedInfo(key, shouldShowLoadingModal = true) {
     console.log('Sleeping 2 secs (showBidsExtendedInfo)...');
 
     bidsExtendedInfoSetTimeout = setTimeout(function () {
-        showBidsExtendedInfo(key, false);
+        showBidsExtendedInfo(key, false, false);
     }, 2000)
 }
 
@@ -245,7 +243,7 @@ function showMakeNewBid(key, amount, shouldShowLoadingModal = true) {
         headers: { "X-Access-Token": customerGetPlebeianMarketAuthToken() },
     })
         .done(function (response) {
-            console.log('response', response);
+            // console.log('response', response);
 
             let message = response.messages.join('. ');
 
@@ -346,10 +344,15 @@ $(document).ready(function () {
     $('#closeGPModal').click(function () {
         let modalBeingClosed = $(this).data('modalName');
 
-        if (modalBeingClosed === 'makeNewBid') {
-            showBidsExtendedInfo(current_auction_key);
-        } else {
+        // Stop existing timer in all auctions modal
+        // closings to start with a new one. This
+        // prevents race conditions
+        if (modalBeingClosed === 'bidsExtendedInfo' || modalBeingClosed === 'makeNewBid') {
             stopBidsExtendedInfoSetTimeout();
+
+            if (modalBeingClosed === 'makeNewBid') {
+                showBidsExtendedInfo(current_auction_key, true);
+            }
         }
     });
 });
