@@ -43,6 +43,7 @@ class Plebeian_Market_Admin_Screen_Auctions
                 <th>Created at</th>
                 <th>Start date</th>
                 <th>End date</th>
+                <th>Status</th>
                 <th>Starting bid</th>
                 <th># bids</th>
                 <th>Current bid</th>

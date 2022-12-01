@@ -70,14 +70,18 @@ $(document).ready( function () {
                 render: function (data, type, row) {
                     let duration_hours = row.duration_hours;
 
-                    if (duration_hours % 24 === 0) {
-                        return duration_hours + ' h ('+duration_hours / 24 + ' d)';
-                    } else {
-                        if (duration_hours < 24) {
-                            return duration_hours + ' h';
+                    if (type === 'display') {
+                        if (duration_hours % 24 === 0) {
+                            return duration_hours + ' h (' + duration_hours / 24 + ' d)';
                         } else {
-                            return duration_hours + ' h (>' + Math.floor(duration_hours / 24) + ' d)';
+                            if (duration_hours < 24) {
+                                return duration_hours + ' h';
+                            } else {
+                                return duration_hours + ' h (>' + Math.floor(duration_hours / 24) + ' d)';
+                            }
                         }
+                    } else {
+                        return duration_hours;
                     }
 
                 },
@@ -101,6 +105,31 @@ $(document).ready( function () {
                 className: "dt-center"
             },
             {
+                render: function (data, type, row) {
+                    if (!row.started) {
+                        return 'Draft (unpublished)'
+                    } else if (row.ended) {
+                        return 'Ended';
+                    } else {
+                        let start_date = moment(row.start_date);
+                        let end_date = moment(row.end_date);
+                        let now = moment();
+
+                        let total_duration_seconds = moment.duration(end_date.diff(start_date)).asSeconds();
+                        let remaining_duration = moment.duration(end_date.diff(now));
+                        let remaining_duration_seconds = remaining_duration.asSeconds();
+
+                        if (type === 'display') {
+                            let popup = 'data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Auction ends ' + remaining_duration.humanize(true) + '."';
+                            return '<progress value="'+remaining_duration_seconds+'" max="'+total_duration_seconds+'" '+popup+'></progress>';
+                        } else {
+                            return remaining_duration_seconds / total_duration_seconds;
+                        }
+                    }
+                },
+                className: "dt-center"
+            },
+            {
                 data: 'starting_bid',
                 className: "dt-center"
             },
@@ -112,7 +141,24 @@ $(document).ready( function () {
             },
             {
                 render: function (data, type, row) {
-                    return row.bids[0]?.amount ?? '';
+                    let highest_bid = row.bids[0]?.amount ?? '';
+
+                    if (type === 'display') {
+                        let reserve_bid_reached = row.reserve_bid_reached;
+                        let reserve_bid = row.reserve_bid;
+
+                        let color = 'black';
+                        let popup = '';
+
+                        if (reserve_bid > 0 && !reserve_bid_reached) {
+                            color = 'red';
+                            popup = 'data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Reserve price of '+reserve_bid+' sats not met yet."';
+                        }
+
+                        return '<span style="color:' + color + '" '+popup+'>' + highest_bid + '</span>';
+                    } else {
+                        return highest_bid ?? 0;
+                    }
                 },
                 className: "dt-center"
             },

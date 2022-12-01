@@ -30,7 +30,7 @@ function getAuctionInfo(pmtype, key) {
             plebeian_item_type: pmtype
         }
     });
-};
+}
 
 async function getAuctionInfoPeriodically(auctionObject) {
     let pmtype = auctionObject.data('type');
