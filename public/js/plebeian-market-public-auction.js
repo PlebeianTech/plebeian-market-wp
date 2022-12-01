@@ -1,3 +1,4 @@
+let current_auction_key;
 let bidsExtendedInfoSetTimeout;
 let numBidsLastTimeWeLookAllAuctions = {};
 let numBidsLastTimeWeLook = 99;
@@ -17,6 +18,8 @@ function updateAuctionsPeriodically() {
 }
 
 function getAuctionInfo(pmtype, key) {
+    current_auction_key = key;
+
     return $.ajax({
         url: requests.wordpress_pm_api.ajax_url,
         cache: false,
@@ -171,7 +174,12 @@ async function showBidsExtendedInfo(key, shouldShowLoadingModal = true) {
                     <div class="col-3"></div>
                 </div>`;
 
-            putIntoHtmlElementText('#gpModal', htmlToShowInWidget, title);
+            putIntoHtmlElementText(
+                '#gpModal',
+                'bidsExtendedInfo',
+                htmlToShowInWidget,
+                title
+            );
 
             bindEverythingForExtendedBidInfo();
 
@@ -220,6 +228,8 @@ function showMakeNewBid(key, amount, shouldShowLoadingModal = true) {
         showLoadingModal();
     }
 
+    current_auction_key = key;
+
     $.ajax({
         url: requests.pm_api.auctions.bid.url.replace('{KEY}', key),
         data: JSON.stringify({
@@ -245,6 +255,7 @@ function showMakeNewBid(key, amount, shouldShowLoadingModal = true) {
 
             putIntoHtmlElementTextQrLnAddress(
                 '#gpModal',
+                'makeNewBid',
                 textToShowInWidget,
                 response.payment_request,
                 response.qr,
@@ -331,6 +342,12 @@ function runTheCountDowns() {
 
 $(document).ready(function () {
     $('#closeGPModal').click(function () {
-        stopBidsExtendedInfoSetTimeout();
+        let modalBeingClosed = $(this).data('modalName');
+
+        if (modalBeingClosed === 'makeNewBid') {
+            showBidsExtendedInfo(current_auction_key);
+        } else {
+            stopBidsExtendedInfoSetTimeout();
+        }
     });
 });

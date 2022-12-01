@@ -69,7 +69,14 @@ function getLoginWidget(additionalText = '') {
                     'or any <a class="link text-reset" target="_blank" href="https://github.com/fiatjaf/lnurl-rfc#lnurl-documents">' +
                     'LNurl compatible wallet</a> to login into the marketplace.</p>';
 
-                putIntoHtmlElementTextQrLnAddress('#gpModal', textToShowInWidget, loginResponse.lnurl, loginResponse.qr, 'lightning');
+                putIntoHtmlElementTextQrLnAddress(
+                    '#gpModal',
+                    'authentication',
+                    textToShowInWidget,
+                    loginResponse.lnurl,
+                    loginResponse.qr,
+                    'lightning'
+                );
 
                 showGPModal();
 

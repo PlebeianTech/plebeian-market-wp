@@ -149,6 +149,7 @@ function step1(sale) {
 
         putIntoHtmlElementTextQrLnAddress(
             '#gpModal',
+            'buynowStep1',
             textToShowInWidget,
             sale.contribution_payment_request,
             sale.contribution_payment_qr,
@@ -216,6 +217,7 @@ function step2(sale) {
 
         putIntoHtmlElementTextQrLnAddress(
             '#gpModal',
+            'buynowStep2',
             textToShowInWidget,
             sale.address,
             sale.address_qr,
@@ -255,6 +257,7 @@ function step3(sale) {
 
         putIntoHtmlElementTextQrLnAddress(
             '#gpModal',
+            'buynowStep3',
             textToShowInWidget,
             null,
             null,
@@ -289,6 +292,7 @@ function step4(sale) {
 
         putIntoHtmlElementTextQrLnAddress(
             '#gpModal',
+            'buynowStep4',
             textToShowInWidget,
             null,
             null,

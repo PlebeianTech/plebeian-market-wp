@@ -49,7 +49,9 @@ function addAlertToDivElement(element, message, type) {
     ].join(''));
 }
 
-function putIntoHtmlElementText(elementSelector, html, title) {
+function putIntoHtmlElementText(elementSelector, modalName, html, title) {
+    $('#closeGPModal').data('modalName', modalName);
+
     $(elementSelector + ' .modal-body').html(html);
 
     if (typeof title !== 'undefined' && title !== '') {
@@ -59,8 +61,10 @@ function putIntoHtmlElementText(elementSelector, html, title) {
     }
 }
 
-function putIntoHtmlElementTextQrLnAddress(elementSelector, text, lnurl, qr, protocol, title, waitingPaymentSpinnerEnabled) {
+function putIntoHtmlElementTextQrLnAddress(elementSelector, modalName, text, lnurl, qr, protocol, title, waitingPaymentSpinnerEnabled) {
     let loginWidget = text;
+
+    $('#closeGPModal').data('modalName', modalName);
 
     if (lnurl !== null && qr !== null && protocol !== null) {
         loginWidget +=
