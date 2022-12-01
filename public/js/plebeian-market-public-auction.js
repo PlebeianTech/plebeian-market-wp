@@ -224,6 +224,8 @@ function getBidsTable(bids) {
 }
 
 function showMakeNewBid(key, amount, shouldShowLoadingModal = true) {
+    stopBidsExtendedInfoSetTimeout();
+
     if (shouldShowLoadingModal) {
         showLoadingModal();
     }
