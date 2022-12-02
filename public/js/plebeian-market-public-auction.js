@@ -1,10 +1,15 @@
 let current_auction_key;
 let bidsExtendedInfoSetTimeout;
+let payingBidSetTimeout;
 let numBidsLastTimeWeLookAllAuctions = {};
 let numBidsLastTimeWeLook = 99;
+let continueListeningForBidPayment;
 
 function stopBidsExtendedInfoSetTimeout() {
     clearTimeout(bidsExtendedInfoSetTimeout);
+}
+function stopPayingBidSetTimeout() {
+    clearTimeout(payingBidSetTimeout);
 }
 
 function updateAuctionsPeriodically() {
@@ -17,7 +22,7 @@ function updateAuctionsPeriodically() {
     });
 }
 
-function getAuctionInfo(pmtype, key) {
+function getAuctionInfo(key) {
     return $.ajax({
         url: requests.wordpress_pm_api.ajax_url,
         cache: false,
@@ -27,17 +32,16 @@ function getAuctionInfo(pmtype, key) {
             _ajax_nonce: requests.wordpress_pm_api.nonce,
             action: 'plebeian-ajax_get_item_info',
             plebeian_item_key: key,
-            plebeian_item_type: pmtype
+            plebeian_item_type: 'auction'
         }
     });
 }
 
 async function getAuctionInfoPeriodically(auctionObject) {
-    let pmtype = auctionObject.data('type');
     let key = auctionObject.data('key');
 
     try {
-        const response = await getAuctionInfo(pmtype, key);
+        const response = await getAuctionInfo(key);
         //console.log(response);
 
         if (response.success === true) {
@@ -102,7 +106,7 @@ async function showBidsExtendedInfo(key, loadEvenWithoutChanges = false, shouldS
         showLoadingModal();
     }
 
-    const response = await getAuctionInfo('auction', key);
+    const response = await getAuctionInfo(key);
      console.log(response);
 
     if (response.success === true) {
@@ -221,7 +225,7 @@ function getBidsTable(bids) {
     return htmlToShowInWidget;
 }
 
-function showMakeNewBid(key, amount, shouldShowLoadingModal = true) {
+function showMakeNewBidPaymentScreen(key, amount, shouldShowLoadingModal = true) {
     stopBidsExtendedInfoSetTimeout();
 
     if (shouldShowLoadingModal) {
@@ -242,23 +246,26 @@ function showMakeNewBid(key, amount, shouldShowLoadingModal = true) {
         type: requests.pm_api.auctions.bid.method,
         headers: { "X-Access-Token": customerGetPlebeianMarketAuthToken() },
     })
-        .done(function (response) {
+        .done(async function (response) {
             // console.log('response', response);
 
             let message = response.messages.join('. ');
 
             let textToShowInWidget = '<p class="fs-4 text-center">' + message + '</p>';
-                /*'<p class="fs-4 text-center">The seller wishes to donate ' + sale.contribution_amount +
-                ' sats (' + satsToBTC(sale.contribution_amount) + ' BTC / ~$' + satsToFiat(sale.contribution_amount) +
-                ') out of the total price to Plebeian Market. ' +
-                'Please send the amount using the QR code below!</p>';*/
+            /*'<p class="fs-4 text-center">The seller wishes to donate ' + sale.contribution_amount +
+            ' sats (' + satsToBTC(sale.contribution_amount) + ' BTC / ~$' + satsToFiat(sale.contribution_amount) +
+            ') out of the total price to Plebeian Market. ' +
+            'Please send the amount using the QR code below!</p>';*/
+
+            let payment_request = response.payment_request;
+            let qr = response.qr;
 
             putIntoHtmlElementTextQrLnAddress(
                 '#gpModal',
                 'makeNewBid',
                 textToShowInWidget,
-                response.payment_request,
-                response.qr,
+                payment_request,
+                qr,
                 'lightning',
                 'Make bid',
                 true
@@ -267,6 +274,38 @@ function showMakeNewBid(key, amount, shouldShowLoadingModal = true) {
             hideLoadingModal();
             showGPModal();
 
+            console.log('payment_request', payment_request);
+            console.log('amount', amount);
+
+            // Search for bid in bid list
+            try {
+                continueListeningForBidPayment = true;
+
+                do {
+                    const response = await getAuctionInfo(key);
+
+                    if (response.success === true) {
+                        response.data.bids.forEach(function(bid) {
+                            console.log('----- bid', bid);
+                            if (bid.amount === amount && bid.payment_request === payment_request) {
+                                console.log('bbbbb');
+                                continueListeningForBidPayment = false;
+                                stopBidsExtendedInfoSetTimeout();
+                                showBidsExtendedInfo(key, true);
+
+                            }
+                        });
+                    } else {
+                        console.log("ERROR getting information: ", response);
+                    }
+
+                    await new Promise(r => setTimeout(r, 2000));
+                }
+                while (continueListeningForBidPayment);
+
+            } catch (error) {
+                console.log("ERROR getting information: ", error);
+            }
         })
         .fail(function (e) {
             console.log('Error: ', e);
@@ -284,8 +323,8 @@ function bindEverythingForExtendedBidInfo() {
     $('.btn-makeNewBid').click(function () {
         let key = $(this).data('key');
         let amount = $('#make_bid_sats').val();
-        console.log(key, amount);
-        showMakeNewBid(key, amount);
+
+        showMakeNewBidPaymentScreen(key, amount);
     });
 
     runTheCountDowns();
