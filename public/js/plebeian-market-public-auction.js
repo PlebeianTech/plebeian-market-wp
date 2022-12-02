@@ -124,6 +124,7 @@ async function showBidsExtendedInfo(key, loadEvenWithoutChanges = false, shouldS
 
             let starting_bid = item_info_from_api.starting_bid;
             let suggested_bid = numBids === 0 ? starting_bid : (item_info_from_api.bids[0]?.amount * 1.1);
+            suggested_bid = suggested_bid.toFixed(0);
 
             let title = 'Participate in this auction';
 
