@@ -117,13 +117,13 @@ $(document).ready( function () {
 
                         let total_duration_seconds = moment.duration(end_date.diff(start_date)).asSeconds();
                         let remaining_duration = moment.duration(end_date.diff(now));
-                        let remaining_duration_seconds = remaining_duration.asSeconds();
+                        let elapsed_duration_seconds = total_duration_seconds - remaining_duration.asSeconds();
 
                         if (type === 'display') {
                             let popup = 'data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Auction ends ' + remaining_duration.humanize(true) + '."';
-                            return '<progress value="'+remaining_duration_seconds+'" max="'+total_duration_seconds+'" '+popup+'></progress>';
+                            return '<progress value="'+elapsed_duration_seconds+'" max="'+total_duration_seconds+'" '+popup+'></progress>';
                         } else {
-                            return remaining_duration_seconds / total_duration_seconds;
+                            return remaining_duration.asSeconds() / total_duration_seconds;
                         }
                     }
                 },
