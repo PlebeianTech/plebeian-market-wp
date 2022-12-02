@@ -121,22 +121,69 @@ class Plebeian_Market_Admin_Ajax_Api
 
             file_put_contents($imagePathLocal, file_get_contents($imageUrl));
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $addUrl);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'X-Access-Token: ' . Plebeian_Market_Communications::getXAccessToken(),
-            ]);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, [
-                'media' => new CURLFile($imagePathLocal)
-            ]);
-            $result = curl_exec($ch);
+            $file_upload_request = function(&$handle_or_parameters) use ($imagePathLocal) {
+                if ( function_exists( 'curl_init' ) && function_exists( 'curl_exec' ) ) {
+                    curl_setopt($handle_or_parameters, CURLOPT_POSTFIELDS, [
+                        'media' => new CURLFile($imagePathLocal)
+                    ]);
 
-            $curl_errNo = curl_errno($ch);
-            if ($curl_errNo) {
+                } elseif ( function_exists( 'fsockopen' ) ) {
+                    $form_fields = [];
+                    $form_files['media'] = file_get_contents($imagePathLocal);
+
+                    function build_data_files($boundary, $fields, $files): string
+                    {
+                        $data = '';
+                        $eol = "\r\n";
+
+                        $delimiter = '-------------' . $boundary;
+
+                        foreach ( $fields as $name => $content ) {
+                            $data .= "--" . $delimiter . $eol
+                                . 'Content-Disposition: form-data; name="' . $name . "\"".$eol.$eol
+                                . $content . $eol;
+                        }
+
+                        foreach ( $files as $name => $content ) {
+                            $data .= "--" . $delimiter . $eol
+                                . 'Content-Disposition: form-data; name="' . $name . '"; filename="' . $name . '"' . $eol
+                                //. 'Content-Type: image/png'.$eol
+                                . 'Content-Transfer-Encoding: binary'.$eol
+                            ;
+
+                            $data .= $eol;
+                            $data .= $content . $eol;
+                        }
+                        $data .= "--" . $delimiter . "--".$eol;
+
+                        return $data;
+                    }
+
+                    $boundary = uniqid('', true);
+                    $handle_or_parameters = build_data_files($boundary, $form_fields, $form_files);
+                }
+            };
+
+            add_action('http_api_curl', $file_upload_request, 10);
+            add_action('requests-fsockopen.before_send', $file_upload_request, 10);
+
+            $addImageResponse = wp_remote_request(
+                $addUrl,
+                [
+                    'headers'     => [
+                        'X-Access-Token' => Plebeian_Market_Communications::getXAccessToken()
+                    ],
+                    'method'     => PLEBEIAN_MARKET_API_ADD_MEDIA_BUYNOW_METHOD
+                ]
+            );
+            $addImage_http_code = wp_remote_retrieve_response_code($addImageResponse);
+
+            remove_action('http_api_curl', $file_upload_request);
+            remove_action('requests-fsockopen.before_send', $file_upload_request);
+
+            if (!$addImage_http_code == 200) {
                 wp_send_json_error([
-                    'errorMessage' => 'There was a problem uploading pictures using PM API: ' . $curl_errNo,
+                    'errorMessage' => 'There was a problem adding pictures using PM API: ' . $addImage_http_code,
                     'host' => $addUrl
                 ], 400);
             }
@@ -155,9 +202,8 @@ class Plebeian_Market_Admin_Ajax_Api
 					'method'     => PLEBEIAN_MARKET_API_DELETE_MEDIA_BUYNOW_METHOD
 				]
 			);
-			$deleteImage_http_code = wp_remote_retrieve_response_code($deleteImageResponse);
-			echo (" - HTTP code: " . $deleteImage_http_code);
-			if (!$deleteImage_http_code == 200) {
+
+			if (!wp_remote_retrieve_response_code($deleteImageResponse) == 200) {
 				wp_send_json_error([
 					'errorMessage' => 'There was a problem deleting pictures using PM API'
 				], 400);
