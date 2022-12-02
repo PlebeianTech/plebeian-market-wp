@@ -274,9 +274,6 @@ function showMakeNewBidPaymentScreen(key, amount, shouldShowLoadingModal = true)
             hideLoadingModal();
             showGPModal();
 
-            console.log('payment_request', payment_request);
-            console.log('amount', amount);
-
             // Search for bid in bid list
             try {
                 continueListeningForBidPayment = true;
@@ -286,13 +283,10 @@ function showMakeNewBidPaymentScreen(key, amount, shouldShowLoadingModal = true)
 
                     if (response.success === true) {
                         response.data.bids.forEach(function(bid) {
-                            console.log('----- bid', bid);
-                            if (bid.amount === amount && bid.payment_request === payment_request) {
-                                console.log('bbbbb');
+                            if (bid.amount == amount && bid.payment_request === payment_request) {
                                 continueListeningForBidPayment = false;
                                 stopBidsExtendedInfoSetTimeout();
                                 showBidsExtendedInfo(key, true);
-
                             }
                         });
                     } else {
