@@ -246,6 +246,11 @@ function rebindIconClicks() {
     });
 }
 
+function getNowPrintable() {
+    let now = new Date();
+    return "Table updated automatically at " + now.getHours() + ":" + (now.getMinutes()<10?'0':'') + now.getMinutes() + ":" + (now.getSeconds()<10?'0':'') + now.getSeconds();
+}
+
 function refreshTable() {
     itemsDatatable.ajax.reload();
 }

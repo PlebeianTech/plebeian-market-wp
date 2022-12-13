@@ -33,6 +33,8 @@ class Plebeian_Market_Admin_Screen_Buynow
 			<h3>List of current BuyNow items</h3>
 		</div>
 
+        <p class="updatedAt" id="tableUpdatedAt"></p>
+
 		<table id="table_items" class="display">
 			<thead>
 				<tr>
@@ -111,7 +113,7 @@ class Plebeian_Market_Admin_Screen_Buynow
 							</div>
 
 							<ul id="product-images-container"></ul>
-							<!-- 
+							<!--
 								https://jeroensormani.com/how-to-include-the-wordpress-media-selector-in-your-plugin/
 								https://codex.wordpress.org/Javascript_Reference/wp.media
 							-->

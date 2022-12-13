@@ -118,5 +118,7 @@ $(document).ready(function () {
             clearForm();
             setFormDefaultValues();
         })
+
+        $('#tableUpdatedAt').text(getNowPrintable());
     });
 });

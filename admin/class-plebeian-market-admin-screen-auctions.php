@@ -33,6 +33,8 @@ class Plebeian_Market_Admin_Screen_Auctions
             <h3>List of current Auctions</h3>
         </div>
 
+        <p class="updatedAt" id="tableUpdatedAt"></p>
+
         <table id="table_items" class="display">
             <thead>
             <tr>
