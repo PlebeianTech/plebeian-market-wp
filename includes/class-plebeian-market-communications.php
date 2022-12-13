@@ -42,35 +42,6 @@ class Plebeian_Market_Communications
 		return get_option('plebeian_market_auth_key');
 	}
 
-	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
-	 *
-	 * @since    1.0.0
-	 */
-	public static function getFeatured($type)
-	{
-		if (!in_array($type, ['auctions', 'listings'])) {
-			return [];
-		}
-
-		if ($type === 'auctions') {
-			$auctions_response = wp_remote_get("https://plebeian.market/api/$type/featured");
-			//$auctions_response = wp_remote_get(self::getAPIUrl() . "/$type/featured");
-		}
-
-		$auctions_body_json = wp_remote_retrieve_body($auctions_response);
-		$auctions_http_code = wp_remote_retrieve_response_code($auctions_response);
-
-		if ($auctions_http_code === 200) {
-			$auctions_body_array = json_decode($auctions_body_json);
-			return $auctions_body_array->{$type};
-		} else {
-			return null;
-		}
-	}
-
     public static function getItem($type, $key)
     {
         switch($type) {
@@ -151,11 +122,11 @@ class Plebeian_Market_Communications
 
 	/**
 	 * Converts a price given in fiat (USD for now) to satoshis.
-	 * 
+	 *
 	 * 1- Obtains the Bitcoin price in USD from the Kraken API.
-	 * 
+	 *
 	 * 2- Returns the price of the item in satoshis.
-	 * 
+	 *
 	 * Uses the WordPress cache, so we don't query Kraken too often.
 	 */
 	public static function fiatToSats($item_price_usd)
