@@ -174,7 +174,7 @@ class Plebeian_Market_Public
             return Plebeian_Market_Render::plebeian_item_render_html($atts, 'auction', $auctionItem);
         }
 
-        function plebeian_show_buynow_listing($atts = []): string
+        function plebeian_show_listing($atts = [], $type): string
         {
             $args = shortcode_atts([		// default values
                 'slideshow_delay'   	=> 4000,
@@ -187,20 +187,45 @@ class Plebeian_Market_Public
                 'called_from_listing'	=> 'true'
             ], $atts);
 
-            $buyNowAllItems = Plebeian_Market_Communications::getBuyNowListing();
+            $allItems = null;
+            $functionShowItem = null;
+            $emptyMessage = '';
 
-            if (count($buyNowAllItems) > 0) {
+            switch($type) {
+                case 'buynow':
+                    $allItems = Plebeian_Market_Communications::getListing('buynow');
+                    $functionShowItem = 'plebeian_show_buynow';
+                    $emptyMessage = 'Currently there are no items to show.';
+                    break;
+                case 'auction':
+                    $allItems = Plebeian_Market_Communications::getListing('auction');
+                    $functionShowItem = 'plebeian_show_auction';
+                    $emptyMessage = 'Currently there are no auctions to show.';
+                    break;
+            }
+
+            if (count($allItems) > 0) {
                 $content = '';
 
-                foreach ($buyNowAllItems as $buyNowItem) {
-                    $args['key'] = $buyNowItem->key;
-                    $content .= plebeian_show_buynow($args, $buyNowItem);
+                foreach ($allItems as $item) {
+                    $args['key'] = $item->key;
+                    $content .= $functionShowItem($args, $item);
                 }
 
                 return $content;
             } else {
-                return "<div>Currently there are no products to show.</div>";
+                return "<div>$emptyMessage</div>";
             }
+        }
+
+        function plebeian_show_buynow_listing($atts = []): string
+        {
+            return plebeian_show_listing($atts, 'buynow');
+        }
+
+        function plebeian_show_auctions_listing($atts = []): string
+        {
+            return plebeian_show_listing($atts, 'auction');
         }
 
 		function plebeian_common_public_code()
@@ -297,6 +322,6 @@ class Plebeian_Market_Public
 		add_shortcode('plebeian_show_buynow_listing', 'plebeian_show_buynow_listing');
 
         add_shortcode('plebeian_show_auction', 'plebeian_show_auction');
-		//add_shortcode('plebeian_show_auctions_listing', 'plebeian_show_auctions_listing');
+		add_shortcode('plebeian_show_auctions_listing', 'plebeian_show_auctions_listing');
 	}
 }
