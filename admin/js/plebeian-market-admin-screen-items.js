@@ -246,6 +246,17 @@ function rebindIconClicks() {
     });
 }
 
+function refreshTable() {
+    itemsDatatable.ajax.reload();
+}
+
+function reloadTableForever() {
+    setTimeout(function () {
+        refreshTable();
+        reloadTableForever();
+    }, 15000)
+}
+
 $(document).ready( function () {
     makeImagesOrderable();
 
@@ -267,7 +278,7 @@ $(document).ready( function () {
             data: JSON.stringify({})
         })
             .done(function (response) {
-                itemsDatatable.ajax.reload();
+                refreshTable()
                 showNotification('<p><b>Item ' + (action === 'publish' ? 'published' : 'deleted') + ' successfully</b></p>');
             })
             .fail(function (e) {
@@ -345,7 +356,7 @@ $(document).ready( function () {
                         showNotification('<p><b>Item created successfully!!</b></p>');
                     }
 
-                    itemsDatatable.ajax.reload();
+                    refreshTable();
                     $('#add-item-modal').modal('hide');
                 })
                 .fail(function (e) {
@@ -416,4 +427,6 @@ $(document).ready( function () {
     };
 
     $(media.init);
+
+    reloadTableForever()
 });
