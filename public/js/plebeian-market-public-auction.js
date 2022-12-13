@@ -74,12 +74,12 @@ async function getAuctionInfoPeriodically(auctionObject) {
                     }
                 }
 
-                if (ended) {
-                    htmlBids += '<h4>Auction ended</h4>'
-                } else {
-                    let endDate = moment(item_info_from_api.end_date).format('YYYY/MM/DD hh:mm:ss');
-                    htmlBids += getCountDownHTML(endDate);
-                }
+            if (ended) {
+                htmlBids += '<p class="auctionEnded">Auction ended</p>'
+            } else {
+                let endDate = moment(auctionInfo.end_date).format('YYYY/MM/DD HH:mm:ss');
+                htmlBids += getCountDownHTML(endDate);
+            }
 
                 let bids_info = auctionObject.find('.pleb_bids_info');
                 $(bids_info).html(htmlBids);
