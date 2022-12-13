@@ -61,18 +61,22 @@ function putIntoHtmlElementText(elementSelector, modalName, html, title) {
     }
 }
 
-function putIntoHtmlElementTextQrLnAddress(elementSelector, modalName, text, lnurl, qr, protocol, title, waitingPaymentSpinnerEnabled) {
+function putIntoHtmlElementTextQrLnAddress(elementSelector, modalName, text, url, qrArray, protocol, title, waitingPaymentSpinnerEnabled) {
     let loginWidget = text;
 
     $('#closeGPModal').data('modalName', modalName);
 
-    if (lnurl !== null && qr !== null && protocol !== null) {
-        loginWidget += `
-            <div class="qrcodeImageDiv">
-               <a href="` + protocol + ':' + lnurl + `"><svg id="qrcodeImage"></svg></a>
-            </div>
-            <div class="input-group lnurlValue">
-               <input type="text" class="form-control text-truncate text-center" value="` + lnurl + `" id="url"> <button type="button" class="input-group-btn btn btn-outline-primary" id="btc-copy-url">Copy</button>
+    if (url !== null && qrArray !== null && protocol !== null) {
+        loginWidget += '<div class="qrcodeImageDiv">'
+
+        qrArray.forEach(function(qr, idx) {
+            loginWidget += '<div class="qrImageDiv" id="qrImageDiv_'+idx+'"><a href="' + protocol + ':' + url + '"><svg id="qrcodeImage_'+idx+'"></svg></a></div>';
+        });
+
+        loginWidget += `</div>
+
+            <div class="input-group urlValue">
+               <input type="text" class="form-control text-truncate text-center" value="` + url + `" id="url"> <button type="button" class="input-group-btn btn btn-outline-primary" id="btc-copy-url">Copy</button>
             </div>`;
 
         loginWidget += `
@@ -99,7 +103,9 @@ function putIntoHtmlElementTextQrLnAddress(elementSelector, modalName, text, lnu
         $(elementSelector + ' .modal-title').html('');
     }
 
-    $('#qrcodeImage').replaceWith($('<div/>').append(qr).find('svg:first').attr('id', 'qrcodeImage'));
+    qrArray.forEach(function(qr, idx) {
+        $('#qrcodeImage_'+idx).replaceWith($('<div/>').append(qr).find('svg:first').attr('id', 'qrcodeImage'));
+    });
 }
 
 function showAlertModal(message) {

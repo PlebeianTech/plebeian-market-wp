@@ -74,7 +74,7 @@ function getLoginWidget(additionalText = '') {
                     'authentication',
                     textToShowInWidget,
                     loginResponse.lnurl,
-                    loginResponse.qr,
+                    [loginResponse.qr],
                     'lightning'
                 );
 
@@ -139,7 +139,7 @@ function customerGetPlebeianMarketAuthToken() {
 /**
  * Checks if the user is logged-in into the PM
  * backend and returns a boolean.
- * 
+ *
  * @returns boolean
  */
 function buyerAmILoggedIn() {

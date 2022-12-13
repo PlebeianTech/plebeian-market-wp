@@ -23,56 +23,62 @@ function updateAuctionsPeriodically() {
 }
 
 function getAuctionInfo(key) {
-    return $.ajax({
-        url: requests.wordpress_pm_api.ajax_url,
-        cache: false,
-        dataType: "JSON",
-        type: 'POST',
-        data: {
-            _ajax_nonce: requests.wordpress_pm_api.nonce,
-            action: 'plebeian-ajax_get_item_info',
-            plebeian_item_key: key,
-            plebeian_item_type: 'auction'
-        }
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            url: requests.wordpress_pm_api.ajax_url,
+            cache: false,
+            dataType: "JSON",
+            type: 'POST',
+            data: {
+                _ajax_nonce: requests.wordpress_pm_api.nonce,
+                action: 'plebeian-ajax_get_item_info',
+                plebeian_item_key: key,
+                plebeian_item_type: 'auction'
+            }
+        })
+        .done(function (response) {
+            // console.log('response', response);
+            resolve(response.data);
+        })
+        .fail(function (e) {
+            console.log('Error: ', e);
+            reject(e);
+        });
     });
 }
 
 async function getAuctionInfoPeriodically(auctionObject) {
     let key = auctionObject.data('key');
 
-    try {
-        const response = await getAuctionInfo(key);
-        //console.log(response);
+    await getAuctionInfo(key)
+    .then(async function (auctionInfo) {
+        // console.log('Information retrieved successfully!', auctionInfo);
 
-        if (response.success === true) {
-            let item_info_from_api = response.data;
-            // console.log('Information retrieved successfully!', item_info_from_api);
+        let bids = auctionInfo.bids;
+        let numBids = bids.length;
 
-            let bids = item_info_from_api.bids;
-            let numBids = bids.length;
+        if (numBidsLastTimeWeLookAllAuctions[key] !== numBids) {
+            numBidsLastTimeWeLookAllAuctions[key] = numBids;
 
-            if (numBidsLastTimeWeLookAllAuctions[key] !== numBids) {
-                numBidsLastTimeWeLookAllAuctions[key] = numBids;
+            let ended = auctionInfo.ended;
+            let starting_bid = auctionInfo.starting_bid;
+            let htmlBids = '<p>Bids: ' + numBids + '</p>';
 
-                let ended = item_info_from_api.ended;
-                let starting_bid = item_info_from_api.starting_bid;
-                let htmlBids = '<p>Bids: ' + numBids + '</p>';
+            if (numBids === 0) {
+                htmlBids += '<p>Starting bid: ' + starting_bid + ' sats</p>'
 
-                if (numBids === 0) {
-                    htmlBids += '<p>Starting bid: ' + starting_bid + ' sats</p>'
+            } else {
+                let current_bid = bids[0]?.amount;
+                let bidder_name = bids[0]?.buyer_nym;
 
+                if (ended) {
+                    htmlBids += '<p>Winning bid: ' + current_bid + ' sats</p>'
+                    htmlBids += '<p>Winner: ' + bidder_name + '</p>'
                 } else {
-                    let current_bid = bids[0]?.amount;
-                    let bidder_name = bids[0]?.buyer_nym;
-
-                    if (ended) {
-                        htmlBids += '<p>Winning bid: ' + current_bid + ' sats</p>'
-                        htmlBids += '<p>Winner: ' + bidder_name + '</p>'
-                    } else {
-                        htmlBids += '<p>Top bid: ' + current_bid + ' sats</p>'
-                        htmlBids += '<p>Bidder: ' + bidder_name + '</p>'
-                    }
+                    htmlBids += '<p>Top bid: ' + current_bid + ' sats</p>'
+                    htmlBids += '<p>Bidder: ' + bidder_name + '</p>'
                 }
+            }
 
             if (ended) {
                 htmlBids += '<p class="auctionEnded">Auction ended</p>'
@@ -81,17 +87,14 @@ async function getAuctionInfoPeriodically(auctionObject) {
                 htmlBids += getCountDownHTML(endDate);
             }
 
-                let bids_info = auctionObject.find('.pleb_bids_info');
-                $(bids_info).html(htmlBids);
-            }
-
-        } else {
-            console.log("ERROR getting information: ", response);
+            let bids_info = auctionObject.find('.pleb_bids_info');
+            $(bids_info).html(htmlBids);
         }
-
-    } catch(error) {
-        console.log("ERROR getting information: ", error);
-    }
+    })
+    .catch(function (e) {
+        console.log('Error while trying to load auction:', e);
+        //reject();
+    });
 
     runTheCountDowns();
 
@@ -106,51 +109,86 @@ async function showBidsExtendedInfo(key, loadEvenWithoutChanges = false, shouldS
         showLoadingModal();
     }
 
-    const response = await getAuctionInfo(key);
-     console.log(response);
+    await getAuctionInfo(key)
+    .then(async function (auctionInfo) {
+        console.log('Information retrieved successfully!', auctionInfo);
 
-    if (response.success === true) {
-        let item_info_from_api = response.data;
+        if (auctionInfo.ended) {
+            let sales = auctionInfo.sales;
+            if (sales) {
+                let sale = sales[0];
+                console.log('sale', sale);
+// TODO: - check if buyer_nym is me
 
-        let bids = item_info_from_api.bids;
-        let numBids = bids.length;
+                if (['EXPIRED'].includes(sale.state)) {
+                    showPurchaseExpired(sale);
+                } else if (['REQUESTED'].includes(sale.state)) {
+                    // Show QR for contribution
+                    purchaseStep1(sale);
+                } else if (['CONTRIBUTION_SETTLED'].includes(sale.state)) {
+                    // Contribution paid. Show BTC QR.
+                    purchaseStep2(sale);
+                } else if (['TX_DETECTED'].includes(sale.state)) {
+                    // Contribution paid
+                    purchaseStep3(sale);
+                } else if (['TX_CONFIRMED'].includes(sale.state)) {
+                    // Contribution paid
+                    purchaseStep4(sale);
+                } else {
+                    console.log('--------------------------------------------------------------------');
+                    console.log('Status not known yet: ' + sale.state, sale);
+                    console.log('--------------------------------------------------------------------');
+                }
 
-        if (loadEvenWithoutChanges || numBids !== numBidsLastTimeWeLook) {
-            numBidsLastTimeWeLook = numBids;
+                if ( !['EXPIRED', 'TX_CONFIRMED'].includes(sale.state)) {
+                    console.log('Sleeping 2 secs (showBidsExtendedInfo)...');
+                    payingBidSetTimeout = setTimeout(function () {
+                        showBidsExtendedInfo(key, false, false);
+                    }, 2000)
+                }
+            }
 
-            let auction_ended = item_info_from_api.ended;
-            let reserveReached = item_info_from_api.reserve_bid_reached;
-            let lastBid = numBids > 0 ? item_info_from_api.bids[0] : null;
+        } else {
+            // Auction not ended
+            let bids = auctionInfo.bids;
+            let numBids = bids.length;
 
-            let starting_bid = item_info_from_api.starting_bid;
-            let suggested_bid = numBids === 0 ? starting_bid : (item_info_from_api.bids[0]?.amount * 1.1);
-            suggested_bid = suggested_bid.toFixed(0);
+            if (loadEvenWithoutChanges || numBids !== numBidsLastTimeWeLook) {
+                numBidsLastTimeWeLook = numBids;
 
-            let title = 'Participate in this auction';
+                let auction_ended = auctionInfo.ended;
+                let reserveReached = auctionInfo.reserve_bid_reached;
+                let lastBid = numBids > 0 ? auctionInfo.bids[0] : null;
 
-            let htmlToShowInWidget = `
+                let starting_bid = auctionInfo.starting_bid;
+                let suggested_bid = numBids === 0 ? starting_bid : (auctionInfo.bids[0]?.amount * 1.1);
+                suggested_bid = suggested_bid.toFixed(0);
+
+                let title = 'Participate in this auction';
+
+                let htmlToShowInWidget = `
                 <div class="row">
                    <div class="col-3"></div>
                    <div class="col-6">`;
 
-            if (auction_ended) {
-                htmlToShowInWidget += '<h4>Auction ended.</h4>';
+                if (auction_ended) {
+                    htmlToShowInWidget += '<h4>Auction ended.</h4>';
 
-                if (numBids === 0) {
-                    title = 'Auction ended without bids';
-                    htmlToShowInWidget += '<h4>There was not a winner.</h4>';
+                    if (numBids === 0) {
+                        title = 'Auction ended without bids';
+                        htmlToShowInWidget += '<h4>There was not a winner.</h4>';
+                    } else {
+                        title = 'Auction ended';
+                    }
                 } else {
-                    title = 'Auction ended';
-                }
-            } else {
-                if (numBids === 0) {
-                    htmlToShowInWidget += '<p>There are no bids yet. Be the first to bid!</p>';
-                }
+                    if (numBids === 0) {
+                        htmlToShowInWidget += '<p>There are no bids yet. Be the first to bid!</p>';
+                    }
 
-                let endDate = moment(item_info_from_api.end_date).format('YYYY/MM/DD hh:mm:ss');
-                htmlToShowInWidget += getCountDownHTML(endDate);
+                    let endDate = moment(auctionInfo.end_date).format('YYYY/MM/DD HH:mm:ss');
+                    htmlToShowInWidget += getCountDownHTML(endDate);
 
-                htmlToShowInWidget += `
+                    htmlToShowInWidget += `
                     <div class="bidNowWidget">
                         <form class="row g-3 needs-validation" novalidate>
                             <div class="col-3"></div>
@@ -162,40 +200,71 @@ async function showBidsExtendedInfo(key, loadEvenWithoutChanges = false, shouldS
                             <button type="button" class="btn btn-success btn-makeNewBid" data-key="` + key + `">Bid now</button>
                         </form>
                     </div>`;
-            }
-
-            if (numBids > 0) {
-                if (!reserveReached) {
-                    htmlToShowInWidget += '<h3>Reserve not met!</h3>';
                 }
 
-                htmlToShowInWidget += getBidsTable(bids);
-            }
+                if (numBids > 0) {
+                    if (!reserveReached) {
+                        htmlToShowInWidget += '<h3>Reserve not met!</h3>';
+                    }
 
-            htmlToShowInWidget += `
+                    htmlToShowInWidget += getBidsTable(bids);
+                }
+
+                htmlToShowInWidget += `
                     </div>
                     <div class="col-3"></div>
                 </div>`;
 
-            putIntoHtmlElementText(
-                '#gpModal',
-                'bidsExtendedInfo',
-                htmlToShowInWidget,
-                title
-            );
+                putIntoHtmlElementText(
+                    '#gpModal',
+                    'bidsExtendedInfo',
+                    htmlToShowInWidget,
+                    title
+                );
 
-            bindEverythingForExtendedBidInfo();
+                bindEverythingForExtendedBidInfo();
 
-            hideLoadingModal();
-            showGPModal();
+                hideLoadingModal();
+                showGPModal();
+            }
+
+            console.log('Sleeping 2 secs (showBidsExtendedInfo)...');
+            bidsExtendedInfoSetTimeout = setTimeout(function () {
+                showBidsExtendedInfo(key, false, false);
+            }, 2000)
         }
+    })
+    .catch(function (e) {
+        console.log('Error while trying to load auction:', e);
+        //reject();
+    });
+}
+
+function showPurchaseExpired(sale) {
+    if (typeof sale === 'object') {
+        console.log("Showing EXPIRED dialog", sale);
+
+        let date_expired = moment(sale.expired_at).format('YYYY/MM/DD HH:mm:ss');
+
+        let textToShowInWidget =
+            '<p class="text-center fs-2">Payment expired!</p>' +
+            '<p class="text-center fs-2">You did not pay for the product by '+date_expired+', so it has been assigned to the next bidder.</p>';
+
+        putIntoHtmlElementTextQrLnAddress(
+            '#gpModal',
+            'buynowStep4',
+            textToShowInWidget,
+            null,
+            null,
+            null,
+            'Payment expired'
+        );
+
+        hideLoadingModal();
+        showGPModal();
+    } else {
+        console.error('showPurchaseExpired - sale is not an object:', typeof sale);
     }
-
-    console.log('Sleeping 2 secs (showBidsExtendedInfo)...');
-
-    bidsExtendedInfoSetTimeout = setTimeout(function () {
-        showBidsExtendedInfo(key, false, false);
-    }, 2000)
 }
 
 function getBidsTable(bids) {
@@ -211,7 +280,7 @@ function getBidsTable(bids) {
         let bidder_nym = bid.buyer_nym;
         let bidder_img = bid.buyer_profile_image_url;
         let amount = bid.amount;
-        let paid_at = moment(bid.settled_at).format('D/M/YYYY, H:mm:ss');
+        let paid_at = moment(bid.settled_at).format('D/M/YYYY, HH:mm:ss');
 
         htmlToShowInWidget += `
                 <tr>
@@ -253,20 +322,13 @@ function showMakeNewBidPaymentScreen(key, amount, shouldShowLoadingModal = true)
             let message = response.messages.join('. ');
 
             let textToShowInWidget = '<p class="fs-4 text-center">' + message + '</p>';
-            /*'<p class="fs-4 text-center">The seller wishes to donate ' + sale.contribution_amount +
-            ' sats (' + satsToBTC(sale.contribution_amount) + ' BTC / ~$' + satsToFiat(sale.contribution_amount) +
-            ') out of the total price to Plebeian Market. ' +
-            'Please send the amount using the QR code below!</p>';*/
-
-            let payment_request = response.payment_request;
-            let qr = response.qr;
 
             putIntoHtmlElementTextQrLnAddress(
                 '#gpModal',
                 'makeNewBid',
                 textToShowInWidget,
-                payment_request,
-                qr,
+                response.payment_request,
+                [response.qr],
                 'lightning',
                 'Make bid',
                 true
@@ -276,35 +338,35 @@ function showMakeNewBidPaymentScreen(key, amount, shouldShowLoadingModal = true)
             showGPModal();
 
             // Search for bid in bid list
-            try {
-                continueListeningForBidPayment = true;
+            continueListeningForBidPayment = true;
 
-                do {
-                    const response = await getAuctionInfo(key);
+            do {
+                await getAuctionInfo(key)
+                .then(async function (auctionInfo) {
+                    // console.log('Information retrieved successfully!', auctionInfo);
 
-                    if (response.success === true) {
-                        response.data.bids.forEach(function(bid) {
-                            if (bid.amount == amount && bid.payment_request === payment_request) {
-                                continueListeningForBidPayment = false;
-                                stopBidsExtendedInfoSetTimeout();
-                                showBidsExtendedInfo(key, true);
-                            }
-                        });
-                    } else {
-                        console.log("ERROR getting information: ", response);
-                    }
+                    auctionInfo.bids.forEach(function(bid) {
+                        if (bid.amount == amount && bid.payment_request === response.payment_request) {
+                            continueListeningForBidPayment = false;
+                            stopBidsExtendedInfoSetTimeout();
+                            showBidsExtendedInfo(key, true);
+                        }
+                    });
+                })
+                .catch(function (e) {
+                    console.log('Error while trying to load auction info:', e);
+                    hideLoadingModal();
+                    showAlertModal('Error while trying to load auction info. Contact Plebeian Market support.');
+                });
 
-                    await new Promise(r => setTimeout(r, 2000));
-                }
-                while (continueListeningForBidPayment);
-
-            } catch (error) {
-                console.log("ERROR getting information: ", error);
+                await new Promise(r => setTimeout(r, 2000));
             }
+            while (continueListeningForBidPayment);
         })
         .fail(function (e) {
             console.log('Error: ', e);
-            console.log('Error message: ', e.message);
+            hideLoadingModal();
+            showAlertModal('Error: ' + e.responseJSON.message);
         });
 }
 
@@ -381,12 +443,16 @@ $(document).ready(function () {
         // Stop existing timer in all auctions modal
         // closings to start with a new one. This
         // prevents race conditions
-        if (modalBeingClosed === 'bidsExtendedInfo' || modalBeingClosed === 'makeNewBid') {
+        if (['bidsExtendedInfo', 'makeNewBid'].includes(modalBeingClosed)) {
             stopBidsExtendedInfoSetTimeout();
 
             if (modalBeingClosed === 'makeNewBid') {
                 showBidsExtendedInfo(current_auction_key, true);
             }
+        }
+
+        if (modalBeingClosed.startsWith('buynowStep')) {
+            stopPayingBidSetTimeout();
         }
     });
 });
