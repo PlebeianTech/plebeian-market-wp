@@ -228,6 +228,7 @@ async function showBidsExtendedInfo(key, loadEvenWithoutChanges = false, shouldS
                 showGPModal();
             }
 
+        if (!auctionInfo.ended) {
             console.log('Sleeping 2 secs (showBidsExtendedInfo)...');
             bidsExtendedInfoSetTimeout = setTimeout(function () {
                 showBidsExtendedInfo(key, false, false);
