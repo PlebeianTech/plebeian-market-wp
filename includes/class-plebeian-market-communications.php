@@ -59,7 +59,7 @@ class Plebeian_Market_Communications
             self::getBackendAPIUrl() . '/' . $query_path . '/' . $key,
             [
                 'headers'     => [
-                    'X-Access-Token' => Plebeian_Market_Communications::getXAccessToken()
+                    'X-Access-Token' => self::getXAccessToken()
                 ]
             ]
         );
@@ -74,23 +74,38 @@ class Plebeian_Market_Communications
         return null;
     }
 
-	public static function getBuyNowListing()
+    /**
+     * @throws JsonException
+     */
+    public static function getListing($type)
 	{
-		$buyNowListing_respose = wp_remote_get(
-			self::getBackendAPIUrl() . PLEBEIAN_MARKET_API_LIST_BUYNOW_URL,
+        $json_path = null;
+
+        switch($type) {
+            case 'buynow':
+                $url = self::getBackendAPIUrl() . PLEBEIAN_MARKET_API_LIST_BUYNOW_URL;
+                $json_path = 'listings';
+                break;
+            case 'auction':
+                $url = self::getBackendAPIUrl() . PLEBEIAN_MARKET_API_LIST_AUCTIONS_URL;
+                $json_path = 'auctions';
+                break;
+        }
+
+		$listing_respose = wp_remote_get(
+			$url,
 			[
 				'headers'     => [
-					'X-Access-Token' => Plebeian_Market_Communications::getXAccessToken()
+					'X-Access-Token' => self::getXAccessToken()
 				]
 			]
 		);
 
-		$buyNowListing_body_json = wp_remote_retrieve_body($buyNowListing_respose);
-		$buyNowListing_http_code = wp_remote_retrieve_response_code($buyNowListing_respose);
+		$listing_body_json = wp_remote_retrieve_body($listing_respose);
+		$listing_http_code = wp_remote_retrieve_response_code($listing_respose);
 
-		if ($buyNowListing_http_code === 200) {
-			$buyNowListing_body = json_decode($buyNowListing_body_json);
-			return $buyNowListing_body->listings;
+		if ($listing_http_code === 200) {
+            return json_decode($listing_body_json, false, 512, JSON_THROW_ON_ERROR)->{$json_path};
 		}
 
 		return null;
