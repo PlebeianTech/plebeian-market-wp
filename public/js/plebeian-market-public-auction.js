@@ -152,85 +152,84 @@ async function showBidsExtendedInfo(key, loadEvenWithoutChanges = false, shouldS
             }
         }
 
-        } else {
-            // Auction not ended
-            let bids = auctionInfo.bids;
-            let numBids = bids.length;
+        // Auction not ended
+        let bids = auctionInfo.bids;
+        let numBids = bids.length;
 
-            if (loadEvenWithoutChanges || numBids !== numBidsLastTimeWeLook) {
-                numBidsLastTimeWeLook = numBids;
+        if (loadEvenWithoutChanges || numBids !== numBidsLastTimeWeLook) {
+            numBidsLastTimeWeLook = numBids;
 
-                let auction_ended = auctionInfo.ended;
-                let reserveReached = auctionInfo.reserve_bid_reached;
-                let lastBid = numBids > 0 ? auctionInfo.bids[0] : null;
+            let auction_ended = auctionInfo.ended;
+            let reserveReached = auctionInfo.reserve_bid_reached;
+            let lastBid = numBids > 0 ? auctionInfo.bids[0] : null;
 
-                let starting_bid = auctionInfo.starting_bid;
-                let suggested_bid = numBids === 0 ? starting_bid : (auctionInfo.bids[0]?.amount * 1.1);
-                suggested_bid = suggested_bid.toFixed(0);
+            let starting_bid = auctionInfo.starting_bid;
+            let suggested_bid = numBids === 0 ? starting_bid : (auctionInfo.bids[0]?.amount * 1.1);
+            suggested_bid = suggested_bid.toFixed(0);
 
-                let title = 'Participate in this auction';
+            let title = 'Participate in this auction';
 
-                let htmlToShowInWidget = `
-                <div class="row">
-                   <div class="col-3"></div>
-                   <div class="col-6">`;
+            let htmlToShowInWidget = `
+            <div class="row">
+               <div class="col-3"></div>
+               <div class="col-6">`;
 
-                if (auction_ended) {
-                    htmlToShowInWidget += '<h4>Auction ended.</h4>';
+            if (auction_ended) {
+                htmlToShowInWidget += '<h4>Auction ended.</h4>';
 
-                    if (numBids === 0) {
-                        title = 'Auction ended without bids';
-                        htmlToShowInWidget += '<h4>There was not a winner.</h4>';
-                    } else {
-                        title = 'Auction ended';
-                    }
+                if (numBids === 0) {
+                    title = 'Auction ended without bids';
+                    htmlToShowInWidget += '<h4>There was not a winner.</h4>';
                 } else {
-                    if (numBids === 0) {
-                        htmlToShowInWidget += '<p>There are no bids yet. Be the first to bid!</p>';
-                    }
-
-                    let endDate = moment(auctionInfo.end_date).format('YYYY/MM/DD HH:mm:ss');
-                    htmlToShowInWidget += getCountDownHTML(endDate);
-
-                    htmlToShowInWidget += `
-                    <div class="bidNowWidget">
-                        <form class="row g-3 needs-validation" novalidate>
-                            <div class="col-3"></div>
-                            <div class="col-6">
-                                <label for="make_bid_sats" class="col-form-label">Bid amount:</label>
-                                <input type="text" class="form-control btc-to-fiat-source" id="make_bid_sats" name="make_bid_sats" size="10" value="` + suggested_bid + `">
-                                <small class="fiatDestination"></small><small> (suggested bid)</small>
-                            </div>
-                            <button type="button" class="btn btn-success btn-makeNewBid" data-key="` + key + `">Bid now</button>
-                        </form>
-                    </div>`;
+                    title = 'Auction ended';
+                }
+            } else {
+                if (numBids === 0) {
+                    htmlToShowInWidget += '<p>There are no bids yet. Be the first to bid!</p>';
                 }
 
-                if (numBids > 0) {
-                    if (!reserveReached) {
-                        htmlToShowInWidget += '<h3>Reserve not met!</h3>';
-                    }
-
-                    htmlToShowInWidget += getBidsTable(bids);
-                }
+                let endDate = moment(auctionInfo.end_date).format('YYYY/MM/DD HH:mm:ss');
+                htmlToShowInWidget += getCountDownHTML(endDate);
 
                 htmlToShowInWidget += `
-                    </div>
-                    <div class="col-3"></div>
+                <div class="bidNowWidget">
+                    <form class="row g-3 needs-validation" novalidate>
+                        <div class="col-3"></div>
+                        <div class="col-6">
+                            <label for="make_bid_sats" class="col-form-label">Bid amount:</label>
+                            <input type="text" class="form-control btc-to-fiat-source" id="make_bid_sats" name="make_bid_sats" size="10" value="` + suggested_bid + `">
+                            <small class="fiatDestination"></small><small> (suggested bid)</small>
+                        </div>
+                        <button type="button" class="btn btn-success btn-makeNewBid" data-key="` + key + `">Bid now</button>
+                    </form>
                 </div>`;
-
-                putIntoHtmlElementText(
-                    '#gpModal',
-                    'bidsExtendedInfo',
-                    htmlToShowInWidget,
-                    title
-                );
-
-                bindEverythingForExtendedBidInfo();
-
-                hideLoadingModal();
-                showGPModal();
             }
+
+            if (numBids > 0) {
+                if (!reserveReached) {
+                    htmlToShowInWidget += '<h3>Reserve not met!</h3>';
+                }
+
+                htmlToShowInWidget += getBidsTable(bids);
+            }
+
+            htmlToShowInWidget += `
+                </div>
+                <div class="col-3"></div>
+            </div>`;
+
+            putIntoHtmlElementText(
+                '#gpModal',
+                'bidsExtendedInfo',
+                htmlToShowInWidget,
+                title
+            );
+
+            bindEverythingForExtendedBidInfo();
+
+            hideLoadingModal();
+            showGPModal();
+        }
 
         if (!auctionInfo.ended) {
             console.log('Sleeping 2 secs (showBidsExtendedInfo)...');
