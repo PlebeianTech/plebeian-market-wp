@@ -247,7 +247,7 @@ class Plebeian_Market_Public
 
 			<!-- General-Purpose Modal -->
 			<div id="gpModal" class="modal fade" role="dialog">
-				<div class="modal-dialog modal-xl modal-dialog-centered">
+				<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title"></h5>
