@@ -103,9 +103,11 @@ function putIntoHtmlElementTextQrLnAddress(elementSelector, modalName, text, url
         $(elementSelector + ' .modal-title').html('');
     }
 
-    qrArray.forEach(function(qr, idx) {
-        $('#qrcodeImage_'+idx).replaceWith($('<div/>').append(qr).find('svg:first').attr('id', 'qrcodeImage'));
-    });
+    if (qrArray !== null) {
+        qrArray.forEach(function(qr, idx) {
+            $('#qrcodeImage_'+idx).replaceWith($('<div/>').append(qr).find('svg:first').attr('id', 'qrcodeImage'));
+        });
+    }
 }
 
 function showAlertModal(message) {
