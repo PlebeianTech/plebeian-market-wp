@@ -247,8 +247,8 @@ function showPurchaseExpired(sale) {
         let date_expired = moment(sale.expired_at).format('YYYY/MM/DD HH:mm:ss');
 
         let textToShowInWidget =
-            '<p class="text-center fs-2">Payment expired!</p>' +
-            '<p class="text-center fs-2">You did not pay for the product by '+date_expired+', so it has been assigned to the next bidder.</p>';
+            `<p class="text-center fs-2">Payment expired!</p>
+             <p class="text-center fs-2">We didn't receive your payment by `+date_expired+`, so the auction has been assigned to the next bidder.</p>`;
 
         putIntoHtmlElementTextQrLnAddress(
             '#gpModal',
