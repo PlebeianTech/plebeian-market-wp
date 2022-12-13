@@ -126,6 +126,11 @@ function clearForm() {
     $('#product-images-container').empty();
 
     $('.sats_container').text('');
+
+    // Auctions
+    $('#starting_bid').val('');
+    $('#reserve_bid').val('');
+    $('#duration').val('');
 }
 
 function rebindIconClicks() {
@@ -148,7 +153,7 @@ function rebindIconClicks() {
                 plebeian_item_type: pmtype
             },
             success: function (response) {
-                console.log('Information retrieved successfully!', response);
+                // console.log('Information retrieved successfully!', response);
 
                 if (response.success === true) {
                     let item_info_from_api = response.data;
