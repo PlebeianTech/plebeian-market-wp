@@ -115,7 +115,8 @@ async function showBidsExtendedInfo(key, loadEvenWithoutChanges = false, shouldS
 
         if (auctionInfo.ended) {
             let sales = auctionInfo.sales;
-            if (sales) {
+
+            if (sales.length > 0) {
                 let sale = sales[0];
                 console.log('sale', sale);
 // TODO: - check if buyer_nym is me
@@ -146,7 +147,10 @@ async function showBidsExtendedInfo(key, loadEvenWithoutChanges = false, shouldS
                         showBidsExtendedInfo(key, false, false);
                     }, 2000)
                 }
+
+                return;
             }
+        }
 
         } else {
             // Auction not ended
