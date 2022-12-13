@@ -80,7 +80,7 @@ async function getAuctionInfoPeriodically(auctionObject) {
                 }
             }
 
-            if (ended) {
+            if (ended || auctionInfo.end_date === null) {
                 htmlBids += '<p class="auctionEnded">Auction ended</p>'
             } else {
                 let endDate = moment(auctionInfo.end_date).format('YYYY/MM/DD HH:mm:ss');
