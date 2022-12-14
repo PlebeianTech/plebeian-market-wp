@@ -127,8 +127,8 @@ h3 {
     cursor: pointer;
 }
 
-.card-75 {
-    max-width: 75% !important;
+.card-100 {
+    max-width: 100% !important;
 }
 
 #logoutButtonDiv {
@@ -151,4 +151,8 @@ h3 {
     margin-left: 4px;
     margin-top: -6px;
     font-size: 12px;
+}
+
+.information_page p {
+    font-size: 14px;
 }
