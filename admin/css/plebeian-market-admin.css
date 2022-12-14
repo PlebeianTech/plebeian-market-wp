@@ -153,6 +153,6 @@ h3 {
     font-size: 12px;
 }
 
-.information_page p {
-    font-size: 14px;
+.information_page p, ol {
+    font-size: 15px;
 }

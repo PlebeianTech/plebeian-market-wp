@@ -49,23 +49,26 @@ class Plebeian_Market_Admin_Screen_Information
 
                 <h2>How to use</h2>
                 <hr>
+
                 <p>
                     Once you have your plugin correctly installed (you'll get a warning if you don't), you can start
                     selling or auctioning your items:
+                </p>
 
-                    <ol>- Create your <a href="<?php echo admin_url('admin.php?page=plebeian_market_buynow') ?>">
-                    Buy Now items</a> or <a href="<?php echo admin_url('admin.php?page=plebeian_market_auctions') ?>">
-                    Auctions</a> in the corresponding submenu of the Plebeian Market plugin. This will make your products
-                    appear on <a href="https://plebeian.market/" target="_blank">Plebeian Market</a>, but you will also
-                    be able to publish them into your page.</ol>
+                <ol>- Create your <a href="<?php echo admin_url('admin.php?page=plebeian_market_buynow') ?>">
+                Buy Now items</a> or <a href="<?php echo admin_url('admin.php?page=plebeian_market_auctions') ?>">
+                Auctions</a> in the corresponding submenu of the Plebeian Market plugin. This will make your products
+                appear on <a href="https://plebeian.market/" target="_blank">Plebeian Market</a>, but you will also
+                be able to publish them into your page.</ol>
 
-                    <ol>- Customize the look and feel of the widgets in <a href="<?php echo admin_url('admin.php?page=plebeian_market_customization') ?>">
-                            Customization</a>.</ol>
+                <ol>- Customize the look and feel of the widgets in <a href="<?php echo admin_url('admin.php?page=plebeian_market_customization') ?>">
+                        Customization</a>.</ol>
 
-                    <ol>- Add the products to your WordPress posts or pages: just copy the product shortcode clicking over
-                        the icon <img src="<?php echo PLEBEIAN_MARKET_PLUGIN_BASEPATH ?>admin/img/code-square.svg" class="shortCodeIcon" alt="Copy Shortcode" style="font-size: 2em;">
-                        on the product row, and paste it on any post or page on your WordPress blog.</ol>
+                <ol>- Add the products to your WordPress posts or pages: just copy the product shortcode clicking over
+                    the icon <img src="<?php echo PLEBEIAN_MARKET_PLUGIN_BASEPATH ?>admin/img/code-square.svg" class="shortCodeIcon" alt="Copy Shortcode" style="font-size: 2em;">
+                    on the product row, and paste it on any post or page on your WordPress blog.</ol>
 
+                <p>
                     You'll be able to use shortcode parameters to override for each widget the general settings specified
                     in <a href="<?php echo admin_url('admin.php?page=plebeian_market_customization') ?>">
                     Customization</a>. So you might decide that the size of the title font for your products is 30 pixels,
