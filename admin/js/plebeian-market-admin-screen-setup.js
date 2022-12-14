@@ -94,6 +94,73 @@ function loginInvalid() {
     adminLogout(pluginSetupURL);
 }
 
+function saveUserOptions() {
+    let form = $('#setupForm')[0];
+    let validity = form.checkValidity();
+    form.classList.add('was-validated');
+
+    let xpubNewValue = $('#xpubKey').val();
+    let pmAuthKey = $('#pmAuthKey').val();
+
+    if (xpubNewValue === '') {
+        showAlertModal('You need to provide an XPUB to be able to sell items in Plebeian Market.');
+        return;
+    }
+    if (!(xpubNewValue.startsWith("xpub") || xpubNewValue.startsWith("ypub") || xpubNewValue.startsWith("zpub"))) {
+        showAlertModal('This is not a valid extended address. It must start with "xpub", "ypub" or "zpub".');
+        return;
+    }
+    if (pmAuthKey === '') {
+        showAlertModal('You need to provide the authentication key to connect with Plebeian Market. You can find the key in your admin panel.');
+        return;
+    }
+
+    if (validity) {
+        // 1/2 - Send new values to PM through the API
+        let contributionNewValue = $('#contribution_percent').val();
+        let sellerEmail = $('#sellerEmail').val();
+
+        updateUserInfo(
+            {
+                contribution_percent: contributionNewValue,
+                xpub: xpubNewValue,
+                email: sellerEmail
+            },
+            'savedContribution'
+        );
+
+        // 2/2 - Save values into WordPress Options locally
+        let pmUrlConnect = $('#pmURL').val();
+
+        $.ajax({
+            url: requests.wordpress_pm_api.ajax_url,
+            cache: false,
+            dataType: "JSON",
+            type: 'POST',
+            data: {
+                _ajax_nonce: requests.wordpress_pm_api.nonce,
+                action: "plebeian-save-options",
+                plebeian_market_auth_key: pmAuthKey,
+                plebeian_market_url_connect: pmUrlConnect
+            },
+            success: function (response) {
+                console.log('Options saved successfully!');
+
+                //$("#saveUserOptions").prop("disabled", false);
+                //showSavedForAMoment(placeToFlashIfSuccessful, 2500);
+            },
+            error: function (error) {
+                console.log("ERROR saving values into WordPress : ", error);
+
+                showAlertModal('Error: ' + error.responseJSON.data.errorMessage);
+
+                //showAlertModal(error.responseJSON.message)
+                //$("#saveUserOptions").prop("disabled", false);
+            }
+        });
+    }
+}
+
 $(document).ready(async function () {
     loadingModal = new bootstrap.Modal('#loadingModal', {keyboard: true});
     gpModal = new bootstrap.Modal('#gpModal', {keyboard: true});
@@ -179,7 +246,8 @@ $(document).ready(async function () {
             headers: {"X-Access-Token": pmAuthKey},
             success: function (response) {
                 $('#saveUserOptions').prop('disabled', false);
-                showAlertModal('Connection successful! You can now click the Save button.');
+                saveUserOptions();
+                showAlertModal('Connection successful! Configuration saved.');
             },
             error: function (e) {
                 console.log("ERROR : ", e);
@@ -191,70 +259,7 @@ $(document).ready(async function () {
     });
 
     $('#saveUserOptions').click(function () {
-        let form = $('#setupForm')[0];
-        let validity = form.checkValidity();
-        form.classList.add('was-validated');
-
-        let xpubNewValue = $('#xpubKey').val();
-        let pmAuthKey = $('#pmAuthKey').val();
-
-        if (xpubNewValue === '') {
-            showAlertModal('You need to provide an XPUB to be able to sell items in Plebeian Market.');
-            return;
-        }
-        if (!(xpubNewValue.startsWith("xpub") || xpubNewValue.startsWith("ypub") || xpubNewValue.startsWith("zpub"))) {
-            showAlertModal('This is not a valid extended address. It must start with "xpub", "ypub" or "zpub".');
-            return;
-        }
-        if (pmAuthKey === '') {
-            showAlertModal('You need to provide the authentication key to connect with Plebeian Market. You can find the key in your admin panel.');
-            return;
-        }
-
-        if (validity) {
-            // 1/2 - Send new values to PM through the API
-            let contributionNewValue = $('#contribution_percent').val();
-            let sellerEmail = $('#sellerEmail').val();
-
-            updateUserInfo(
-                {
-                    contribution_percent: contributionNewValue,
-                    xpub: xpubNewValue,
-                    email: sellerEmail
-                },
-                'savedContribution'
-            );
-
-            // 2/2 - Save values into WordPress Options locally
-            let pmUrlConnect = $('#pmURL').val();
-
-            $.ajax({
-                url: requests.wordpress_pm_api.ajax_url,
-                cache: false,
-                dataType: "JSON",
-                type: 'POST',
-                data: {
-                    _ajax_nonce: requests.wordpress_pm_api.nonce,
-                    action: "plebeian-save-options",
-                    plebeian_market_auth_key: pmAuthKey,
-                    plebeian_market_url_connect: pmUrlConnect
-                },
-                success: function (response) {
-                    console.log('Options saved successfully!');
-
-                    //$("#saveUserOptions").prop("disabled", false);
-                    //showSavedForAMoment(placeToFlashIfSuccessful, 2500);
-                },
-                error: function (error) {
-                    console.log("ERROR saving values into WordPress : ", error);
-
-                    showAlertModal('Error: ' + error.responseJSON.data.errorMessage);
-
-                    //showAlertModal(error.responseJSON.message)
-                    //$("#saveUserOptions").prop("disabled", false);
-                }
-            });
-        }
+        saveUserOptions();
     });
 
 
