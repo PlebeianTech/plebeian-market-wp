@@ -12,7 +12,7 @@ function getFormData($form) {
 }
 
 /**
- * 
+ *
  * @param {string} text     - Mandatory - the text to show in the notification
  * @param {string} whenText - Optional - The time when the action related with the notification occurred. If
  *                            not provided, will print "Just now"
@@ -66,7 +66,7 @@ function checkIfSetupDone() {
                 if (!currentURL.includes('plebeian_market_setup')) {
                     whereToGo = ' Add them <a href="' + pluginSetupURL + '">here</a>.';
                 }
-                addAlertToDivElement(document.getElementById('alertsDiv'), 'You need to setup your <b>XPUB</b> and <b>email address</b> to be able to use the plugin to sell items.' + whereToGo, 'warning');
+                addAlertToDivElement(document.getElementById('alertsDiv'), 'You need to set up your <b>XPUB</b> and <b>email address</b> to be able to use the plugin to sell items.' + whereToGo, 'warning');
             }
         },
         error: function (e) {
