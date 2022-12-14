@@ -184,6 +184,22 @@ class Plebeian_Market_Admin_Screen_Customization
 						</div>
 					</div>
 
+                    <h2>Listings customization</h2>
+
+                    <div class="mb-3">
+                        <label for="plebeian_market_customization_listings_horizontal_margin" class="form-label">Widget horizontal margin</label>
+                        <div class="col-md-2 mb-0">
+                            <select id="plebeian_market_customization_listings_horizontal_margin" name="plebeian_market_customization_listings_horizontal_margin" class="form-control" aria-describedby="plebeian_market_customization_listings_horizontal_marginHelpBlock">
+                                <?php echo Plebeian_Market_Admin_Common::getHTMLOptions() ?>
+                            </select>
+                        </div>
+                        <div id="plebeian_market_customization_listings_horizontal_marginHelpBlock" class="form-text col-md-9">
+                            Choose the horizontal separation between one item and the next one when you are using listings. If left empty, the margin will
+                            be 15px.
+                        </div>
+                    </div>
+
+
 					<a data-bs-toggle="collapse" href="#customizationAdvanced" role="button" aria-expanded="false" aria-controls="customizationAdvanced">
 						See advanced options
 					</a>

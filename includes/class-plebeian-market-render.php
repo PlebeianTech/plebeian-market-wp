@@ -17,7 +17,7 @@
  */
 class Plebeian_Market_Render
 {
-	static function plebeian_item_render_html($atts = [], $type, $item = null): string
+	public static function plebeian_item_render_html($atts = [], $type, $item = null): string
     {
 		$atts = array_change_key_case((array) $atts, CASE_LOWER);		// normalize attribute keys, lowercase
 
@@ -30,13 +30,13 @@ class Plebeian_Market_Render
 			'show_price_fiat'	=> 'true',
 			'show_price_sats'	=> 'true',
 			'show_shipping_info' => 'true',
-			'show_quantity_info' => 'false'
+			'show_quantity_info' => 'false',
+            'listings_horizontal_margin' => '15'
 		];
 
 		$widget_options = Plebeian_Market_Admin_Utils::plebeian_market_load_options(PLEBEIAN_MARKET_FORM_FIELDS_PREFIX, true);
-
 		$args = shortcode_atts($default_values, $widget_options);	// Options for the Customization screen + default values
-		$args = shortcode_atts($args, $atts);	// What's passet to shortcode as parameters + result from previous line
+		$args = shortcode_atts($args, $atts);	// What's passed to shortcode as parameters + result from previous line
 
 		if (is_object($item)) {
 			$key = $item->key;
@@ -84,6 +84,7 @@ class Plebeian_Market_Render
 
 		$title_fontsize = $args['title_fontsize'];
 		$description_fontsize = $args['description_fontsize'];
+        $listings_horizontal_margin = $args['listings_horizontal_margin'];
 
 		if ($title_fontsize) {
 			$title_fontsize_text = 'style="font-size: ' . esc_attr($title_fontsize) . 'px"';
@@ -96,15 +97,22 @@ class Plebeian_Market_Render
 			$description_fontsize_text = '';
 		}
 
+        if ($listings_horizontal_margin) {
+            $listings_horizontal_margin = 'margin-right: ' . esc_attr($listings_horizontal_margin) . 'px !important;';
+        } else {
+            $listings_horizontal_margin = '';
+        }
+
 		$content = '
 		<div
 				class="pleb_item_superdiv"
 				data-type="' . esc_attr($type) . '"
 				data-key="' . esc_attr($key) . '"
 				style="
-					max-width: ' . esc_attr($size ? $size : '') . '%;
-					display: ' . esc_attr($atts['called_from_listing'] === "true" ? 'inline-flex' : 'flex') . '"
-			>
+					max-width: ' . esc_attr($size ?: '') . '%;
+					display: ' . esc_attr($atts['called_from_listing'] === "true" ? 'inline-flex;' : 'flex;') .
+                    $listings_horizontal_margin .
+			'>
 
 			<h3 class="pleb_buynow_item_title" ' . $title_fontsize_text . '>' . esc_html($title) . '</h3>';
 
