@@ -43,7 +43,7 @@ $(document).ready(function () {
         data: {
             _ajax_nonce: requests.wordpress_pm_api.nonce,
             action: 'plebeian-load-options',
-            filter: 'plebeian_market_widget_'
+            filter: 'plebeian_market_customization_'
         },
         success: function (response) {
             console.log('Options loaded successfully!', response);

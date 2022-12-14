@@ -80,21 +80,22 @@ const PLEBEIAN_MARKET_API_DELETE_MEDIA_AUCTION_METHOD = 'DELETE';
 const PLEBEIAN_MARKET_KRAKEN_BTCUSD_API_URL = 'https://api.kraken.com/0/public/Ticker?pair=XBTUSD';
 const PLEBEIAN_MARKET_KRAKEN_BTCUSD_API_CACHETIME = 60;
 
-const PLEBEIAN_MARKET_FORM_FIELDS_PREFIX = 'plebeian_market_widget_';
+const PLEBEIAN_MARKET_FORM_FIELDS_PREFIX = 'plebeian_market_customization_';
 
 const PLEBEIAN_MARKET_OPTIONS = [
     'plebeian_market_auth_key',
     'plebeian_market_url_connect',
 
-    'plebeian_market_widget_size',
-    'plebeian_market_widget_title_fontsize',
-    'plebeian_market_widget_description_fontsize',
-    'plebeian_market_widget_slideshow_enabled',
-    'plebeian_market_widget_slideshow_delay',
-    'plebeian_market_widget_show_price_fiat',
-    'plebeian_market_widget_show_price_sats',
-    'plebeian_market_widget_show_shipping_info',
-    'plebeian_market_widget_show_quantity_info',
+    'plebeian_market_customization_size',
+    'plebeian_market_customization_title_fontsize',
+    'plebeian_market_customization_description_fontsize',
+    'plebeian_market_customization_slideshow_enabled',
+    'plebeian_market_customization_slideshow_delay',
+    'plebeian_market_customization_show_price_fiat',
+    'plebeian_market_customization_show_price_sats',
+    'plebeian_market_customization_show_shipping_info',
+    'plebeian_market_customization_show_quantity_info',
+    'plebeian_market_customization_listings_horizontal_margin',
 
     'plebeian_market_cutomization_css',
     'plebeian_market_cutomization_js',
