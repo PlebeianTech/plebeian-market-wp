@@ -13,8 +13,8 @@
 class Plebeian_Market_Admin_Screen_Information
 {
 
-	static function plebeian_admin_information_page_html()
-	{
+	public static function plebeian_admin_information_page_html(): void
+    {
 ?>
 		<div class="wrap">
 			<div id="alertsDiv"></div>
@@ -40,7 +40,7 @@ class Plebeian_Market_Admin_Screen_Information
 			the development, you can find us on <a class="link" href="https://github.com/PlebeianTech" target="_blank">GitHub</a>.
 		</p>
 		<p>
-			You will own your market stall and you'll be happy!
+			You will own your market stall, and you'll be happy!
 		</p>
 
 		<p></p><br>

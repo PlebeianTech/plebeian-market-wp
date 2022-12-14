@@ -12,14 +12,14 @@
 
 class Plebeian_Market_Admin_Utils
 {
-	static function plebeian_market_load_options($prefix = null, $remove_prefix = false): array
+	public static function plebeian_market_load_options($prefix = null, $remove_prefix = false): array
     {
 		$optionsLoaded = [];
 
 		foreach (PLEBEIAN_MARKET_OPTIONS as $option) {
 			$optionValue = get_option($option);
 
-			if (substr($option, 0, strlen($prefix)) === $prefix) {
+			if (strpos($option, $prefix) === 0) {
 				if ($optionValue !== false) {
 					if ($remove_prefix) {
 						$option_without_prefix = substr($option, strlen($prefix));

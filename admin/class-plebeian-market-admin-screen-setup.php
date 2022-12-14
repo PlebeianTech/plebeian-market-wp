@@ -13,8 +13,8 @@
 class Plebeian_Market_Admin_Screen_Setup
 {
 
-	static function plebeian_admin_setup_page_html()
-	{
+	public static function plebeian_admin_setup_page_html(): void
+    {
 		if (!current_user_can('manage_options')) {
 			return;
 		}

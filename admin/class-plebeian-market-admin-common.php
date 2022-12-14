@@ -12,8 +12,8 @@
 
 class Plebeian_Market_Admin_Common
 {
-	static function plebeian_market_common_admin_code($showConfirmActionItemModal = false)
-	{
+	public static function plebeian_market_common_admin_code($showConfirmActionItemModal = false): void
+    {
 ?>
 		<script>
 			// Plebeian Market API info
@@ -168,7 +168,7 @@ class Plebeian_Market_Admin_Common
         }
 	}
 
-	static function getHTMLOptions($start = 10, $end = 40, $includeBlank = true): string
+	public static function getHTMLOptions($start = 10, $end = 40, $includeBlank = true): string
     {
 		$options = '';
 

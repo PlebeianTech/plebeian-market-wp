@@ -144,8 +144,8 @@ class Plebeian_Market_Communications
 	 *
 	 * Uses the WordPress cache, so we don't query Kraken too often.
 	 */
-	public static function fiatToSats($item_price_usd)
-	{
+	public static function fiatToSats($item_price_usd): float
+    {
 		$bitcoin_price = self::getBTCPriceInUSD();
 
 		$item_price_bitcoin = $item_price_usd / $bitcoin_price;

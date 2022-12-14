@@ -13,7 +13,7 @@
 class Plebeian_Market_Admin_Screen_Auctions
 {
 
-	static function plebeian_admin_auctions_page_html()
+	public static function plebeian_admin_auctions_page_html(): void
     {
         if (!current_user_can('manage_options')) {
             return;
