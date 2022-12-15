@@ -218,42 +218,41 @@
     height: 1em;
 }
 @media screen and (min-width: 1024px) {
-.countdown-wrapper {
-    width: 70px;
-    height: 70px;
-}
-.item span {
-    font-size: 4rem;
-}
-
-.item .number span {
-    font-size: 12.8rem;
-}
+    .countdown-wrapper {
+        width: 70px;
+        height: 70px;
+    }
+    .item span {
+        font-size: 4rem;
+    }
+    .item .number span {
+        font-size: 12.8rem;
+    }
 }
 .item {
-display: flex;
-flex-direction: column;
-text-align: center;
-gap: 3%;
-width: 22%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 3%;
+    width: 22%;
 }
 
 .item span {
-color: #000;
-font-size: 0.6vw;
+    color: #000;
+    font-size: 0.6vw;
 }
 
 .item .number {
-display: flex;
-align-items: center;
-justify-content: center;
-background-color: #e9e6e6;
-border-radius: 5%;
-height: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e9e6e6;
+    border-radius: 5%;
+    height: 75%;
 }
 
 .item .number span {
-font-size: 1vw;
-line-height: 4.7rem;
-font-weight: bold;
+    font-size: 1vw;
+    line-height: 4.7rem;
+    font-weight: bold;
 }
