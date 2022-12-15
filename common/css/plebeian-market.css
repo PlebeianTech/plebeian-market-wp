@@ -256,3 +256,8 @@
     line-height: 4.7rem;
     font-weight: bold;
 }
+
+#make_bid_sats {
+    /* width: initial; */
+    text-align: center;
+}
