@@ -113,43 +113,41 @@ async function showBidsExtendedInfo(key, loadEvenWithoutChanges = false, shouldS
     .then(async function (auctionInfo) {
         console.log('Information retrieved successfully!', auctionInfo);
 
-        if (auctionInfo.ended) {
-            let sales = auctionInfo.sales;
+        let sales = auctionInfo.sales;
 
-            if (sales.length > 0) {
-                let sale = sales[0];
-                console.log('sale', sale);
+        if (auctionInfo.ended && sales.length > 0) {
+            let sale = sales[0];
+            // console.log('sale', sale);
 // TODO: - check if buyer_nym is me
 
-                if (['EXPIRED'].includes(sale.state)) {
-                    showPurchaseExpired(sale);
-                } else if (['REQUESTED'].includes(sale.state)) {
-                    // Show QR for contribution
-                    purchaseStep1(sale);
-                } else if (['CONTRIBUTION_SETTLED'].includes(sale.state)) {
-                    // Contribution paid. Show BTC QR.
-                    purchaseStep2(sale);
-                } else if (['TX_DETECTED'].includes(sale.state)) {
-                    // Contribution paid
-                    purchaseStep3(sale);
-                } else if (['TX_CONFIRMED'].includes(sale.state)) {
-                    // Contribution paid
-                    purchaseStep4(sale);
-                } else {
-                    console.log('--------------------------------------------------------------------');
-                    console.log('Status not known yet: ' + sale.state, sale);
-                    console.log('--------------------------------------------------------------------');
-                }
-
-                if ( !['EXPIRED', 'TX_CONFIRMED'].includes(sale.state)) {
-                    console.log('Sleeping 2 secs (showBidsExtendedInfo)...');
-                    payingBidSetTimeout = setTimeout(function () {
-                        showBidsExtendedInfo(key, false, false);
-                    }, 2000)
-                }
-
-                return;
+            if (['EXPIRED'].includes(sale.state)) {
+                showPurchaseExpired(sale);
+            } else if (['REQUESTED'].includes(sale.state)) {
+                // Show QR for contribution
+                purchaseStep1(sale);
+            } else if (['CONTRIBUTION_SETTLED'].includes(sale.state)) {
+                // Contribution paid. Show BTC QR.
+                purchaseStep2(sale);
+            } else if (['TX_DETECTED'].includes(sale.state)) {
+                // Contribution paid
+                purchaseStep3(sale);
+            } else if (['TX_CONFIRMED'].includes(sale.state)) {
+                // Contribution paid
+                purchaseStep4(sale);
+            } else {
+                console.log('--------------------------------------------------------------------');
+                console.log('Status not known yet: ' + sale.state, sale);
+                console.log('--------------------------------------------------------------------');
             }
+
+            if ( !['EXPIRED', 'TX_CONFIRMED'].includes(sale.state)) {
+                console.log('Sleeping 2 secs (showBidsExtendedInfo)...');
+                payingBidSetTimeout = setTimeout(function () {
+                    showBidsExtendedInfo(key, false, false);
+                }, 2000)
+            }
+
+            return;
         }
 
         // Auction not ended
@@ -161,7 +159,7 @@ async function showBidsExtendedInfo(key, loadEvenWithoutChanges = false, shouldS
 
             let auction_ended = auctionInfo.ended;
             let reserveReached = auctionInfo.reserve_bid_reached;
-            let lastBid = numBids > 0 ? auctionInfo.bids[0] : null;
+            // let lastBid = numBids > 0 ? auctionInfo.bids[0] : null;
 
             let starting_bid = auctionInfo.starting_bid;
             let suggested_bid = numBids === 0 ? starting_bid : (auctionInfo.bids[0]?.amount * 1.1);
