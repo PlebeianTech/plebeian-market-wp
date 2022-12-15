@@ -97,9 +97,13 @@
     padding: 0.4em;
 }
 
-.btn-buynow {
+.btn-buynow, .btn-bidnow, .btn-makeNewBid {
     margin-left: 1em;
     margin-right: 1em;
+    text-decoration: none !important;
+    font-size: 1em !important;
+    --bs-btn-padding-y: .375em !important;
+    --bs-btn-padding-x: .5em !important;
 }
 
 /* Login */
