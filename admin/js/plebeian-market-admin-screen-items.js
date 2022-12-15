@@ -253,11 +253,15 @@ function getNowPrintable() {
 
 function refreshTable() {
     itemsDatatable.ajax.reload();
+    $('#tableUpdatedAt').text(getNowPrintable());
 }
 
 function reloadTableForever() {
     setTimeout(function () {
-        refreshTable();
+        if (itemsDatatable.page.info().page === 0) {
+            refreshTable();
+        }
+
         reloadTableForever();
     }, 15000)
 }
