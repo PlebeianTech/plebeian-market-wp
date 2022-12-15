@@ -23,7 +23,7 @@ class Plebeian_Market_Render
 
 		$default_values = [
 			'size'				=> 30,
-			'title_fontsize'	=> '',
+			'title_fontsize'	=> '30',
 			'description_fontsize' => '20',
 			'slideshow_enabled'	=> 'true',
 			'slideshow_delay'   => 4000,
