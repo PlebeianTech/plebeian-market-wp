@@ -91,15 +91,13 @@ class Plebeian_Market_Render
         $listings_horizontal_margin = $listings_horizontal_margin ? 'margin-right: ' . esc_attr($listings_horizontal_margin) . 'px !important;' : '';
 
 		$content = '
-		<div
+            <div
 				class="pleb_item_superdiv"
 				data-type="' . esc_attr($type) . '"
 				data-key="' . esc_attr($key) . '"
 				style="
 					max-width: ' . esc_attr($size ?: '') . '%;
-					display: ' . esc_attr($atts['called_from_listing'] === "true" ? 'inline-flex;' : 'flex;') .
-                    $listings_horizontal_margin .
-			'>
+					display: ' . esc_attr($atts['called_from_listing'] === "true" ? 'inline-flex' : 'flex') . ';' . $listings_horizontal_margin . '">
 
 			<h3 class="pleb_buynow_item_title" ' . $title_fontsize_text . '>' . esc_html($title) . '</h3>';
 
