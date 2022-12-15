@@ -86,22 +86,9 @@ class Plebeian_Market_Render
 		$description_fontsize = $args['description_fontsize'];
         $listings_horizontal_margin = $args['listings_horizontal_margin'];
 
-		if ($title_fontsize) {
-			$title_fontsize_text = 'style="font-size: ' . esc_attr($title_fontsize) . 'px"';
-		} else {
-			$title_fontsize_text = '';
-		}
-		if ($description_fontsize) {
-			$description_fontsize_text = 'style="font-size: ' . esc_attr($description_fontsize) . 'px"';
-		} else {
-			$description_fontsize_text = '';
-		}
-
-        if ($listings_horizontal_margin) {
-            $listings_horizontal_margin = 'margin-right: ' . esc_attr($listings_horizontal_margin) . 'px !important;';
-        } else {
-            $listings_horizontal_margin = '';
-        }
+        $title_fontsize_text = $title_fontsize ? 'style="font-size: ' . esc_attr($title_fontsize) . 'px;"' : '';
+        $description_fontsize_text = $description_fontsize ? 'style="font-size: ' . esc_attr($description_fontsize) . 'px;"' : '';
+        $listings_horizontal_margin = $listings_horizontal_margin ? 'margin-right: ' . esc_attr($listings_horizontal_margin) . 'px !important;' : '';
 
 		$content = '
 		<div
