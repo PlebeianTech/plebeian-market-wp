@@ -27,6 +27,8 @@ function setFormDefaultValues() {
 }
 
 $(document).ready( function () {
+    $.fn.dataTable.ext.errMode = 'throw';
+
     itemsDatatable = $('#table_items').DataTable({
         ajax: {
             url: requests.pm_api.auction.list.url,
