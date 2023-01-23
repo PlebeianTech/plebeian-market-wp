@@ -103,7 +103,7 @@ const PLEBEIAN_MARKET_OPTIONS = [
 
 define("PLEBEIAN_MARKET_PLUGIN_BASEPATH", plugin_dir_url(__FILE__));
 
-define("PLEBEIAN_MARKET_DEMO_BUYNOW_PRODUCT", [
+const PLEBEIAN_MARKET_DEMO_BUYNOW_PRODUCT = [
     'key' => 'ABCXYZ123',
     'title' => 'INFINITE POTENTIAL',
     'description' => 'It is impossible, even for the most knowledgable, to appreciate the full impact bitcoin will have upon humanity 
@@ -135,4 +135,4 @@ As ever, Satoshi will ride the waves of change',
     'shipping_domestic_usd' => 25,
     'shipping_worldwide_usd' => 50,
     'seller_nym' => 'chiefmonkey'
-]);
+];
