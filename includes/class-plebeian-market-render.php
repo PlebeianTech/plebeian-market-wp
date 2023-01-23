@@ -131,6 +131,8 @@ class Plebeian_Market_Render
             $price_sats = '~' . Plebeian_Market_Communications::fiatToSats($price_usd);
 
             $content .= '<div class="pleb_buynow_item_price">';
+            $price_fiat_text = '';
+            $price_sats_text = '';
             if ($args['show_price_fiat'] !== 'false') {
                 $price_fiat_text = '$' . $price_usd . ' ';
             }

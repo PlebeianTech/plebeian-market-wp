@@ -12,8 +12,8 @@
 
 class Plebeian_Market_Admin_Ajax_Api
 {
-	function ajax_admin_logout()
-	{
+	public function ajax_admin_logout(): void
+    {
 		check_ajax_referer('save_options_nonce');
 
 		update_option('plebeian_market_auth_key', false);
@@ -21,15 +21,15 @@ class Plebeian_Market_Admin_Ajax_Api
 		wp_send_json_success();
 	}
 
-	function ajax_load_options()
-	{
+	public function ajax_load_options(): void
+    {
         $filter = sanitize_text_field($_POST['filter']) ?? null;
 
 		wp_send_json_success(Plebeian_Market_Admin_Utils::plebeian_market_load_options($filter));
 	}
 
-	function ajax_save_options()
-	{
+	public function ajax_save_options(): void
+    {
 		check_ajax_referer('save_options_nonce');
 
 		foreach (PLEBEIAN_MARKET_OPTIONS as $option) {
@@ -41,8 +41,8 @@ class Plebeian_Market_Admin_Ajax_Api
 		wp_send_json_success();
 	}
 
-	function ajax_get_price_in_btc()
-	{
+	public function ajax_get_price_in_btc(): void
+    {
 		$item_price_usd = sanitize_text_field($_POST['plebeian_fiat_price']);
 
 		if (!is_numeric($item_price_usd)) {
@@ -56,8 +56,8 @@ class Plebeian_Market_Admin_Ajax_Api
 		]);
 	}
 
-	function ajax_get_buynow_preview_html()
-	{
+	public function ajax_get_buynow_preview_html(): void
+    {
 		$parameters = $_POST['parameters'];
 
 		foreach ($parameters as $key => $value) {
@@ -76,8 +76,8 @@ class Plebeian_Market_Admin_Ajax_Api
 		]);
 	}
 
-	function ajax_get_item_info()
-	{
+    public function ajax_get_item_info(): void
+    {
         $type = sanitize_text_field($_POST['plebeian_item_type']);
         $key = sanitize_text_field($_POST['plebeian_item_key']);
 
@@ -92,8 +92,8 @@ class Plebeian_Market_Admin_Ajax_Api
 		], 400);
 	}
 
-	function ajax_save_image_into_item()
-	{
+    public function ajax_save_image_into_item(): void
+    {
         $pmtype = sanitize_text_field($_POST['plebeian_item_type']);
 		$key = sanitize_text_field($_POST['plebeian_item_key']);
 		$images = $_POST['images'];

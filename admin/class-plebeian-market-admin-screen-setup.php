@@ -79,7 +79,7 @@ class Plebeian_Market_Admin_Screen_Setup
 				</div>
 
 				<a data-bs-toggle="collapse" href="#customizationAdvanced" role="button" aria-expanded="false" aria-controls="customizationAdvanced">
-					See advanced options <small>(for self-soverign set-ups)</small>
+					See advanced options <small>(for self-sovereign set-ups)</small>
 				</a>
 				<div class="collapse" id="customizationAdvanced">
 					<div class="mb-3">

@@ -1,10 +1,10 @@
 function startSlideShows(slideshow) {
-    var $active = $(slideshow).find('IMG.active');
+    let $active = $(slideshow).find('IMG.active');
 
-    if ($active.length == 0)
+    if ($active.length === 0)
         $active = $(slideshow).find('IMG:last');
 
-    var $next = $active.next('IMG').length ? $active.next('IMG')
+    let $next = $active.next('IMG').length ? $active.next('IMG')
         : $(slideshow).find('IMG:first');
 
     $active.addClass('last-active');

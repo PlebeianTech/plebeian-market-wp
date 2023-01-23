@@ -97,8 +97,8 @@ const PLEBEIAN_MARKET_OPTIONS = [
     'plebeian_market_customization_show_quantity_info',
     'plebeian_market_customization_listings_horizontal_margin',
 
-    'plebeian_market_cutomization_css',
-    'plebeian_market_cutomization_js',
+    'plebeian_market_customization_css',
+    'plebeian_market_customization_js',
 ];
 
 define("PLEBEIAN_MARKET_PLUGIN_BASEPATH", plugin_dir_url(__FILE__));

@@ -1,6 +1,6 @@
 let continueListeningForLoginSignal = false;
 
-async function buyerIsLoggedInOrDoLogin(adminLogin = false, additionalText = '') {
+async function buyerIsLoggedInOrDoLogin() {
     return new Promise(async function (resolve, reject) {
         if (buyerAmILoggedIn()) {
             resolve();
@@ -145,12 +145,7 @@ function customerGetPlebeianMarketAuthToken() {
 function buyerAmILoggedIn() {
     let plebeianMarketAuthToken = customerGetPlebeianMarketAuthToken();
 
-    if (!plebeianMarketAuthToken || typeof plebeianMarketAuthToken === 'undefined' || plebeianMarketAuthToken === '') {
-        return false;
-    } else {
-        // TODO: we must check here with the server if the token is still valid (they expire)
-        return true;
-    }
+    return !(!plebeianMarketAuthToken || typeof plebeianMarketAuthToken === 'undefined' || plebeianMarketAuthToken === '');
 }
 
 function adminLogout(redirectToURL = null) {

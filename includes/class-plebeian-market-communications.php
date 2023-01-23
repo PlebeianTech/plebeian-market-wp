@@ -92,7 +92,7 @@ class Plebeian_Market_Communications
                 break;
         }
 
-		$listing_respose = wp_remote_get(
+		$listing_response = wp_remote_get(
 			$url,
 			[
 				'headers'     => [
@@ -101,8 +101,8 @@ class Plebeian_Market_Communications
 			]
 		);
 
-		$listing_body_json = wp_remote_retrieve_body($listing_respose);
-		$listing_http_code = wp_remote_retrieve_response_code($listing_respose);
+		$listing_body_json = wp_remote_retrieve_body($listing_response);
+		$listing_http_code = wp_remote_retrieve_response_code($listing_response);
 
 		if ($listing_http_code === 200) {
             return json_decode($listing_body_json, false, 512, JSON_THROW_ON_ERROR)->{$json_path};

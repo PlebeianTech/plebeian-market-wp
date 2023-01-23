@@ -20,7 +20,7 @@ class Plebeian_Market_Public
 	 * @access   private
 	 * @var      string    $plugin_name    The ID of this plugin.
 	 */
-	private $plugin_name;
+	private string $plugin_name;
 
 	/**
 	 * The version of this plugin.
@@ -29,16 +29,16 @@ class Plebeian_Market_Public
 	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
 	 */
-	private $version;
+	private string $version;
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of the plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param      string    $plugin_name The name of the plugin.
+	 * @param string $version    The version of this plugin.
+	 *@since    1.0.0
 	 */
-	public function __construct($plugin_name, $version)
+	public function __construct(string $plugin_name, string $version)
 	{
 
 		$this->plugin_name = $plugin_name;
@@ -50,8 +50,8 @@ class Plebeian_Market_Public
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles()
-	{
+	public function enqueue_styles(): void
+    {
 		wp_enqueue_style(
 			'plebeian-market-css',
             PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'common/css/plebeian-market.css',
@@ -68,8 +68,8 @@ class Plebeian_Market_Public
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts()
-	{
+	public function enqueue_scripts(): void
+    {
 		wp_enqueue_script(
 			'js.cookie',
             PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'public/js/js.cookie.min.js',
@@ -139,18 +139,18 @@ class Plebeian_Market_Public
         wp_enqueue_script('moment');
 	}
 
-	public function plebeian_output_custom_css()
-	{
-		$css_output = get_option('plebeian_market_cutomization_css');
+	public function plebeian_output_custom_css(): void
+    {
+		$css_output = get_option('plebeian_market_customization_css');
 
 		if ($css_output) {
 			echo '<style>' . wp_kses_data($css_output) . '</style>';
 		}
 	}
 
-	public function plebeian_output_custom_js()
-	{
-		$js_output = stripslashes(get_option('plebeian_market_cutomization_js'));
+	public function plebeian_output_custom_js(): void
+    {
+		$js_output = stripslashes(get_option('plebeian_market_customization_js'));
 
 		if ($js_output) {
 			echo '<script>' . esc_js($js_output) . '</script>';
@@ -160,8 +160,8 @@ class Plebeian_Market_Public
 	/**
 	 * Central location to create all Public shortcodes.
 	 */
-	function plebeian_shortcodes_init()
-	{
+	public function plebeian_shortcodes_init(): void
+    {
 		function plebeian_show_buynow($atts = [], $buyNowItem = null): string
         {
 			$atts = array_change_key_case((array) $atts, CASE_LOWER);		// normalize attribute keys, lowercase

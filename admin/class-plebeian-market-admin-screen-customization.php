@@ -207,11 +207,11 @@ class Plebeian_Market_Admin_Screen_Customization
 						<h2>Advanced</h2>
 						<h4>CSS</h4>
 						<p>Enter your custom CSS here:</p>
-						<textarea id="plebeian_market_cutomization_css" name="plebeian_market_cutomization_css" rows="15" cols="60"></textarea>
+						<textarea id="plebeian_market_customization_css" name="plebeian_market_customization_css" rows="15" cols="60"></textarea>
 
 						<h4>Javascript</h4>
 						<p>Enter your custom JS here:</p>
-						<textarea id="plebeian_market_cutomization_js" name="plebeian_market_cutomization_js" rows="15" cols="60"></textarea>
+						<textarea id="plebeian_market_customization_js" name="plebeian_market_customization_js" rows="15" cols="60"></textarea>
 					</div>
 
 					<div class="col-12">
