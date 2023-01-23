@@ -20,7 +20,7 @@ class Plebeian_Market_Admin
 	 * @access   private
 	 * @var      string    $plugin_name    The ID of this plugin.
 	 */
-	private $plugin_name;
+	private string $plugin_name;
 
 	/**
 	 * The version of this plugin.
@@ -29,16 +29,16 @@ class Plebeian_Market_Admin
 	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
 	 */
-	private $version;
+	private string $version;
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
-	 * @param    string    $plugin_name       The name of this plugin.
-	 * @param    string    $version    The version of this plugin.
+	 * @param string $plugin_name The name of this plugin.
+	 * @param string $version    The version of this plugin.
+	 *@since    1.0.0
 	 */
-	public function __construct($plugin_name, $version)
+	public function __construct(string $plugin_name, string $version)
 	{
 
 		$this->plugin_name = $plugin_name;
@@ -50,7 +50,7 @@ class Plebeian_Market_Admin
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles()
+	public function enqueue_styles(): void
 	{
 		wp_enqueue_style('plebeian-market-admin-css', PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'admin/css/plebeian-market-admin.css', [], $this->version, 'all');
 
@@ -71,8 +71,8 @@ class Plebeian_Market_Admin
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts()
-	{
+	public function enqueue_scripts(): void
+    {
 		wp_enqueue_script('plebeian-market-admin', PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'admin/js/plebeian-market-admin.js', ['jquery', 'plebeian-market-js'], $this->version, false);
 		wp_enqueue_script('plebeian-market-js',	PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'common/js/plebeian-market.js', ['jquery', 'bootstrap-js'], $this->version, false);
 
@@ -97,16 +97,16 @@ class Plebeian_Market_Admin
 	 * Menus / submenus
 	 */
 
-	function plebeian_main_menu_standard()
-	{
-		self::plebeian_show_main_menu_entry('plebeian_market');
+	public function plebeian_main_menu_standard(): void
+    {
+		$this->plebeian_show_main_menu_entry('plebeian_market');
 	}
-	function plebeian_main_menu_for_setup()
+	public function plebeian_main_menu_for_setup(): void
 	{
-		self::plebeian_show_main_menu_entry('plebeian_market_setup');
+		$this->plebeian_show_main_menu_entry('plebeian_market_setup');
 	}
 
-	function plebeian_show_main_menu_entry($path)
+	public function plebeian_show_main_menu_entry($path): void
 	{
 		add_menu_page(
 			'Plebeian Market WordPress plugin',
@@ -119,8 +119,8 @@ class Plebeian_Market_Admin
 		);
 	}
 
-	function plebeian_information_submenu()
-	{
+	public function plebeian_information_submenu(): void
+    {
 		add_submenu_page(
 			'plebeian_market',
 			'Information',
@@ -132,7 +132,7 @@ class Plebeian_Market_Admin
 		);
 	}
 
-	function plebeian_fixedprice_submenu()
+    public function plebeian_fixedprice_submenu(): void
 	{
 		add_submenu_page(
 			'plebeian_market',
@@ -145,7 +145,7 @@ class Plebeian_Market_Admin
 		);
 	}
 
-	function plebeian_auctions_submenu()
+    public function plebeian_auctions_submenu(): void
 	{
 		add_submenu_page(
 			'plebeian_market',
@@ -158,7 +158,7 @@ class Plebeian_Market_Admin
 		);
 	}
 
-	function plebeian_customization_submenu()
+	public function plebeian_customization_submenu(): void
 	{
 		add_submenu_page(
 			'plebeian_market',
@@ -171,7 +171,7 @@ class Plebeian_Market_Admin
 		);
 	}
 
-	function plebeian_setup_submenu()
+    public function plebeian_setup_submenu(): void
 	{
 		add_submenu_page(
 			'plebeian_market',
@@ -187,18 +187,14 @@ class Plebeian_Market_Admin
 	/**
 	 * Do we have a Plebeian Market API auth key for admin?
 	 */
-	static function plebeian_have_admin_auth_key()
-	{
+	public static function plebeian_have_admin_auth_key(): bool
+    {
 		$authToken = Plebeian_Market_Communications::getXAccessToken();
-		if ($authToken === false || $authToken === '') {
-			return false;
-		}
+        return !($authToken === false || $authToken === '');
+    }
 
-		return true;
-	}
-
-	function add_plugin_link($plugin_actions, $plugin_file)
-	{
+	public function add_plugin_link($plugin_actions, $plugin_file): array
+    {
 		$new_actions = [];
 		if (strpos($plugin_file, 'plebeian-market.php') !== false) {
 			$new_actions['cl_settings'] = sprintf(__('<a href="%s">Settings</a>'), esc_url(admin_url('admin.php?page=plebeian_market_setup')));
