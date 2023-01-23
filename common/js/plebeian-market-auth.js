@@ -167,9 +167,7 @@ function adminLogout(redirectToURL = null) {
             console.log('Logged out successfully!', response);
 
             // If no URL provided, just reload
-            if (redirectToURL === null) {
-                location.reload();
-            } else {
+            if (redirectToURL !== null) {
                 window.location.href = redirectToURL;
             }
         },
