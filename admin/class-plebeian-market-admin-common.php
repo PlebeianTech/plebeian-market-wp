@@ -14,6 +14,7 @@ class Plebeian_Market_Admin_Common
 {
 	public static function plebeian_market_common_admin_code($showConfirmActionItemModal = false): void
     {
+        wp_enqueue_script('plebeian-market-auth-js', PLEBEIAN_MARKET_PLUGIN_BASEPATH . 'common/js/plebeian-market-auth.js', ['jquery', 'bootstrap-js', 'plebeian-market-js'], PLEBEIAN_MARKET_VERSION,false);
 ?>
 		<script>
 			// Plebeian Market API info

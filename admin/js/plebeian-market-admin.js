@@ -71,6 +71,12 @@ function checkIfSetupDone() {
         },
         error: function (e) {
             console.log("ERROR: " + e.statusText, e);
+
+            if (e.status === 401) {
+                if (!window.location.href.includes('plebeian_market_setup')) {
+                    adminLogout(pluginSetupURL);
+                }
+            }
         }
     });
 }
