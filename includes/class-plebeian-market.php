@@ -198,6 +198,8 @@ class Plebeian_Market
 		$this->loader->add_action('wp_ajax_plebeian-get_buynow_preview_html', $plugin_ajax, 'ajax_get_buynow_preview_html');
 		$this->loader->add_action('wp_ajax_plebeian-ajax_get_item_info', $plugin_ajax, 'ajax_get_item_info');
 		$this->loader->add_action('wp_ajax_plebeian-ajax_save_image_into_item', $plugin_ajax, 'ajax_save_image_into_item');
+
+        $this->loader->add_action('wp_ajax_nopriv_plebeian-ajax_get_item_info', $plugin_ajax, 'ajax_get_item_info');
 	}
 
 	/**
